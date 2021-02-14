@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.audius_flutter_client">
    <application
-        android:label="audius_flutter_client"
+        android:label="Audius Local"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
