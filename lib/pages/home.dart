@@ -23,6 +23,7 @@ class _HomeState extends State<Home> {
       appBar: AppBar(
         title: Text(widget.title),
         centerTitle: true,
+        backgroundColor: Colors.white, //TODO: actually changes sys nav bar color?
       ),
       body: Center(
         child: Column(
