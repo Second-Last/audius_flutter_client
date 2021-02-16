@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'pages/home.dart';
 
 void main() {
@@ -13,7 +14,17 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.purple,
       ),
-      home: Home(title: "Audius",),
+      home: AnnotatedRegion<SystemUiOverlayStyle>( // TODO: Check if this has any effect
+        value: SystemUiOverlayStyle(
+          statusBarColor: Colors.transparent,
+          systemNavigationBarColor: Colors.white,
+          statusBarIconBrightness: Brightness.dark,
+          systemNavigationBarIconBrightness: Brightness.dark,
+        ),
+        child: Home(
+          title: "Audius",
+        ),
+      ),
     );
   }
 }
