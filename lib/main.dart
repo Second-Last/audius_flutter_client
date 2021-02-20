@@ -21,9 +21,7 @@ class MyApp extends StatelessWidget {
           statusBarIconBrightness: Brightness.dark,
           systemNavigationBarIconBrightness: Brightness.dark,
         ),
-        child: Home(
-          title: "Audius",
-        ),
+        child: Home(),
       ),
     );
   }
