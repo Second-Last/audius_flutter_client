@@ -14,22 +14,18 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  int _currentIndex = 0;
-  List _listPages = [];
-  Widget _currentPage;
+  int _currentIndex;
 
   @override
   void initState() {
     super.initState();
 
-    _listPages..add(Home())..add(Library());
-    _currentPage = Home();
+    _currentIndex = 0;
   }
 
   void _changePage(int selectedIndex) {
     setState(() {
       _currentIndex = selectedIndex;
-      _currentPage = _listPages[selectedIndex];
     });
   }
 
@@ -57,7 +53,13 @@ class _MyAppState extends State<MyApp> {
           body: SafeArea(
             child: Stack(
               children: <Widget>[
-                _currentPage,
+                IndexedStack(
+                  index: _currentIndex,
+                  children: [
+                    Home(),
+                    Library(),
+                  ],
+                ),
                 SmallPlayer()
               ],
             ),
