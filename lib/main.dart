@@ -34,8 +34,14 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       title: 'Audius Local',
       theme: ThemeData(
-        primarySwatch: Colors.purple,
-      ),
+          primarySwatch: Colors.purple,
+          appBarTheme: AppBarTheme(
+            centerTitle: true,
+            systemOverlayStyle: SystemUiOverlayStyle(
+              statusBarColor: Colors.transparent,
+              statusBarIconBrightness: Brightness.dark,
+            ),
+          )),
       home: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle(
           systemNavigationBarColor: Colors.white,
@@ -45,12 +51,6 @@ class _MyAppState extends State<MyApp> {
           appBar: AppBar(
             leading: IconButton(icon: Icon(Icons.settings), onPressed: null),
             title: Text('Audius'),
-            centerTitle: true,
-            backgroundColor: Colors.purple,
-            systemOverlayStyle: SystemUiOverlayStyle(
-              statusBarColor: Colors.transparent,
-              statusBarIconBrightness: Brightness.dark,
-            ),
             // toolbarHeight: 40,
           ),
           body: SafeArea(
