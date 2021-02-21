@@ -2,6 +2,7 @@ import 'pages/library.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'pages/home.dart';
+import 'pages/player.dart';
 
 void main() {
   runApp(MyApp());
@@ -50,12 +51,14 @@ class _MyAppState extends State<MyApp> {
             leading: IconButton(icon: Icon(Icons.settings), onPressed: null),
             title: Text('Audius'),
             centerTitle: true,
+            backgroundColor: Colors.purple,
             // toolbarHeight: 40,
           ),
           body: SafeArea(
             child: Stack(
               children: <Widget>[
                 _currentPage,
+                SmallPlayer()
               ],
             ),
           ),
