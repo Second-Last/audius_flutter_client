@@ -38,7 +38,6 @@ class _MyAppState extends State<MyApp> {
       ),
       home: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle(
-          statusBarColor: Colors.transparent,
           systemNavigationBarColor: Colors.white,
           systemNavigationBarIconBrightness: Brightness.dark,
         ),
@@ -48,6 +47,10 @@ class _MyAppState extends State<MyApp> {
             title: Text('Audius'),
             centerTitle: true,
             backgroundColor: Colors.purple,
+            systemOverlayStyle: SystemUiOverlayStyle(
+              statusBarColor: Colors.transparent,
+              statusBarIconBrightness: Brightness.dark,
+            ),
             // toolbarHeight: 40,
           ),
           body: SafeArea(
