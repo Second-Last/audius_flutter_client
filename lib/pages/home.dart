@@ -17,11 +17,6 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Audius'),
-        centerTitle: true,
-        // toolbarHeight: 40,
-      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -40,25 +35,6 @@ class _HomeState extends State<Home> {
         onPressed: _incrementCounter,
         tooltip: 'Increment',
         child: Icon(Icons.add),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.white,
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.music_note,
-              color: Colors.blueGrey,
-            ),
-            label: "Music",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.home,
-              color: Colors.blueGrey,
-            ),
-            label: "Home",
-          ),
-        ],
       ),
     );
   }
