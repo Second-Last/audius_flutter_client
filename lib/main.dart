@@ -52,7 +52,13 @@ class _MyAppState extends State<MyApp> {
             centerTitle: true,
             // toolbarHeight: 40,
           ),
-          body: SafeArea(child: _currentPage,),
+          body: SafeArea(
+            child: Stack(
+              children: <Widget>[
+                _currentPage,
+              ],
+            ),
+          ),
           bottomNavigationBar: BottomNavigationBar(
             currentIndex: _currentIndex,
             backgroundColor: Colors.white,

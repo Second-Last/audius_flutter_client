@@ -6,9 +6,14 @@ class Library extends StatelessWidget {
     return Scaffold(
       body: Container(
         alignment: Alignment.center,
-        child: Icon(
-          Icons.library_books,
-          size: 200,
+        child: Column(
+          children: [
+            Icon(
+              Icons.library_books,
+              size: 200,
+            ),
+            Text('Library')
+          ],
         ),
       ),
     );
