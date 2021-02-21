@@ -1,4 +1,29 @@
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
+
+
+class Player extends StatefulWidget {
+  @override
+  _PlayerState createState() => _PlayerState();
+}
+
+class _PlayerState extends State<Player> {
+  @override
+  Widget build(BuildContext context) {
+    return OpenContainer(
+      closedBuilder: (context, action) {
+        return SmallPlayer();
+      },
+      openBuilder: (context, action) {
+        return FullPlayer();
+      },
+      transitionType: ContainerTransitionType.fadeThrough,
+      transitionDuration: Duration(milliseconds: 500),
+    );
+  }
+}
+
+
 
 class SmallPlayer extends StatelessWidget {
   const SmallPlayer({
@@ -7,11 +32,7 @@ class SmallPlayer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-      bottom: 0,
-      left: 0,
-      right: 0,
-      child: Container(
+    return Container(
         height: 60,
         decoration: BoxDecoration(
           color: Colors.blue,
@@ -33,6 +54,39 @@ class SmallPlayer extends StatelessWidget {
                 onPressed: () => print('Play button pressed!'),
               ),
             )
+          ],
+        ),
+    );
+  }
+}
+
+
+
+
+class FullPlayer extends StatelessWidget {
+  const FullPlayer({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_downward),
+          onPressed: () => Navigator.pop(context),
+        ),
+      ),
+      body: Container(
+        alignment: Alignment.center,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.play_circle_filled,
+              size: 200,
+            ),
+            Text('Player!')
           ],
         ),
       ),

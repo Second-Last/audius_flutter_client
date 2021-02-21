@@ -60,7 +60,12 @@ class _MyAppState extends State<MyApp> {
                     Library(),
                   ],
                 ),
-                SmallPlayer()
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Player(),
+                ),
               ],
             ),
           ),
