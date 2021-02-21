@@ -20,7 +20,7 @@ class _HomeState extends State<Home> {
       appBar: AppBar(
         title: Text('Audius'),
         centerTitle: true,
-        // backgroundColor: Colors.white, //TODO: actually changes sys nav bar color?
+        // toolbarHeight: 40,
       ),
       body: Center(
         child: Column(
@@ -42,6 +42,7 @@ class _HomeState extends State<Home> {
         child: Icon(Icons.add),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.white,
         items: [
           BottomNavigationBarItem(
             icon: Icon(
