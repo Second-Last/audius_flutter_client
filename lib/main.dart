@@ -44,7 +44,6 @@ class _MyAppState extends State<MyApp> {
           statusBarColor: Colors.transparent,
           systemNavigationBarColor: Colors.white,
           systemNavigationBarIconBrightness: Brightness.dark,
-
         ),
         child: Scaffold(
           appBar: AppBar(
