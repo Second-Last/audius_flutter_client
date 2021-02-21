@@ -7,6 +7,7 @@ class Library extends StatelessWidget {
       body: Container(
         alignment: Alignment.center,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
               Icons.library_books,
