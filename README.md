@@ -2,6 +2,11 @@
 
 A new Flutter project.
 
+## To-Do
+
+* [ ] Add option to upload directly from mobile
+* [ ] Add ability to show user address
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
