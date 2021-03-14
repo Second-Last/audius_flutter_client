@@ -19,11 +19,25 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
   List<AnimationController> navBarAnimationControllers;
-
   List<Animation> navBarAnimations;
-
   int _currentIndex;
 
+  // Reacts to change in page (user taps nav bar)
+  void _changePage(int selectedIndex) {
+    setState(() {
+      _currentIndex = selectedIndex;
+    });
+    switch (selectedIndex) {
+      case 2:
+        navBarAnimationControllers[0].forward();
+        break;
+      default:
+        navBarAnimationControllers[0].reset();
+    }
+    print("Page changed to $selectedIndex");
+  }
+
+  // TODO: move to 'late final' when possible
   @override
   void initState() {
     super.initState();
@@ -43,20 +57,6 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
         curve: Curves.elasticOut,
       ),
     ];
-  }
-
-  void _changePage(int selectedIndex) {
-    setState(() {
-      _currentIndex = selectedIndex;
-    });
-    switch (selectedIndex) {
-      case 2:
-        navBarAnimationControllers[0].forward();
-        break;
-      default:
-        navBarAnimationControllers[0].reset();
-    }
-    print("Page changed to $selectedIndex");
   }
 
   @override
@@ -116,17 +116,24 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
                 label: 'Feed',
               ),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.trending_up), label: 'Trending'),
+                icon: Icon(Icons.trending_up),
+                label: 'Trending',
+              ),
               BottomNavigationBarItem(
-                  icon: RotationTransition(
-                    turns: navBarAnimationControllers[0],
-                    child: Icon(Icons.explore),
-                  ),
-                  label: 'Browse'),
+                icon: RotationTransition(
+                  turns: navBarAnimationControllers[0],
+                  child: Icon(Icons.explore),
+                ),
+                label: 'Browse',
+              ),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.favorite), label: 'Favorites'),
+                icon: Icon(Icons.favorite),
+                label: 'Favorites',
+              ),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.account_circle), label: 'Account'),
+                icon: Icon(Icons.account_circle),
+                label: 'Account',
+              ),
             ],
             onTap: (selectedIndex) => _changePage(selectedIndex),
           ),
