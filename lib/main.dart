@@ -49,6 +49,14 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
     setState(() {
       _currentIndex = selectedIndex;
     });
+    switch (selectedIndex) {
+      case 2:
+        navBarAnimationControllers[0].forward();
+        break;
+      default:
+        navBarAnimationControllers[0].reset();
+    }
+    print("Page changed to $selectedIndex");
   }
 
   @override
@@ -120,17 +128,7 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
               BottomNavigationBarItem(
                   icon: Icon(Icons.account_circle), label: 'Account'),
             ],
-            onTap: (selectedIndex) {
-              _changePage(selectedIndex);
-              switch (selectedIndex) {
-                case 2:
-                  navBarAnimationControllers[0].forward();
-                  break;
-                default:
-                  navBarAnimationControllers[0].reset();
-              }
-              print("Page changed to $selectedIndex");
-            },
+            onTap: (selectedIndex) => _changePage(selectedIndex),
           ),
         ),
       ),
