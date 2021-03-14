@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class Home extends StatefulWidget {
+class Feed extends StatefulWidget {
   @override
-  _HomeState createState() => _HomeState();
+  _FeedState createState() => _FeedState();
 }
 
-class _HomeState extends State<Home> {
+class _FeedState extends State<Feed> {
   int _counter = 0;
 
   void _incrementCounter() {

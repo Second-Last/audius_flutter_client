@@ -1,8 +1,12 @@
-import 'pages/library.dart';
+import 'pages/trending.dart';
+import 'pages/favorites.dart';
+import 'pages/browse.dart';
+import 'pages/feed.dart';
+import 'pages/player.dart';
+import 'pages/account.dart';
+import 'constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'pages/home.dart';
-import 'pages/player.dart';
 
 void main() {
   runApp(MyApp());
@@ -14,6 +18,17 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+
+
+
+
+
+
+
+
+
+
+  
   int _currentIndex;
 
   @override
@@ -34,7 +49,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       title: 'Audius Local',
       theme: ThemeData(
-          primarySwatch: Colors.purple,
+          primarySwatch: audiusColor,
           appBarTheme: AppBarTheme(
             centerTitle: true,
             systemOverlayStyle: SystemUiOverlayStyle(
@@ -59,8 +74,11 @@ class _MyAppState extends State<MyApp> {
                 IndexedStack(
                   index: _currentIndex,
                   children: [
-                    Home(),
-                    Library(),
+                    Feed(),
+                    Trending(),
+                    Browse(),
+                    Favorites(),
+                    Account(),
                   ],
                 ),
                 Positioned(
@@ -74,21 +92,29 @@ class _MyAppState extends State<MyApp> {
           ),
           bottomNavigationBar: BottomNavigationBar(
             currentIndex: _currentIndex,
+            unselectedItemColor: Colors.blueGrey,
+            selectedItemColor: audiusColor,
             backgroundColor: Colors.white,
             items: [
               BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.home,
-                  color: Colors.blueGrey,
-                ),
-                label: "Home",
+                icon: Icon(Icons.supervisor_account),
+                label: 'Feed',
               ),
               BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.music_note,
-                  color: Colors.blueGrey,
-                ),
-                label: "Library",
+                icon: Icon(Icons.trending_up),
+                label: 'Trending'
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.explore),
+                label: 'Browse'
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.favorite),
+                label: 'Favorites'
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.account_circle),
+                label: 'Account'
               ),
             ],
             onTap: (selectedIndex) {

@@ -4,6 +4,7 @@ A new Flutter project.
 
 ## To-Do
 
+* [ ] Improve app's navigation bar animation
 * [ ] Add option to upload directly from mobile
 * [ ] Add ability to show user address
 
