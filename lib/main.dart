@@ -17,18 +17,11 @@ class MyApp extends StatefulWidget {
   _MyAppState createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
+  List<AnimationController> navBarAnimationControllers;
 
+  List<Animation> navBarAnimations;
 
-
-
-
-
-
-
-
-
-  
   int _currentIndex;
 
   @override
@@ -36,6 +29,20 @@ class _MyAppState extends State<MyApp> {
     super.initState();
 
     _currentIndex = 0;
+    navBarAnimationControllers = [
+      AnimationController(
+        vsync: this,
+        duration: const Duration(milliseconds: 250),
+        lowerBound: 0,
+        upperBound: 0.5,
+      ),
+    ];
+    navBarAnimations = [
+      CurvedAnimation(
+        parent: navBarAnimationControllers[0],
+        curve: Curves.elasticOut,
+      ),
+    ];
   }
 
   void _changePage(int selectedIndex) {
@@ -101,24 +108,27 @@ class _MyAppState extends State<MyApp> {
                 label: 'Feed',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.trending_up),
-                label: 'Trending'
-              ),
+                  icon: Icon(Icons.trending_up), label: 'Trending'),
               BottomNavigationBarItem(
-                icon: Icon(Icons.explore),
-                label: 'Browse'
-              ),
+                  icon: RotationTransition(
+                    turns: navBarAnimationControllers[0],
+                    child: Icon(Icons.explore),
+                  ),
+                  label: 'Browse'),
               BottomNavigationBarItem(
-                icon: Icon(Icons.favorite),
-                label: 'Favorites'
-              ),
+                  icon: Icon(Icons.favorite), label: 'Favorites'),
               BottomNavigationBarItem(
-                icon: Icon(Icons.account_circle),
-                label: 'Account'
-              ),
+                  icon: Icon(Icons.account_circle), label: 'Account'),
             ],
             onTap: (selectedIndex) {
               _changePage(selectedIndex);
+              switch (selectedIndex) {
+                case 2:
+                  navBarAnimationControllers[0].forward();
+                  break;
+                default:
+                  navBarAnimationControllers[0].reset();
+              }
               print("Page changed to $selectedIndex");
             },
           ),
