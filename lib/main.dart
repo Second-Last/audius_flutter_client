@@ -37,7 +37,7 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
     print("Page changed to $selectedIndex");
   }
 
-  // TODO: move to 'late final' when possible
+  // TODO: move to 'late final' after null-safety migration
   @override
   void initState() {
     super.initState();
@@ -46,7 +46,7 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
     navBarAnimationControllers = [
       AnimationController(
         vsync: this,
-        duration: const Duration(milliseconds: 250),
+        duration: const Duration(milliseconds: 150),
         lowerBound: 0,
         upperBound: 0.5,
       ),
@@ -54,7 +54,7 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
     navBarAnimations = [
       CurvedAnimation(
         parent: navBarAnimationControllers[0],
-        curve: Curves.elasticOut,
+        curve: Curves.elasticInOut,
       ),
     ];
   }
@@ -66,7 +66,9 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
       theme: ThemeData(
           primarySwatch: audiusColor,
           appBarTheme: AppBarTheme(
+            backgroundColor: Colors.white,
             centerTitle: true,
+            toolbarTextStyle: TextStyle(color: audiusColor),
             systemOverlayStyle: SystemUiOverlayStyle(
               statusBarColor: Colors.transparent,
               statusBarIconBrightness: Brightness.dark,
@@ -79,36 +81,33 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
         ),
         child: Scaffold(
           appBar: AppBar(
-            leading: IconButton(icon: Icon(Icons.settings), onPressed: null),
-            title: Text('Audius'),
-            // toolbarHeight: 40,
-          ),
-          body: SafeArea(
-            child: Stack(
-              children: <Widget>[
-                IndexedStack(
-                  index: _currentIndex,
-                  children: [
-                    Feed(),
-                    Trending(),
-                    Browse(),
-                    Favorites(),
-                    Account(),
-                  ],
-                ),
-                Positioned(
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  child: Player(),
-                ),
-              ],
+            leading: IconButton(
+              icon: Icon(Icons.settings),
+              onPressed: null,
             ),
+            title: TextButton(
+              child: Text(
+                'AUDIUS',
+                style: TextStyle(color: Colors.blueGrey, fontSize: 20),
+              ),
+              onPressed: () => setState(() => _changePage(1)),
+            ),
+            actions: [
+              IconButton(
+                icon: Icon(Icons.search),
+                onPressed: null,
+              )
+            ],
+            toolbarHeight: 40,
           ),
+          body: Body(currentIndex: _currentIndex),
           bottomNavigationBar: BottomNavigationBar(
             currentIndex: _currentIndex,
+            type: BottomNavigationBarType.fixed,
             unselectedItemColor: Colors.blueGrey,
             selectedItemColor: audiusColor,
+            showSelectedLabels: false,
+            showUnselectedLabels: false,
             backgroundColor: Colors.white,
             items: [
               BottomNavigationBarItem(
@@ -138,6 +137,42 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
             onTap: (selectedIndex) => _changePage(selectedIndex),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class Body extends StatelessWidget {
+  const Body({
+    Key key,
+    @required int currentIndex,
+  })  : _currentIndex = currentIndex,
+        super(key: key);
+
+  final int _currentIndex;
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Stack(
+        children: <Widget>[
+          IndexedStack(
+            index: _currentIndex,
+            children: [
+              Feed(),
+              Trending(),
+              Browse(),
+              Favorites(),
+              Account(),
+            ],
+          ),
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: Player(),
+          ),
+        ],
       ),
     );
   }
