@@ -64,16 +64,24 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
     return MaterialApp(
       title: 'Audius Local',
       theme: ThemeData(
-          primarySwatch: audiusColor,
-          appBarTheme: AppBarTheme(
-            backgroundColor: Colors.white,
-            centerTitle: true,
-            toolbarTextStyle: TextStyle(color: audiusColor),
-            systemOverlayStyle: SystemUiOverlayStyle(
-              statusBarColor: Colors.transparent,
-              statusBarIconBrightness: Brightness.dark,
-            ),
-          )),
+        primarySwatch: audiusColor,
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.white,
+          // shadowColor: Colors.transparent,
+          centerTitle: true,
+          toolbarTextStyle: TextStyle(color: audiusColor),
+          systemOverlayStyle: SystemUiOverlayStyle(
+            statusBarColor: Colors.transparent,
+            statusBarIconBrightness: Brightness.dark,
+          ),
+        ),
+        tabBarTheme: TabBarTheme(
+          labelColor: Colors.blueGrey,
+          labelStyle: TextStyle(color: Colors.blueGrey, fontSize: 12),
+          unselectedLabelColor: Colors.blueGrey[200],
+          unselectedLabelStyle: TextStyle(color: Colors.blueGrey[200], fontSize: 12)
+        )
+      ),
       home: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle(
           systemNavigationBarColor: Colors.white,
@@ -103,6 +111,7 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
           body: Body(currentIndex: _currentIndex),
           bottomNavigationBar: BottomNavigationBar(
             currentIndex: _currentIndex,
+            iconSize: 28,
             type: BottomNavigationBarType.fixed,
             unselectedItemColor: Colors.blueGrey,
             selectedItemColor: audiusColor,
