@@ -79,8 +79,8 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
           labelColor: Colors.blueGrey,
           labelStyle: TextStyle(color: Colors.blueGrey, fontSize: 12),
           unselectedLabelColor: Colors.blueGrey[200],
-          unselectedLabelStyle: TextStyle(color: Colors.blueGrey[200], fontSize: 12)
-        )
+          unselectedLabelStyle: TextStyle(color: Colors.blueGrey[200], fontSize: 12),
+        ),
       ),
       home: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle(
