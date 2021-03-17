@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../constants.dart';
 
 class Feed extends StatefulWidget {
   @override
@@ -17,6 +18,28 @@ class _FeedState extends State<Feed> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        centerTitle: false,
+        title: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 0),
+          child: Text(
+            'Your Feed',
+            style: TextStyle(color: audiusColor),
+          ),
+        ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(15),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(7),
+              child: ElevatedButton(
+                child: Text('All Posts', style: TextStyle(fontFamily: 'Avenir Next LT Pro'),),
+                onPressed: () => print('All posts!'),
+              ),
+            ),
+          ),
+        ],
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

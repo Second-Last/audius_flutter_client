@@ -65,6 +65,7 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
       title: 'Audius Local',
       theme: ThemeData(
         primarySwatch: audiusColor,
+        fontFamily: 'Avenir Next LT Pro',
         appBarTheme: AppBarTheme(
           backgroundColor: Colors.white,
           // shadowColor: Colors.transparent,
