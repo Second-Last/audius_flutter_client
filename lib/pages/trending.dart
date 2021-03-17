@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
 import '../constants.dart';
 
-class Trending extends StatefulWidget {
-  @override
-  _TrendingState createState() => _TrendingState();
-}
-
-class _TrendingState extends State<Trending> {
+class Trending extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       initialIndex: 1,
       length: 3,
       child: Scaffold(
+        extendBodyBehindAppBar: true,
         appBar: AppBar(
           centerTitle: false,
           title: Padding(
@@ -23,10 +19,10 @@ class _TrendingState extends State<Trending> {
             ),
           ),
           actions: [
-            PreferredSize(
-              preferredSize: Size(40, 150),
+            Padding(
+              padding: const EdgeInsets.all(15),
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(7),
                 child: ElevatedButton(
                   child: Text('All Genres'),
                   onPressed: () => print('All genres!'),
@@ -34,21 +30,34 @@ class _TrendingState extends State<Trending> {
               ),
             ),
           ],
-          bottom: const TabBar(
+          bottom: TabBar(
             tabs: [
               Tab(
-                icon: Icon(Icons.today),
-                text: 'This Week',
+                child: Column(
+                  children: [
+                    Icon(Icons.today),
+                    Text('This Week'),
+                  ],
+                ),
               ),
               Tab(
-                icon: Icon(Icons.date_range),
-                text: 'This Month',
+                child: Column(
+                  children: [
+                    Icon(Icons.date_range),
+                    Text('This Month'),
+                  ],
+                ),
               ),
               Tab(
-                icon: Icon(Icons.all_inclusive),
-                text: 'This Year',
+                child: Column(
+                  children: [
+                    Icon(Icons.all_inclusive),
+                    Text('This Year'),
+                  ],
+                ),
               ),
             ],
+            labelPadding: EdgeInsets.zero,
           ),
         ),
         body: TabBarView(

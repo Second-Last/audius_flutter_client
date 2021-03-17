@@ -76,10 +76,10 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
           ),
         ),
         tabBarTheme: TabBarTheme(
-          labelColor: Colors.blueGrey,
-          labelStyle: TextStyle(color: Colors.blueGrey, fontSize: 12),
-          unselectedLabelColor: Colors.blueGrey[200],
-          unselectedLabelStyle: TextStyle(color: Colors.blueGrey[200], fontSize: 12),
+          labelColor: audiusGrey,
+          labelStyle: TextStyle(color: audiusGrey, fontSize: 12),
+          unselectedLabelColor: audiusLightGrey,
+          unselectedLabelStyle: TextStyle(color: audiusLightGrey, fontSize: 12),
         ),
       ),
       home: AnnotatedRegion<SystemUiOverlayStyle>(
@@ -96,7 +96,7 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
             title: TextButton(
               child: Text(
                 'AUDIUS',
-                style: TextStyle(color: Colors.blueGrey, fontSize: 20),
+                style: TextStyle(color: audiusGrey, fontSize: 20),
               ),
               onPressed: () => setState(() => _changePage(1)),
             ),
@@ -113,7 +113,7 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
             currentIndex: _currentIndex,
             iconSize: 28,
             type: BottomNavigationBarType.fixed,
-            unselectedItemColor: Colors.blueGrey,
+            unselectedItemColor: audiusGrey,
             selectedItemColor: audiusColor,
             showSelectedLabels: false,
             showUnselectedLabels: false,
