@@ -32,6 +32,7 @@ class _FeedState extends State<Feed> {
             padding: const EdgeInsets.all(15),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(7),
+              // TODO: switch to GestureDetector to remove the overlay color
               child: ElevatedButton(
                 child: Text('All Posts', style: TextStyle(fontFamily: 'Avenir Next LT Pro'),),
                 onPressed: () => print('All posts!'),

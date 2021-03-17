@@ -23,7 +23,8 @@ class Trending extends StatelessWidget {
               padding: const EdgeInsets.all(15),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(7),
-                child: ElevatedButton(
+                // TODO: switch to GestureDetector to remove the overlay color
+                child: ElevatedButton( 
                   child: Text('All Genres'),
                   onPressed: () => print('All genres!'),
                 ),
