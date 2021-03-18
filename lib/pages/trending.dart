@@ -73,7 +73,7 @@ class Trending extends StatelessWidget {
                       child: Center(
                         child: Text(
                           'Trending',
-                          style: TextStyle(color: audiusColor, fontSize: 22),
+                          style: TextStyle(color: audiusColor, fontSize: 22, ),
                         ),
                       ),
                     ),
