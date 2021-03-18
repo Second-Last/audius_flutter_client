@@ -99,12 +99,14 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
                     icon: Icon(Icons.notifications),
                     onPressed: null,
                   ),
-            title: TextButton(
-              child: Text(
-                'AUDIUS',
-                style: TextStyle(color: audiusGrey, fontSize: 20),
+            title: Center(
+              child: TextButton(
+                child: Text(
+                  'AUDIUS',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+                ),
+                onPressed: () => setState(() => _changePage(1)),
               ),
-              onPressed: () => setState(() => _changePage(1)),
             ),
             actions: [
               IconButton(
