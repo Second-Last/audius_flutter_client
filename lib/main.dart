@@ -90,10 +90,15 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
         ),
         child: Scaffold(
           appBar: AppBar(
-            leading: IconButton(
-              icon: Icon(Icons.settings),
-              onPressed: null,
-            ),
+            leading: _currentIndex == 4
+                ? IconButton(
+                    icon: Icon(Icons.settings),
+                    onPressed: null,
+                  )
+                : IconButton(
+                    icon: Icon(Icons.notifications),
+                    onPressed: null,
+                  ),
             title: TextButton(
               child: Text(
                 'AUDIUS',
