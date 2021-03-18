@@ -11,7 +11,7 @@ class FakeAppBar extends StatelessWidget {
 
   final String leading;
   final Function action;
-  final Widget actionLabel;
+  final Widget actionLabel; // TODO: also here, font too small
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class FakeAppBar extends StatelessWidget {
                 style: TextStyle(
                   // The color must be set to white for this to work
                   color: Colors.white,
-                  fontSize: 22,
+                  fontSize: 22, // TODO: font too small
                   fontWeight: FontWeight.w800,
                 ),
               ),
