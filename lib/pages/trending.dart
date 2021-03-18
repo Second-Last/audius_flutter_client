@@ -22,41 +22,44 @@ class Trending extends StatelessWidget {
                 leading: 'Trending',
               ),
               Divider(
-                height: 20,
+                height: 0,
                 thickness: 1,
                 color: audiusLightGrey,
               ),
-              TabBar(
-                tabs: [
-                  Tab(
-                    child: Column(
-                      children: [
-                        Icon(Icons.today),
-                        Text('This Week',
-                            style: TextStyle(fontWeight: FontWeight.w700)),
-                      ],
+              Padding(
+                padding: const EdgeInsets.only(top: 7),
+                child: TabBar(
+                  tabs: [
+                    Tab(
+                      child: Column(
+                        children: [
+                          Icon(Icons.today),
+                          Text('THIS WEEK',
+                              style: TextStyle(fontWeight: FontWeight.w700)),
+                        ],
+                      ),
                     ),
-                  ),
-                  Tab(
-                    child: Column(
-                      children: [
-                        Icon(Icons.date_range),
-                        Text('This Month',
-                            style: TextStyle(fontWeight: FontWeight.w700)),
-                      ],
+                    Tab(
+                      child: Column(
+                        children: [
+                          Icon(Icons.date_range),
+                          Text('THIS MONTH',
+                              style: TextStyle(fontWeight: FontWeight.w700)),
+                        ],
+                      ),
                     ),
-                  ),
-                  Tab(
-                    child: Column(
-                      children: [
-                        Icon(Icons.all_inclusive),
-                        Text('This Year',
-                            style: TextStyle(fontWeight: FontWeight.w700)),
-                      ],
+                    Tab(
+                      child: Column(
+                        children: [
+                          Icon(Icons.all_inclusive),
+                          Text('THIS YEAR',
+                              style: TextStyle(fontWeight: FontWeight.w700)),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-                unselectedLabelStyle: TextStyle(fontWeight: FontWeight.normal),
+                  ],
+                  unselectedLabelStyle: TextStyle(fontWeight: FontWeight.normal),
+                ),
               ),
               Divider(
                 height: 0,

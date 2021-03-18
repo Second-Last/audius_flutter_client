@@ -1,6 +1,6 @@
 import 'pages/trending.dart';
 import 'pages/favorites.dart';
-import 'pages/browse.dart';
+import 'pages/explore.dart';
 import 'pages/feed.dart';
 import 'pages/player.dart';
 import 'pages/account.dart';
@@ -178,7 +178,7 @@ class Body extends StatelessWidget {
             children: [
               Feed(),
               Trending(),
-              Browse(),
+              Explore(),
               Favorites(),
               Account(),
             ],

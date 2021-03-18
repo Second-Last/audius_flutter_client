@@ -1,3 +1,4 @@
+import '../components/fake_app_bar.dart';
 import 'package:flutter/material.dart';
 import '../constants.dart';
 
@@ -18,42 +19,39 @@ class _FeedState extends State<Feed> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: false,
-        title: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 0),
-          child: Text(
-            'Your Feed',
-            style: TextStyle(color: audiusColor),
+      body: Column(
+        children: [
+          FakeAppBar(
+            leading: 'Feed',
+            actionLabel: Text(
+              'All Posts',
+              style:
+                  TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
+            ),
+            action: () => print('All Posts!'),
           ),
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.all(15),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(7),
-              // TODO: switch to GestureDetector to remove the overlay color
-              child: ElevatedButton(
-                child: Text('All Posts', style: TextStyle(fontFamily: 'Avenir Next LT Pro'),),
-                onPressed: () => print('All posts!'),
+          Divider(
+            height: 0,
+            thickness: 1,
+            color: audiusLightGrey,
+          ),
+          Container(
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    'You have pushed the button this many times:',
+                  ),
+                  Text(
+                    '$_counter',
+                    style: Theme.of(context).textTheme.headline4,
+                  ),
+                ],
               ),
             ),
           ),
         ],
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,

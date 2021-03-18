@@ -16,7 +16,7 @@ class FakeAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(10, 11, 10, 0),
+      padding: const EdgeInsets.fromLTRB(10, 11, 10, 11),
       child: Row(
         children: [
           Padding(
@@ -35,17 +35,19 @@ class FakeAppBar extends StatelessWidget {
             ),
           ),
           Spacer(),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(7),
-            child: GestureDetector(
-              child: Container(
-                padding: EdgeInsets.fromLTRB(15, 5, 15, 5),
-                color: audiusColor,
-                child: actionLabel,
-              ),
-              onTap: action,
-            ),
-          ),
+          actionLabel == null
+              ? Container()
+              : ClipRRect(
+                  borderRadius: BorderRadius.circular(7),
+                  child: GestureDetector(
+                    child: Container(
+                      padding: EdgeInsets.fromLTRB(15, 5, 15, 5),
+                      color: audiusColor,
+                      child: actionLabel,
+                    ),
+                    onTap: action,
+                  ),
+                ),
         ],
       ),
     );
