@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+/*
+  UI related
+*/
 const audiusColor = Colors.purple;
 const audiusGrey = Colors.blueGrey;
 var audiusLightGrey = Colors.blueGrey[200]; // TODO: why can't this be constant?
@@ -34,3 +37,8 @@ class GradientText extends StatelessWidget {
     );
   }
 }
+
+/*
+  Network related
+*/
+const app_name = 'Audius Flutter Client';
