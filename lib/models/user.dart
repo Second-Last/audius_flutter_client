@@ -56,3 +56,10 @@ class ProfilePicture {
   final String p480x480;
   final String p1000x1000;
 }
+
+// Do I actually need this????
+class UserResponse {
+  UserResponse(this.user);
+
+  User user;
+}
