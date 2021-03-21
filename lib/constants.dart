@@ -16,8 +16,8 @@ const linearGradient = LinearGradient(
 class GradientText extends StatelessWidget {
   GradientText(
     this.text, {
-    @required this.gradient,
-    @required this.style,
+    required this.gradient,
+    required this.style,
   });
 
   final String text;

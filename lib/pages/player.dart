@@ -27,7 +27,7 @@ class _PlayerState extends State<Player> {
 
 class SmallPlayer extends StatelessWidget {
   const SmallPlayer({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -65,7 +65,7 @@ class SmallPlayer extends StatelessWidget {
 
 class FullPlayer extends StatelessWidget {
   const FullPlayer({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override

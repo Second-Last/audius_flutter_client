@@ -4,14 +4,14 @@ import '../constants.dart';
 
 class FakeAppBar extends StatelessWidget {
   FakeAppBar({
-    @required this.leading,
+    required this.leading,
     this.action,
     this.actionLabel,
   });
 
   final String leading;
-  final Function action;
-  final Widget actionLabel; // TODO: also here, font too small
+  final Function? action;
+  final Widget? actionLabel; // TODO: also here, font too small
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +45,7 @@ class FakeAppBar extends StatelessWidget {
                       color: audiusColor,
                       child: actionLabel,
                     ),
-                    onTap: action,
+                    onTap: action as void Function()?,
                   ),
                 ),
         ],

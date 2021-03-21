@@ -18,9 +18,21 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
-  List<AnimationController> navBarAnimationControllers;
-  List<Animation> navBarAnimations;
-  int _currentIndex;
+  late final List<AnimationController> navBarAnimationControllers = [
+      AnimationController(
+        vsync: this,
+        duration: const Duration(milliseconds: 150),
+        lowerBound: 0,
+        upperBound: 0.5,
+      ),
+    ];
+  late final List<Animation>? navBarAnimations = [
+      CurvedAnimation(
+        parent: navBarAnimationControllers[0],
+        curve: Curves.elasticInOut,
+      ),
+    ];
+  int? _currentIndex;
 
   // Reacts to change in page (user taps nav bar)
   void _changePage(int selectedIndex) {
@@ -43,20 +55,6 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
     super.initState();
 
     _currentIndex = 0;
-    navBarAnimationControllers = [
-      AnimationController(
-        vsync: this,
-        duration: const Duration(milliseconds: 150),
-        lowerBound: 0,
-        upperBound: 0.5,
-      ),
-    ];
-    navBarAnimations = [
-      CurvedAnimation(
-        parent: navBarAnimationControllers[0],
-        curve: Curves.elasticInOut,
-      ),
-    ];
   }
 
   @override
@@ -118,7 +116,7 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
           ),
           body: Body(currentIndex: _currentIndex),
           bottomNavigationBar: BottomNavigationBar(
-            currentIndex: _currentIndex,
+            currentIndex: _currentIndex!,
             iconSize: 28,
             type: BottomNavigationBarType.fixed,
             unselectedItemColor: audiusGrey,
@@ -161,12 +159,12 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
 
 class Body extends StatelessWidget {
   const Body({
-    Key key,
-    @required int currentIndex,
+    Key? key,
+    required int? currentIndex,
   })  : _currentIndex = currentIndex,
         super(key: key);
 
-  final int _currentIndex;
+  final int? _currentIndex;
 
   @override
   Widget build(BuildContext context) {
