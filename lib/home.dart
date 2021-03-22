@@ -5,7 +5,6 @@ import 'pages/feed.dart';
 import 'pages/player.dart';
 import 'pages/account.dart';
 import 'constants.dart';
-import 'components/search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -81,10 +80,11 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
           ),
           actions: [
             IconButton(
-              icon: Icon(Icons.search),
-              onPressed: () {
-                showSearch(context: context, delegate: Search());
-              },
+              icon: Icon(
+                Icons.search,
+                color: audiusGrey,
+              ),
+              onPressed: () => null,
             )
           ],
           toolbarHeight: 40,
