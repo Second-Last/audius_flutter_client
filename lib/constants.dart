@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 /*
   UI related
@@ -46,3 +47,10 @@ const app_name = 'Audius Flutter Client';
 /*
   Math related
 */
+class CosineCurve extends Curve {
+  @override
+  double transformInternal(double t) {
+    var value = 0.5 * cos(2 * pi * t) + 0.5;
+    return value;
+  }
+}
