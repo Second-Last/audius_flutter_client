@@ -145,15 +145,21 @@ class Body extends StatelessWidget {
     return SafeArea(
       child: Stack(
         children: <Widget>[
-          IndexedStack(
-            index: _currentIndex,
-            children: [
-              Feed(),
-              Trending(),
-              Explore(),
-              Favorites(),
-              Account(),
-            ],
+          Navigator(
+            onGenerateRoute: (settings) {
+              return MaterialPageRoute(
+                builder: (context) => IndexedStack(
+                  index: _currentIndex,
+                  children: [
+                    Feed(),
+                    Trending(),
+                    Explore(),
+                    Favorites(),
+                    Account(),
+                  ],
+                ),
+              );
+            },
           ),
           Positioned(
             bottom: 0,
