@@ -7,6 +7,8 @@ import 'dart:math';
 const audiusColor = Colors.purple;
 const audiusGrey = Colors.blueGrey;
 var audiusLightGrey = Colors.blueGrey[200]; // TODO: why can't this be constant?
+var backgroundGrey = Colors.grey[300];
+var outlineGrey = Colors.grey[350];
 const linearGradient = LinearGradient(
   colors: <Color>[
     Color(0xffDA44bb),

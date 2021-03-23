@@ -9,7 +9,7 @@ class SearchBar extends StatefulWidget {
 class _SearchBarState extends State<SearchBar> with TickerProviderStateMixin {
   // Search form related
   bool _showSearchField = false;
-  
+
   // The animation controller that controls everything
   late AnimationController _animationController;
   static const int _animationTime = 300;
@@ -21,11 +21,13 @@ class _SearchBarState extends State<SearchBar> with TickerProviderStateMixin {
       borderRadius: BorderRadius.circular(8),
     ),
     end: BoxDecoration(
-      border: Border.all(color: audiusGrey),
+      border: Border.all(color: outlineGrey!),
       borderRadius: BorderRadius.circular(8),
+      color: backgroundGrey,
     ),
   );
-  late final Animation<Decoration> _containerTransition = _decorationTween.animate(
+  late final Animation<Decoration> _containerTransition =
+      _decorationTween.animate(
     CurvedAnimation(
       parent: _animationController,
       curve: Interval(0.0, 1.0, curve: Curves.fastOutSlowIn),
@@ -34,7 +36,12 @@ class _SearchBarState extends State<SearchBar> with TickerProviderStateMixin {
   // Border animation for the container
 
   // Opacity animation for the search button
-  double _titleOpacity = 1.0;
+  late final Animation<double> _opacityAnimation = ReverseAnimation(
+    CurvedAnimation(
+      parent: _animationController,
+      curve: Interval(0.0, 0.5, curve: Curves.linear),
+    ),
+  );
   // Opacity animation for the search button
 
   @override
@@ -64,11 +71,16 @@ class _SearchBarState extends State<SearchBar> with TickerProviderStateMixin {
       child: Stack(
         alignment: AlignmentDirectional.center,
         children: [
-          AnimatedOpacity(
-            opacity: _titleOpacity,
-            duration: Duration(milliseconds: _animationTime),
-            curve: Curves.linear,
-            child: Text('AUDIUS'),
+          FadeTransition(
+            opacity: _opacityAnimation,
+            child: Text(
+              'AUDIUS',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w700,
+                color: audiusColor,
+              ),
+            ),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -111,11 +123,9 @@ class _SearchBarState extends State<SearchBar> with TickerProviderStateMixin {
                                     if (_animationController.isCompleted) {
                                       _animationController.reverse();
                                       _showSearchField = false;
-                                      _titleOpacity = 1.0;
                                     } else {
                                       _animationController.forward();
                                       _showSearchField = true;
-                                      _titleOpacity = 0;
                                     }
                                   });
                                 },
