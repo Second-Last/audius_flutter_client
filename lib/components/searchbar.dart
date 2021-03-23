@@ -9,13 +9,13 @@ class SearchBar extends StatefulWidget {
 class _SearchBarState extends State<SearchBar> with TickerProviderStateMixin {
   // Search form related
   bool _showSearchField = false;
-  String? _initialValue;
-
+  
   // The animation controller that controls everything
   late AnimationController _animationController;
+  static const int _animationTime = 300;
 
   // Border animation for the container
-  final DecorationTween decorationTween = DecorationTween(
+  final DecorationTween _decorationTween = DecorationTween(
     begin: BoxDecoration(
       border: Border.all(style: BorderStyle.none),
       borderRadius: BorderRadius.circular(8),
@@ -25,7 +25,7 @@ class _SearchBarState extends State<SearchBar> with TickerProviderStateMixin {
       borderRadius: BorderRadius.circular(8),
     ),
   );
-  late final Animation containerTransition = decorationTween.animate(
+  late final Animation<Decoration> _containerTransition = _decorationTween.animate(
     CurvedAnimation(
       parent: _animationController,
       curve: Interval(0.0, 1.0, curve: Curves.fastOutSlowIn),
@@ -33,9 +33,9 @@ class _SearchBarState extends State<SearchBar> with TickerProviderStateMixin {
   );
   // Border animation for the container
 
-  // Size(Scale) animation for the search button
-
-  // Size(Scale) animation for the search button
+  // Opacity animation for the search button
+  double _titleOpacity = 1.0;
+  // Opacity animation for the search button
 
   @override
   void initState() {
@@ -43,7 +43,7 @@ class _SearchBarState extends State<SearchBar> with TickerProviderStateMixin {
 
     _animationController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 300),
+      duration: Duration(milliseconds: _animationTime),
     );
   }
 
@@ -64,14 +64,19 @@ class _SearchBarState extends State<SearchBar> with TickerProviderStateMixin {
       child: Stack(
         alignment: AlignmentDirectional.center,
         children: [
-          Text('AUDIUS'),
+          AnimatedOpacity(
+            opacity: _titleOpacity,
+            duration: Duration(milliseconds: _animationTime),
+            curve: Curves.linear,
+            child: Text('AUDIUS'),
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(Icons.notifications),
               Spacer(),
               DecoratedBoxTransition(
-                decoration: decorationTween.animate(_animationController),
+                decoration: _containerTransition,
                 child: AnimatedBuilder(
                   animation: _animationController,
                   builder: (BuildContext context, child) => Container(
@@ -87,7 +92,7 @@ class _SearchBarState extends State<SearchBar> with TickerProviderStateMixin {
                                     controller: ,
                                     focusNode: ,*/
                                   decoration: null,
-                                  onChanged: (value) => _initialValue = value,
+                                  // onChanged: (value) => null,
                                 ),
                               ),
                               GestureDetector(
@@ -106,9 +111,11 @@ class _SearchBarState extends State<SearchBar> with TickerProviderStateMixin {
                                     if (_animationController.isCompleted) {
                                       _animationController.reverse();
                                       _showSearchField = false;
+                                      _titleOpacity = 1.0;
                                     } else {
                                       _animationController.forward();
                                       _showSearchField = true;
+                                      _titleOpacity = 0;
                                     }
                                   });
                                 },
