@@ -47,10 +47,6 @@ const app_name = 'Audius Flutter Client';
 /*
   Math related
 */
-class CosineCurve extends Curve {
-  @override
-  double transformInternal(double t) {
-    var value = 0.5 * cos(2 * pi * t) + 0.5;
-    return value;
-  }
+double cosineCurve (double value) {
+  return (1 / 8) * cos(2 * pi * value) + 7 / 8;
 }

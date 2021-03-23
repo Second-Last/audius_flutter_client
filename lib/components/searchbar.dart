@@ -21,7 +21,7 @@ class _SearchBarState extends State<SearchBar> with TickerProviderStateMixin {
       borderRadius: BorderRadius.circular(8),
     ),
     end: BoxDecoration(
-      border: Border.all(color: audiusGrey, width: 2),
+      border: Border.all(color: audiusGrey),
       borderRadius: BorderRadius.circular(8),
     ),
   );
@@ -32,6 +32,10 @@ class _SearchBarState extends State<SearchBar> with TickerProviderStateMixin {
     ),
   );
   // Border animation for the container
+
+  // Size(Scale) animation for the search button
+
+  // Size(Scale) animation for the search button
 
   @override
   void initState() {
@@ -70,62 +74,75 @@ class _SearchBarState extends State<SearchBar> with TickerProviderStateMixin {
                 decoration: decorationTween.animate(_animationController),
                 child: AnimatedBuilder(
                   animation: _animationController,
-                  builder: (BuildContext context, child) {
-                    return Container(
-                      alignment: Alignment.centerRight,
-                      padding: EdgeInsets.fromLTRB(5, 5, 0, 5),
-                      width: _animationController.value * _containerLength + 35,
-                      child: child,
-                    );
-                  },
-                  child: _showSearchField
-                      ? Row(
-                          children: [
-                            Expanded(
-                              child: TextField(
-                                /* TODO: add these parameters later on 
-                                controller: ,
-                                focusNode: ,*/
-                                decoration: null,
-                                onChanged: (value) => _initialValue = value,
+                  builder: (BuildContext context, child) => Container(
+                    alignment: Alignment.centerRight,
+                    padding: EdgeInsets.fromLTRB(5, 5, 0, 5),
+                    width: _animationController.value * _containerLength + 35,
+                    child: _showSearchField
+                        ? Row(
+                            children: [
+                              Expanded(
+                                child: TextField(
+                                  /* TODO: add these parameters later on 
+                                    controller: ,
+                                    focusNode: ,*/
+                                  decoration: null,
+                                  onChanged: (value) => _initialValue = value,
+                                ),
                               ),
+                              GestureDetector(
+                                child: Container(
+                                  child: Icon(
+                                    Icons.search,
+                                    size: 24 *
+                                        cosineCurve(_animationController.value),
+                                  ),
+                                  // TODO: prevent hard-coded values
+                                  width: 24,
+                                  height: 24,
+                                ),
+                                onTap: () {
+                                  setState(() {
+                                    if (_animationController.isCompleted) {
+                                      _animationController.reverse();
+                                      _showSearchField = false;
+                                    } else {
+                                      _animationController.forward();
+                                      _showSearchField = true;
+                                    }
+                                  });
+                                },
+                              )
+                            ],
+                          )
+                        : GestureDetector(
+                            child: Container(
+                              child: Icon(
+                                Icons.search,
+                                size: 24 *
+                                    cosineCurve(_animationController.value),
+                              ),
+                              // TODO: prevent hard-coded values
+                              width: 24,
+                              height: 24,
                             ),
-                            GestureDetector(
-                              key: Key('Search Button'),
-                              child: Icon(Icons.search),
-                              onTap: () {
-                                setState(() {
-                                  if (_animationController.isCompleted) {
-                                    _animationController.reverse();
-                                    _showSearchField = false;
-                                  } else {
-                                    _animationController.forward();
-                                    _showSearchField = true;
-                                  }
-                                });
-                              },
-                            )
-                          ],
-                        )
-                      : GestureDetector(
-                          key: Key('Search Button'),
-                          child: Icon(Icons.search),
-                          onTap: () {
-                            setState(() {
-                              if (_animationController.isCompleted) {
-                                _animationController.reverse();
-                                _showSearchField = false;
-                              } else {
-                                _animationController.forward();
-                                _showSearchField = true;
-                              }
-                            });
-                          },
-                        ),
+                            onTap: () {
+                              setState(() {
+                                if (_animationController.isCompleted) {
+                                  _animationController.reverse();
+                                  _showSearchField = false;
+                                } else {
+                                  _animationController.forward();
+                                  _showSearchField = true;
+                                }
+                              });
+                            },
+                          ),
+                  ),
                 ),
-              )
+              ),
             ],
-          )
+          ),
         ],
       ),
     );
