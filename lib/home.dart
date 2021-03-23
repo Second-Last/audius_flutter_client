@@ -89,7 +89,34 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
           ],
           toolbarHeight: 40,
         ),
-        body: Body(currentIndex: _currentIndex),
+        body: SafeArea(
+          child: Stack(
+            children: <Widget>[
+              Navigator(
+                onGenerateRoute: (settings) {
+                  return MaterialPageRoute(
+                    builder: (context) => IndexedStack(
+                      index: _currentIndex,
+                      children: [
+                        Feed(),
+                        Trending(),
+                        Explore(),
+                        Favorites(),
+                        Account(),
+                      ],
+                    ),
+                  );
+                },
+              ),
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: Player(),
+              ),
+            ],
+          ),
+        ),
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: _currentIndex!,
           iconSize: 28,
@@ -126,48 +153,6 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
           ],
           onTap: (selectedIndex) => _changePage(selectedIndex),
         ),
-      ),
-    );
-  }
-}
-
-class Body extends StatelessWidget {
-  const Body({
-    Key? key,
-    required int? currentIndex,
-  })   : _currentIndex = currentIndex,
-        super(key: key);
-
-  final int? _currentIndex;
-
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: Stack(
-        children: <Widget>[
-          Navigator(
-            onGenerateRoute: (settings) {
-              return MaterialPageRoute(
-                builder: (context) => IndexedStack(
-                  index: _currentIndex,
-                  children: [
-                    Feed(),
-                    Trending(),
-                    Explore(),
-                    Favorites(),
-                    Account(),
-                  ],
-                ),
-              );
-            },
-          ),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: Player(),
-          ),
-        ],
       ),
     );
   }
