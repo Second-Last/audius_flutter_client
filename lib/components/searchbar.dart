@@ -35,14 +35,25 @@ class _SearchBarState extends State<SearchBar> with TickerProviderStateMixin {
   );
   // Border animation for the container
 
-  // Opacity animation for the search button
+  // Opacity animation for the title
   late final Animation<double> _opacityAnimation = ReverseAnimation(
     CurvedAnimation(
       parent: _animationController,
       curve: Interval(0.0, 0.5, curve: Curves.linear),
     ),
   );
-  // Opacity animation for the search button
+  // Opacity animation for the title
+
+  // Size animation for the title
+  // TODO: technically it should truncate (i.e. only go from 1 to 0.8)
+  // but I doubled the interval to make it look like so
+  late final Animation<double> _sizeAnimation = ReverseAnimation(
+    CurvedAnimation(
+      parent: _animationController,
+      curve: Interval(0.0, 1.0, curve: Curves.easeInCubic),
+    ),
+  );
+  // Size animation for the title
 
   @override
   void initState() {
@@ -63,8 +74,7 @@ class _SearchBarState extends State<SearchBar> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    double _containerLength =
-        (MediaQuery.of(context).size.width - 2 * 8) * 0.75;
+    double _containerLength = (MediaQuery.of(context).size.width - 2 * 8) * 0.8;
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -73,19 +83,25 @@ class _SearchBarState extends State<SearchBar> with TickerProviderStateMixin {
         children: [
           FadeTransition(
             opacity: _opacityAnimation,
-            child: Text(
-              'AUDIUS',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w700,
-                color: audiusColor,
+            child: ScaleTransition(
+              scale: _sizeAnimation,
+              child: Text(
+                'AUDIUS',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700,
+                  color: audiusColor,
+                ),
               ),
             ),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.notifications),
+              Padding(
+                padding: const EdgeInsets.only(left: 3.0),
+                child: Icon(Icons.notifications),
+              ),
               Spacer(),
               DecoratedBoxTransition(
                 decoration: _containerTransition,
@@ -93,7 +109,7 @@ class _SearchBarState extends State<SearchBar> with TickerProviderStateMixin {
                   animation: _animationController,
                   builder: (BuildContext context, child) => Container(
                     alignment: Alignment.centerRight,
-                    padding: EdgeInsets.fromLTRB(5, 5, 0, 5),
+                    padding: EdgeInsets.fromLTRB(5, 5, 3, 5),
                     width: _animationController.value * _containerLength + 35,
                     child: _showSearchField
                         ? Row(
