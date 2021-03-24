@@ -1,4 +1,3 @@
-import 'package:audius_flutter_client/pages/search.dart';
 import 'package:flutter/material.dart';
 import '../constants.dart';
 
@@ -122,7 +121,7 @@ class _SearchBarState extends State<SearchBar> with TickerProviderStateMixin {
                                     focusNode: ,*/
                                   decoration: null,
                                   // onChanged: (value) => null,
-                                  onSubmitted: (value) => Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => Search(search: value))),
+                                  onSubmitted: (value) => Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => Scaffold(appBar: AppBar(title: Text('$value'),)), fullscreenDialog: true)),
                                 ),
                               ),
                               GestureDetector(
