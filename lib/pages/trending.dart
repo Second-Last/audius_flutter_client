@@ -14,6 +14,11 @@ class Trending extends StatelessWidget {
           child: Column(
             children: [
               SearchBar(),
+              Divider(
+                height: 0,
+                thickness: 1,
+                color: audiusLightGrey,
+              ),
               FakeAppBar(
                 action: () => print('All genres!'),
                 actionLabel: Text(
@@ -60,7 +65,8 @@ class Trending extends StatelessWidget {
                       ),
                     ),
                   ],
-                  unselectedLabelStyle: TextStyle(fontWeight: FontWeight.normal),
+                  unselectedLabelStyle:
+                      TextStyle(fontWeight: FontWeight.normal),
                 ),
               ),
               Divider(

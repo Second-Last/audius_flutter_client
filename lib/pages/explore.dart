@@ -1,10 +1,8 @@
 // import '../components/fake_app_bar.dart';
-import 'package:audius_flutter_client/components/profile_grid.dart';
 import 'package:audius_flutter_client/components/searchbar.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:audius_flutter_client/models/user.dart';
-import 'dart:convert' as convert;
+
+import '../constants.dart';
 
 class Explore extends StatelessWidget {
   @override
@@ -13,6 +11,11 @@ class Explore extends StatelessWidget {
       body: Column(
         children: [
           SearchBar(),
+          Divider(
+            height: 0,
+            thickness: 1,
+            color: audiusLightGrey,
+          ),
           Center(
             child: Icon(
               Icons.explore,

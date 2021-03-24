@@ -2,6 +2,7 @@ import 'package:audius_flutter_client/components/searchbar.dart';
 
 import '../components/fake_app_bar.dart';
 import 'package:flutter/material.dart';
+import '../constants.dart';
 
 class Favorites extends StatefulWidget {
   @override
@@ -15,6 +16,11 @@ class _FavoritesState extends State<Favorites> {
       body: Column(
         children: [
           SearchBar(),
+          Divider(
+            height: 0,
+            thickness: 1,
+            color: audiusLightGrey,
+          ),
           FakeAppBar(leading: 'Favorites'),
           Container(
             child: Center(
