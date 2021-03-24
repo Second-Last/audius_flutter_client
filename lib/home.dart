@@ -1,5 +1,3 @@
-import 'package:audius_flutter_client/components/searchbar.dart';
-
 import 'pages/trending.dart';
 import 'pages/favorites.dart';
 import 'pages/explore.dart';
@@ -61,69 +59,60 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         systemNavigationBarIconBrightness: Brightness.dark,
       ),
       child: Scaffold(
-        // appBar: AppBar(
-        //   leading: _currentIndex == 4
-        //       ? IconButton(
-        //           icon: Icon(Icons.settings),
-        //           onPressed: null,
-        //         )
-        //       : IconButton(
-        //           icon: Icon(Icons.notifications),
-        //           onPressed: null,
-        //         ),
-        //   title: Center(
-        //     child: TextButton(
-        //       child: Text(
-        //         'AUDIUS',
-        //         style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
-        //       ),
-        //       onPressed: () => setState(() => _changePage(1)),
-        //     ),
-        //   ),
-        //   actions: [
-        //     IconButton(
-        //       icon: Icon(
-        //         Icons.search,
-        //         color: audiusGrey,
-        //       ),
-        //       onPressed: () => null,
-        //     )
-        //   ],
-        //   toolbarHeight: 40,
-        // ),
+        appBar: AppBar(
+          leading: _currentIndex == 4
+              ? IconButton(
+                  icon: Icon(Icons.settings),
+                  onPressed: null,
+                )
+              : IconButton(
+                  icon: Icon(Icons.notifications),
+                  onPressed: null,
+                ),
+          title: Center(
+            child: TextButton(
+              child: Text(
+                'AUDIUS',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+              ),
+              onPressed: () => setState(() => _changePage(1)),
+            ),
+          ),
+          actions: [
+            IconButton(
+              icon: Icon(
+                Icons.search,
+                color: audiusGrey,
+              ),
+              onPressed: () => null,
+            )
+          ],
+          toolbarHeight: 40,
+        ),
         body: SafeArea(
-          child: Column(
-            children: [
-              SearchBar(),
-              Stack(
-                children: <Widget>[
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height,
-                    child: Navigator(
-                      onGenerateRoute: (settings) {
-                        return MaterialPageRoute(
-                          builder: (context) => IndexedStack(
-                            index: _currentIndex,
-                            children: [
-                              Feed(),
-                              Trending(),
-                              Explore(),
-                              Favorites(),
-                              Account(),
-                            ],
-                          ),
-                        );
-                      },
+          child: Stack(
+            children: <Widget>[
+              Navigator(
+                onGenerateRoute: (settings) {
+                  return MaterialPageRoute(
+                    builder: (context) => IndexedStack(
+                      index: _currentIndex,
+                      children: [
+                        Feed(),
+                        Trending(),
+                        Explore(),
+                        Favorites(),
+                        Account(),
+                      ],
                     ),
-                  ),
-                  Positioned(
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    child: Player(),
-                  ),
-                ],
+                  );
+                },
+              ),
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: Player(),
               ),
             ],
           ),
