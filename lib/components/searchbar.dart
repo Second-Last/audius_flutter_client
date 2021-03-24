@@ -1,3 +1,4 @@
+import 'package:audius_flutter_client/pages/search.dart';
 import 'package:flutter/material.dart';
 import '../constants.dart';
 
@@ -77,7 +78,7 @@ class _SearchBarState extends State<SearchBar> with TickerProviderStateMixin {
     double _containerLength = (MediaQuery.of(context).size.width - 2 * 8) * 0.8;
 
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 5),
       child: Stack(
         alignment: AlignmentDirectional.center,
         children: [
@@ -100,7 +101,10 @@ class _SearchBarState extends State<SearchBar> with TickerProviderStateMixin {
             children: [
               Padding(
                 padding: const EdgeInsets.only(left: 3.0),
-                child: Icon(Icons.notifications),
+                child: Icon(
+                  Icons.notifications,
+                  color: audiusGrey,
+                ),
               ),
               Spacer(),
               DecoratedBoxTransition(
@@ -121,7 +125,11 @@ class _SearchBarState extends State<SearchBar> with TickerProviderStateMixin {
                                     focusNode: ,*/
                                   decoration: null,
                                   // onChanged: (value) => null,
-                                  onSubmitted: (value) => Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => Scaffold(appBar: AppBar(title: Text('$value'),)), fullscreenDialog: true)),
+                                  onSubmitted: (value) => Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (BuildContext context) =>
+                                              Search(search: value))),
                                 ),
                               ),
                               GestureDetector(
@@ -130,6 +138,7 @@ class _SearchBarState extends State<SearchBar> with TickerProviderStateMixin {
                                     Icons.search,
                                     size: 24 *
                                         cosineCurve(_animationController.value),
+                                    color: audiusGrey,
                                   ),
                                   // TODO: prevent hard-coded values
                                   width: 24,
@@ -155,6 +164,7 @@ class _SearchBarState extends State<SearchBar> with TickerProviderStateMixin {
                                 Icons.search,
                                 size: 24 *
                                     cosineCurve(_animationController.value),
+                                color: audiusGrey,
                               ),
                               // TODO: prevent hard-coded values
                               width: 24,

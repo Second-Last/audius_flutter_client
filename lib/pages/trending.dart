@@ -1,4 +1,5 @@
 import 'package:audius_flutter_client/components/fake_app_bar.dart';
+import 'package:audius_flutter_client/components/searchbar.dart';
 import 'package:flutter/material.dart';
 import '../constants.dart';
 
@@ -12,6 +13,7 @@ class Trending extends StatelessWidget {
         body: SingleChildScrollView(
           child: Column(
             children: [
+              SearchBar(),
               FakeAppBar(
                 action: () => print('All genres!'),
                 actionLabel: Text(

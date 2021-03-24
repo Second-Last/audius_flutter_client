@@ -1,3 +1,5 @@
+import 'package:audius_flutter_client/components/searchbar.dart';
+
 import '../components/fake_app_bar.dart';
 import 'package:flutter/material.dart';
 
@@ -12,6 +14,7 @@ class _FavoritesState extends State<Favorites> {
     return Scaffold(
       body: Column(
         children: [
+          SearchBar(),
           FakeAppBar(leading: 'Favorites'),
           Container(
             child: Center(
