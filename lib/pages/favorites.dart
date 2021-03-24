@@ -15,7 +15,7 @@ class _FavoritesState extends State<Favorites> {
     return Scaffold(
       body: Column(
         children: [
-          SearchBar(),
+          // SearchBar(),
           Divider(
             height: 0,
             thickness: 1,

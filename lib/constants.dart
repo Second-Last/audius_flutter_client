@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 
+
+
 /*
   UI related
 */
@@ -41,10 +43,14 @@ class GradientText extends StatelessWidget {
   }
 }
 
+
+
 /*
   Network related
 */
 const app_name = 'Audius Flutter Client';
+
+
 
 /*
   Math related
@@ -52,3 +58,10 @@ const app_name = 'Audius Flutter Client';
 double cosineCurve (double value) {
   return (1 / 8) * cos(2 * pi * value) + 7 / 8;
 }
+
+
+
+/*
+  Navigation/Route related
+*/
+const routeMain = '/';

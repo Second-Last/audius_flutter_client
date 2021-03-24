@@ -13,7 +13,7 @@ class Trending extends StatelessWidget {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              SearchBar(),
+              // SearchBar(),
               Divider(
                 height: 0,
                 thickness: 1,
