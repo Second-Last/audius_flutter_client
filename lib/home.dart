@@ -57,6 +57,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       value: SystemUiOverlayStyle(
         systemNavigationBarColor: Colors.white,
         systemNavigationBarIconBrightness: Brightness.dark,
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.dark,
       ),
       child: Scaffold(
         // appBar: AppBar(
@@ -92,21 +94,15 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         body: SafeArea(
           child: Stack(
             children: <Widget>[
-              Navigator(
-                onGenerateRoute: (settings) {
-                  return MaterialPageRoute(
-                    builder: (context) => IndexedStack(
-                      index: _currentIndex,
-                      children: [
-                        Feed(),
-                        Trending(),
-                        Explore(),
-                        Favorites(),
-                        Account(),
-                      ],
-                    ),
-                  );
-                },
+              IndexedStack(
+                index: _currentIndex,
+                children: [
+                  Feed(),
+                  Trending(),
+                  Explore(),
+                  Favorites(),
+                  Account(),
+                ],
               ),
               Positioned(
                 bottom: 0,
