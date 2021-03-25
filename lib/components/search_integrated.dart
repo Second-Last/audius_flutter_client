@@ -55,7 +55,7 @@ class __BodyState extends State<_Body> {
                 onGenerateRoute: (settings) {
                   return MaterialPageRoute<dynamic>(
                     builder: (context) {
-                      return SingleChildScrollView(child: widget._mainContent);
+                      return widget._mainContent;
                     },
                     settings: settings,
                   );

@@ -1,6 +1,5 @@
 // import '../components/fake_app_bar.dart';
 import 'package:audius_flutter_client/components/search_integrated.dart';
-import 'package:audius_flutter_client/components/searchbar.dart';
 import 'package:flutter/material.dart';
 
 import '../constants.dart';

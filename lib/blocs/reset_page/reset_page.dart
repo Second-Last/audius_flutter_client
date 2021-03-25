@@ -1,14 +1,15 @@
 import 'package:bloc/bloc.dart';
 
 class ResetPageCubit extends Cubit<int> {
-  ResetPageCubit(int initialState): super(initialState);
+  ResetPageCubit(int initialState) : super(initialState);
 
-  void reset() => emit(1);
-  void setPage(int page) => emit(page);
-
-  @override
-  void onChange(Change<int> change) {
+  void reset() {
+    emit(1);
     print('Resetting to Trending page ');
-    super.onChange(change);
+  }
+
+  void setPage(int page) {
+    emit(page);
+    print("Switching to page $page");
   }
 }

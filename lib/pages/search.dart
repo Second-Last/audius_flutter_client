@@ -107,7 +107,7 @@ class Search extends StatelessWidget {
                                   Padding(
                                     padding: const EdgeInsets.only(top: 16),
                                     child: Text('Error: ${snapshot.error}'),
-                                  )
+                                  ),
                                 ],
                               );
                             } else {
@@ -121,7 +121,7 @@ class Search extends StatelessWidget {
                                   const Padding(
                                     padding: EdgeInsets.only(top: 16),
                                     child: Text('Awaiting result...'),
-                                  )
+                                  ),
                                 ],
                               );
                             }

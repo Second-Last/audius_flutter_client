@@ -103,20 +103,12 @@ class _SearchBarState extends State<SearchBar> with TickerProviderStateMixin {
                   ),
                 ),
                 onTap: () {
-                  // widget._navigatorKey.currentState!
-                  //     .popUntil(ModalRoute.withName('/'));
-                  print(
-                      "Current pop status: ${widget._navigatorKey.currentState!.canPop()}");
                   if (widget._navigatorKey.currentState!.canPop()) {
                     widget._navigatorKey.currentState!
                         .popUntil(ModalRoute.withName('/'));
-                    print('Returned to main route');
                     // Bruh I don't even know why this works... Figure this out!
                     // Shouldn't the route '/' be one layer above?????
-                    Future.delayed(Duration.zero);
                   }
-                  print('I am not stuck!');
-                  Future.delayed(Duration.zero);
                   context.read<ResetPageCubit>().reset();
                 },
               ),

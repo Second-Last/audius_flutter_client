@@ -15,9 +15,11 @@ class ProfileGrid extends StatelessWidget {
       child: GestureDetector(
         child: Column(
           children: [
-            targetUser.profilePicture != null
-                ? Image.network(targetUser.profilePicture!['150x150'])
-                : Icon(Icons.account_circle, size: 150),
+            ClipOval(
+              child: targetUser.profilePicture != null
+                  ? Image.network(targetUser.profilePicture!['150x150'])
+                  : Icon(Icons.account_circle, size: 150),
+            ),
             Text('${targetUser.name}'),
             Row(
               children: [
