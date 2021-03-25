@@ -6,7 +6,6 @@ class SearchIntegratedPage extends StatelessWidget {
   SearchIntegratedPage({required this.mainContent});
 
   final Widget mainContent;
-  final _topLevelKey = GlobalKey<NavigatorState>();
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +14,7 @@ class SearchIntegratedPage extends StatelessWidget {
         late Widget page;
 
         if (settings.name == routeMain) {
-          page = _Body(mainContent, _topLevelKey);
+          page = _Body(mainContent);
         } else {
           throw Exception('Unknown route: ${settings.name}');
         }
@@ -30,10 +29,9 @@ class SearchIntegratedPage extends StatelessWidget {
 }
 
 class _Body extends StatefulWidget {
-  _Body(this._mainContent, this._topLevelKey);
+  _Body(this._mainContent);
 
   final Widget _mainContent;
-  final GlobalKey<NavigatorState> _topLevelKey;
 
   @override
   __BodyState createState() => __BodyState();
@@ -50,7 +48,7 @@ class __BodyState extends State<_Body> {
         width: MediaQuery.of(context).size.width,
         child: Column(
           children: [
-            SearchBar(_navigatorKey, widget._topLevelKey),
+            SearchBar(_navigatorKey),
             Expanded(
               child: Navigator(
                 key: _navigatorKey,

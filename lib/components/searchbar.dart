@@ -3,10 +3,9 @@ import 'package:flutter/material.dart';
 import '../constants.dart';
 
 class SearchBar extends StatefulWidget {
-  SearchBar(this._navigatorKey, this._topLevelKey);
+  SearchBar(this._navigatorKey);
 
   final GlobalKey<NavigatorState> _navigatorKey;
-  final GlobalKey<NavigatorState> _topLevelKey;
 
   @override
   _SearchBarState createState() => _SearchBarState();
