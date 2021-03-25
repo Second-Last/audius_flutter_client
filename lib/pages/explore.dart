@@ -1,4 +1,5 @@
 // import '../components/fake_app_bar.dart';
+import 'package:audius_flutter_client/components/search_integrated.dart';
 import 'package:audius_flutter_client/components/searchbar.dart';
 import 'package:flutter/material.dart';
 
@@ -7,26 +8,23 @@ import '../constants.dart';
 class Explore extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [
-          SearchBar(),
-          Divider(
-            height: 0,
-            thickness: 1,
-            color: audiusLightGrey,
-          ),
-          Center(
-            child: Icon(
-              Icons.explore,
-              size: 80,
-            ),
-          )
-        ],
+    return SearchIntegratedPage(
+      mainContent: Center(
+        child: Icon(
+          Icons.explore,
+          size: 80,
+        ),
       ),
     );
   }
 }
+
+// Center(
+//             child: Icon(
+//               Icons.explore,
+//               size: 80,
+//             ),
+//           )
 
 // // TODO: requests the data everytime page changes!
 // Future<List<ProfileGrid>> gridBuilder() async {

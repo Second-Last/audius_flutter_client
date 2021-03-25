@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import '../constants.dart';
 
 class SearchBar extends StatefulWidget {
+  SearchBar(this._navigatorKey);
+
+  final GlobalKey<NavigatorState> _navigatorKey;
+
   @override
   _SearchBarState createState() => _SearchBarState();
 }
@@ -86,13 +90,18 @@ class _SearchBarState extends State<SearchBar> with TickerProviderStateMixin {
             opacity: _opacityAnimation,
             child: ScaleTransition(
               scale: _sizeAnimation,
-              child: Text(
-                'AUDIUS',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w700,
-                  color: audiusColor,
+              child: GestureDetector(
+                child: Text(
+                  'AUDIUS',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
+                    color: audiusColor,
+                  ),
                 ),
+                onTap: () => widget._navigatorKey.currentState!.popUntil(ModalRoute.withName('/')),
+                // Bruh I don't even know why this works... Figure this out! 
+                // Shouldn't the route '/' be one layer above?????
               ),
             ),
           ),
@@ -125,11 +134,13 @@ class _SearchBarState extends State<SearchBar> with TickerProviderStateMixin {
                                     focusNode: ,*/
                                   decoration: null,
                                   // onChanged: (value) => null,
-                                  onSubmitted: (value) => Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (BuildContext context) =>
-                                              Search(search: value))),
+                                  onSubmitted: (value) =>
+                                      widget._navigatorKey.currentState!.push(
+                                    MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          Search(search: value),
+                                    ),
+                                  ),
                                 ),
                               ),
                               GestureDetector(

@@ -23,7 +23,7 @@ class _FeedState extends State<Feed> {
     return Scaffold(
       body: Column(
         children: [
-          SearchBar(),
+          // SearchBar(),
           Divider(
             height: 0,
             thickness: 1,
