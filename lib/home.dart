@@ -11,8 +11,18 @@ import 'pages/account.dart';
 import 'constants.dart';
 import 'blocs/reset_page/reset_page.dart';
 
-class Home extends StatefulWidget {
+// This extra widget is necessary for the ResetPageCubit to function in Home()
+class BlocWrapped extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (BuildContext context) => ResetPageCubit(0),
+      child: Home(),
+    );
+  }
+}
 
+class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
 }
@@ -64,70 +74,69 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         statusBarColor: Colors.transparent,
         statusBarIconBrightness: Brightness.dark,
       ),
-      child: BlocProvider(
-        create: (BuildContext context) => ResetPageCubit(0),
-        child: Scaffold(
-          body: SafeArea(
-            child: BlocListener<ResetPageCubit, int>(
-              listener: (context, state) => _changePage(state),
-              child: Stack(
-                children: <Widget>[
-                  IndexedStack(
-                    index: _currentIndex,
-                    children: [
-                      Feed(),
-                      Trending(),
-                      Explore(),
-                      Favorites(),
-                      Account(),
-                    ],
-                  ),
-                  Positioned(
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    child: Player(),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          bottomNavigationBar: BottomNavigationBar(
-            currentIndex: _currentIndex!,
-            iconSize: 28,
-            type: BottomNavigationBarType.fixed,
-            unselectedItemColor: audiusGrey,
-            selectedItemColor: audiusColor,
-            showSelectedLabels: false,
-            showUnselectedLabels: false,
-            backgroundColor: Colors.white,
-            items: [
-              BottomNavigationBarItem(
-                icon: Icon(Icons.supervisor_account),
-                label: 'Feed',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.trending_up),
-                label: 'Trending',
-              ),
-              BottomNavigationBarItem(
-                icon: RotationTransition(
-                  turns: navBarAnimationControllers[0],
-                  child: Icon(Icons.explore),
+      child: Scaffold(
+        body: SafeArea(
+          child: Stack(
+            children: <Widget>[
+              BlocListener<ResetPageCubit, int>(
+                listener: (context, state) => _changePage(state),
+                child: IndexedStack(
+                  index: _currentIndex,
+                  children: [
+                    Feed(),
+                    Trending(),
+                    Explore(),
+                    Favorites(),
+                    Account(),
+                  ],
                 ),
-                label: 'Browse',
               ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.favorite),
-                label: 'Favorites',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.account_circle),
-                label: 'Account',
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: Player(),
               ),
             ],
-            onTap: (selectedIndex) => _changePage(selectedIndex),
           ),
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: _currentIndex!,
+          iconSize: 28,
+          type: BottomNavigationBarType.fixed,
+          unselectedItemColor: audiusGrey,
+          selectedItemColor: audiusColor,
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
+          backgroundColor: Colors.white,
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.supervisor_account),
+              label: 'Feed',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.trending_up),
+              label: 'Trending',
+            ),
+            BottomNavigationBarItem(
+              icon: RotationTransition(
+                turns: navBarAnimationControllers[0],
+                child: Icon(Icons.explore),
+              ),
+              label: 'Browse',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.favorite),
+              label: 'Favorites',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.account_circle),
+              label: 'Account',
+            ),
+          ],
+          onTap: (selectedIndex) {
+            context.read<ResetPageCubit>().setPage(selectedIndex);
+          },
         ),
       ),
     );

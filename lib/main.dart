@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
           unselectedLabelStyle: TextStyle(color: audiusLightGrey, fontSize: 12),
         ),
       ),
-      home: Home(),
+      home: BlocWrapped(),
     );
   }
 }
