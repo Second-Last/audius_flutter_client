@@ -1,5 +1,8 @@
-import 'package:audius_flutter_client/pages/search.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:audius_flutter_client/pages/search.dart';
+import '../blocs/reset_page/reset_page.dart';
 import '../constants.dart';
 
 class SearchBar extends StatefulWidget {
@@ -99,9 +102,19 @@ class _SearchBarState extends State<SearchBar> with TickerProviderStateMixin {
                     color: audiusColor,
                   ),
                 ),
-                onTap: () => widget._navigatorKey.currentState!.popUntil(ModalRoute.withName('/')),
-                // Bruh I don't even know why this works... Figure this out! 
-                // Shouldn't the route '/' be one layer above?????
+                onTap: () {
+                  // widget._navigatorKey.currentState!
+                  //     .popUntil(ModalRoute.withName('/'));
+                  if (widget._navigatorKey.currentState!.canPop()) {
+                    widget._navigatorKey.currentState!
+                        .popUntil(ModalRoute.withName('/'));
+                    print('Returned to main route');
+                    // Bruh I don't even know why this works... Figure this out!
+                    // Shouldn't the route '/' be one layer above?????
+                  }
+                  print('I am not stuck!');
+                  context.read<ResetPageCubit>().reset();
+                },
               ),
             ),
           ),

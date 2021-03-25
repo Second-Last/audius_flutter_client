@@ -1,3 +1,7 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
 import 'pages/trending.dart';
 import 'pages/favorites.dart';
 import 'pages/explore.dart';
@@ -5,10 +9,10 @@ import 'pages/feed.dart';
 import 'pages/player.dart';
 import 'pages/account.dart';
 import 'constants.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'blocs/reset_page/reset_page.dart';
 
 class Home extends StatefulWidget {
+
   @override
   _HomeState createState() => _HomeState();
 }
@@ -60,94 +64,70 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         statusBarColor: Colors.transparent,
         statusBarIconBrightness: Brightness.dark,
       ),
-      child: Scaffold(
-        // appBar: AppBar(
-        //   leading: _currentIndex == 4
-        //       ? IconButton(
-        //           icon: Icon(Icons.settings),
-        //           onPressed: null,
-        //         )
-        //       : IconButton(
-        //           icon: Icon(Icons.notifications),
-        //           onPressed: null,
-        //         ),
-        //   title: Center(
-        //     child: TextButton(
-        //       child: Text(
-        //         'AUDIUS',
-        //         style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
-        //       ),
-        //       onPressed: () => setState(() => _changePage(1)),
-        //     ),
-        //   ),
-        //   actions: [
-        //     IconButton(
-        //       icon: Icon(
-        //         Icons.search,
-        //         color: audiusGrey,
-        //       ),
-        //       onPressed: () => null,
-        //     )
-        //   ],
-        //   toolbarHeight: 40,
-        // ),
-        body: SafeArea(
-          child: Stack(
-            children: <Widget>[
-              IndexedStack(
-                index: _currentIndex,
-                children: [
-                  Feed(),
-                  Trending(),
-                  Explore(),
-                  Favorites(),
-                  Account(),
+      child: BlocProvider(
+        create: (BuildContext context) => ResetPageCubit(0),
+        child: Scaffold(
+          body: SafeArea(
+            child: BlocListener<ResetPageCubit, int>(
+              listener: (context, state) => _changePage(state),
+              child: Stack(
+                children: <Widget>[
+                  IndexedStack(
+                    index: _currentIndex,
+                    children: [
+                      Feed(),
+                      Trending(),
+                      Explore(),
+                      Favorites(),
+                      Account(),
+                    ],
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    child: Player(),
+                  ),
                 ],
               ),
-              Positioned(
-                bottom: 0,
-                left: 0,
-                right: 0,
-                child: Player(),
+            ),
+          ),
+          bottomNavigationBar: BottomNavigationBar(
+            currentIndex: _currentIndex!,
+            iconSize: 28,
+            type: BottomNavigationBarType.fixed,
+            unselectedItemColor: audiusGrey,
+            selectedItemColor: audiusColor,
+            showSelectedLabels: false,
+            showUnselectedLabels: false,
+            backgroundColor: Colors.white,
+            items: [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.supervisor_account),
+                label: 'Feed',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.trending_up),
+                label: 'Trending',
+              ),
+              BottomNavigationBarItem(
+                icon: RotationTransition(
+                  turns: navBarAnimationControllers[0],
+                  child: Icon(Icons.explore),
+                ),
+                label: 'Browse',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.favorite),
+                label: 'Favorites',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.account_circle),
+                label: 'Account',
               ),
             ],
+            onTap: (selectedIndex) => _changePage(selectedIndex),
           ),
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _currentIndex!,
-          iconSize: 28,
-          type: BottomNavigationBarType.fixed,
-          unselectedItemColor: audiusGrey,
-          selectedItemColor: audiusColor,
-          showSelectedLabels: false,
-          showUnselectedLabels: false,
-          backgroundColor: Colors.white,
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.supervisor_account),
-              label: 'Feed',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.trending_up),
-              label: 'Trending',
-            ),
-            BottomNavigationBarItem(
-              icon: RotationTransition(
-                turns: navBarAnimationControllers[0],
-                child: Icon(Icons.explore),
-              ),
-              label: 'Browse',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.favorite),
-              label: 'Favorites',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.account_circle),
-              label: 'Account',
-            ),
-          ],
-          onTap: (selectedIndex) => _changePage(selectedIndex),
         ),
       ),
     );
