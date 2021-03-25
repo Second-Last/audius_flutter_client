@@ -56,7 +56,7 @@ const app_name = 'Audius Flutter Client';
   Math related
 */
 double cosineCurve (double value) {
-  return (1 / 8) * cos(2 * pi * value) + 7 / 8;
+  return (1 / 10) * cos(2 * pi * value) + 9 / 10;
 }
 
 

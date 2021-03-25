@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import '../constants.dart';
 
 class SearchBar extends StatefulWidget {
-  SearchBar(this._navigatorKey);
+  SearchBar(this._navigatorKey, this._topLevelKey);
 
   final GlobalKey<NavigatorState> _navigatorKey;
-  
+  final GlobalKey<NavigatorState> _topLevelKey;
+
   @override
   _SearchBarState createState() => _SearchBarState();
 }
@@ -99,7 +100,9 @@ class _SearchBarState extends State<SearchBar> with TickerProviderStateMixin {
                     color: audiusColor,
                   ),
                 ),
-                onTap: () => widget._navigatorKey.currentState!.pop()
+                onTap: () => widget._navigatorKey.currentState!.popUntil(ModalRoute.withName('/')),
+                // Bruh I don't even know why this works... Figure this out! 
+                // Shouldn't the route '/' be one layer above?????
               ),
             ),
           ),
