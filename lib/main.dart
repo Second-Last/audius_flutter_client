@@ -1,7 +1,10 @@
-import 'home.dart';
-import 'constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:audio_service/audio_service.dart';
+
+import 'home.dart';
+import 'constants.dart';
+
 
 void main() {
   runApp(MyApp());
@@ -32,7 +35,8 @@ class MyApp extends StatelessWidget {
           unselectedLabelStyle: TextStyle(color: audiusLightGrey, fontSize: 12),
         ),
       ),
-      home: BlocWrapped(),
+      home: AudioServiceWidget(child: BlocWrapped()),
     );
   }
 }
+

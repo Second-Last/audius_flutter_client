@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
+
 import 'package:audius_flutter_client/models/user.dart';
 import '../constants.dart';
 
@@ -48,7 +49,7 @@ class ProfileGrid extends StatelessWidget {
 Future<List<ProfileGrid>> gridBuilder(String query) async {
   var url = Uri.https('audius-metadata-2.figment.io', 'v1/users/search',
       {'query': '$query', 'app name': 'Audius Flutter Client'});
-  print('Current target url: ${url.toString()}');
+  // print('Current target url: ${url.toString()}');
 
   // Await the http get response, then decode the json-formatted response.
   var response = await http.get(url);

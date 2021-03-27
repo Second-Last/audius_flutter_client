@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:audio_service/audio_service.dart';
 
 import 'pages/trending.dart';
 import 'pages/favorites.dart';
@@ -55,7 +56,6 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       default:
         navBarAnimationControllers[0].reset();
     }
-    print("Page changed to $selectedIndex");
   }
 
   @override
@@ -77,6 +77,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       child: Scaffold(
         body: SafeArea(
           child: Stack(
+            alignment: AlignmentDirectional.bottomCenter,
             children: <Widget>[
               BlocListener<ResetPageCubit, int>(
                 listener: (context, state) => _changePage(state),
@@ -91,12 +92,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                   ],
                 ),
               ),
-              Positioned(
-                bottom: 0,
-                left: 0,
-                right: 0,
-                child: Player(),
-              ),
+              Player(),
             ],
           ),
         ),
