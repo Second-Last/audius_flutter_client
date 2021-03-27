@@ -1,3 +1,4 @@
+import 'package:audius_flutter_client/components/track_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:audius_flutter_client/components/profile_grid.dart';
@@ -86,10 +87,11 @@ class Search extends StatelessWidget {
                     child: TabBarView(
                       children: [
                         FutureBuilder(
+                          future: gridBuilder(search),
                           builder:
                               (BuildContext context, AsyncSnapshot snapshot) {
                             Widget body;
-                            print('Initialized userGrids');
+                            // print('Initialized userGrids');
                             if (snapshot.hasData) {
                               body = GridView.count(
                                 crossAxisCount: 2,
@@ -128,9 +130,51 @@ class Search extends StatelessWidget {
 
                             return body;
                           },
-                          future: gridBuilder(search),
                         ),
-                        Text('TRACKS'),
+                        FutureBuilder(
+                          future: trackCardBuilder(search),
+                          builder:
+                              (context, AsyncSnapshot<List<Widget>> snapshot) {
+                            Widget body;
+
+                            if (snapshot.hasData) {
+                              body = ListView(
+                                children: snapshot.data!,
+                              );
+                            } else if (snapshot.hasError) {
+                              print('Error: ${snapshot.error}');
+                              body = Column(
+                                children: [
+                                  Icon(
+                                    Icons.error_outline,
+                                    color: Colors.red,
+                                    size: 60,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 16),
+                                    child: Text('Error: ${snapshot.error}'),
+                                  ),
+                                ],
+                              );
+                            } else {
+                              body = Column(
+                                children: [
+                                  SizedBox(
+                                    child: CircularProgressIndicator(),
+                                    width: 60,
+                                    height: 60,
+                                  ),
+                                  const Padding(
+                                    padding: EdgeInsets.only(top: 16),
+                                    child: Text('Awaiting result...'),
+                                  ),
+                                ],
+                              );
+                            }
+
+                            return body;
+                          },
+                        ),
                         Text('ALBUM'),
                         Text('PLAYLISTS'),
                       ],

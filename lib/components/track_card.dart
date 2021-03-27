@@ -14,14 +14,16 @@ class TrackCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(5),
-      child: Card(
-        child: Column(
-          children: [
-            Image.network(targetTrack.artwork!['480x480']!),
-            // TODO: use StreamBuilder
-            Text('Track'),
-            Text('${targetTrack.playCount} Plays')
-          ],
+      child: GestureDetector(
+        child: Card(
+          child: Column(
+            children: [
+              Image.network(targetTrack.artwork!['150x150']!),
+              // TODO: use StreamBuilder
+              Text('Track'),
+              Text('${targetTrack.playCount} Plays')
+            ],
+          ),
         ),
       ),
     );

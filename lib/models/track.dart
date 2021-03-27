@@ -1,7 +1,7 @@
 import 'package:audius_flutter_client/models/user.dart';
 
 class Track {
-  final Map<String, String>? artwork;
+  final Map<String, dynamic>? artwork;
   final String? description;
   final String? genre;
   final String id;

@@ -125,7 +125,7 @@ class _FullPlayerState extends State<FullPlayer>
               StreamBuilder(
                   stream: AudioService.playbackStateStream,
                   builder: (context, snapshot) {
-                    final playing = snapshot.data?.playing ?? false;
+                    // final playing = snapshot.data?.playing ?? false;
 
                     return IconButton(
                         icon: AnimatedIcon(
