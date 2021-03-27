@@ -18,12 +18,19 @@ class AudioPlayerTask extends BackgroundAudioTask {
         processingState: AudioProcessingState.connecting);
     // TODO: Connect to the URL
     print('Ready to set audio source!');
-    await _audioPlayer.setAudioSource(
+    try {
+      // await _audioPlayer.setUrl('https://s3.amazonaws.com/scifri-episodes/scifri20181123-episode.mp3');
+      await _audioPlayer.setAudioSource(
       params['queue'],
       initialIndex: params['initialTrackIndex'],
+      preload: false,
     );
+    } catch (e) {
+      throw Exception(e);
+    }
+    print('Ready to play!');
     // Now we're ready to play
-    _audioPlayer.play();
+    await _audioPlayer.play();
     // Broadcast that we're playing, and what controls are available.
     AudioServiceBackground.setState(
       controls: [MediaControl.pause, MediaControl.stop],

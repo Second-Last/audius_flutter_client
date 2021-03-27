@@ -9,17 +9,17 @@ import 'package:audius_flutter_client/audio/convert2queue.dart';
 import 'package:audius_flutter_client/models/track.dart';
 import '../constants.dart';
 
+late ConcatenatingAudioSource _queue;
 
 class TrackCard extends StatelessWidget {
-  TrackCard(this.targetTrack, this.queue, this.selectedTrackIndex);
+  TrackCard(this.targetTrack, this.selectedTrackIndex);
 
   final Track targetTrack;
-  final ConcatenatingAudioSource queue;
   final int selectedTrackIndex;
 
   @override
   Widget build(BuildContext context) {
-    print('queue type: ${queue.runtimeType}');
+    print('queue type: ${_queue.runtimeType}');
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(5),
@@ -34,14 +34,19 @@ class TrackCard extends StatelessWidget {
             ],
           ),
         ),
-        onTap: () {
+        onTap: () async {
           if (AudioService.currentMediaItem == null) {
-            AudioService.start(
+            try {
+              print('Starting AudioService...');
+              await AudioService.start(
                 backgroundTaskEntrypoint: backgroundTaskEntrypoint,
                 params: {
-                  'queue': queue,
+                  'queue': _queue,
                   'initialTrackIndex': selectedTrackIndex,
                 });
+            } catch (e) {
+              throw Exception(e);
+            }
           } else {}
         },
       ),
@@ -59,13 +64,12 @@ Future<List<TrackCard>> trackCardBuilder(String query,
     List jsonResponse = convert.jsonDecode(response.body)['data'];
     List<Track> trackList =
         List.from(jsonResponse.map((track) => Track.fromJson(track)).toList());
-    ConcatenatingAudioSource queue = queueConverter(trackList);
-    print("${queue.runtimeType}");
+    _queue = queueConverter(trackList);
+    print("${_queue.runtimeType}");
     return jsonResponse
         .map(
           (track) => TrackCard(
             Track.fromJson(track),
-            queue,
             jsonResponse.indexOf(track),
           ),
         )

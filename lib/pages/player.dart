@@ -23,9 +23,6 @@ class _PlayerState extends State<Player> {
           return StreamBuilder(
               stream: AudioService.currentMediaItemStream,
               builder: (context, snapshot) {
-                if (!snapshot.hasData) {
-                  return SizedBox();
-                }
                 return OpenContainer(
                   closedBuilder: (context, action) {
                     return SmallPlayer();
@@ -34,7 +31,7 @@ class _PlayerState extends State<Player> {
                     return FullPlayer();
                   },
                   transitionType: ContainerTransitionType.fadeThrough,
-                  transitionDuration: Duration(milliseconds: 500),
+                  transitionDuration: Duration(milliseconds: 200),
                 );
               });
         });
