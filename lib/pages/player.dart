@@ -73,13 +73,31 @@ class _SmallPlayerState extends State<SmallPlayer>
           Spacer(),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: IconButton(
-              icon: AnimatedIcon(
-                icon: AnimatedIcons.play_pause,
-                progress: _animationController,
-              ),
-              iconSize: 40,
-              onPressed: () {},
+            child: StreamBuilder<PlaybackState>(
+              stream: AudioService.playbackStateStream,
+              builder: (context, snapshot) {
+                final playing = snapshot.data?.playing ?? false;
+                if (playing) {
+                  _animationController.forward();
+                } else {
+                  _animationController.reverse();
+                }
+
+                return GestureDetector(
+                  child: AnimatedIcon(
+                    icon: AnimatedIcons.play_pause,
+                    progress: _animationController,
+                    size: 40,
+                  ),
+                  onTap: () {
+                    if (playing) {
+                      AudioService.pause();
+                    } else {
+                      AudioService.play();
+                    }
+                  },
+                );
+              }
             ),
           )
         ],
