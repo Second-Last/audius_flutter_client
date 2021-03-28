@@ -23,7 +23,7 @@ class AudioPlayerTask extends BackgroundAudioTask {
 
     // AudioServiceBackground.setQueue(map2MediaItem(params!['queue']));
     print('Loading and broadcasting the queue...');
-    for (var mediaItem in map2MediaItem(params!['queue'])) {
+    for (var mediaItem in Parsing.map2MediaItem(params!['queue'])) {
       print('${AudioSource.uri(Uri.parse(mediaItem.extras!['stream']))}');
     }
     try {
@@ -34,7 +34,7 @@ class AudioPlayerTask extends BackgroundAudioTask {
       // );
       Future.delayed(Duration(seconds: 1));
       await _audioPlayer.setAudioSource(
-        ConcatenatingAudioSource(children: map2MediaItem(params['queue']).map((mediaItem) => AudioSource.uri(Uri.parse(mediaItem.extras!['stream']))).toList(),),
+        ConcatenatingAudioSource(children: Parsing.map2MediaItem(params['queue']).map((mediaItem) => AudioSource.uri(Uri.parse(mediaItem.extras!['stream']))).toList(),),
         initialIndex: params['initialTrackIndex'],
       );
     } catch (e) {

@@ -60,7 +60,7 @@ Future<List<TrackCard>> trackCardBuilder(String query,
     List jsonResponse = convert.jsonDecode(response.body)['data'];
     List<Track> trackList =
         List.from(jsonResponse.map((track) => Track.fromJson(track)).toList());
-    _queue = track2Map(trackList);
+    _queue = Parsing.track2Map(trackList);
     print("${_queue.runtimeType}");
     return jsonResponse
         .map(

@@ -1,8 +1,10 @@
 import 'package:audio_service/audio_service.dart';
 
 import 'package:audius_flutter_client/models/track.dart';
+import 'package:just_audio/just_audio.dart';
 
-List<Map<String, dynamic>> track2Map(List<Track> tracks) {
+class Parsing {
+  static List<Map<String, dynamic>> track2Map(List<Track> tracks) {
   try {
     return tracks
         .map((track) => {
@@ -11,7 +13,8 @@ List<Map<String, dynamic>> track2Map(List<Track> tracks) {
               'title': track.title,
               'artist': track.user.name,
               'artUri': track.artwork?['1000x1000'] ?? 'none',
-              'extras': 'https://discoveryprovider.audius3.prod-us-west-2.staked.cloud/v1/tracks/${track.id}/stream?app_name=EXAMPLEAPP'
+              'extras':
+                  'https://dp01.audius.endl.net/v1/tracks/${track.id}/stream?app_name=EXAMPLEAPP'
             })
         .toList();
   } catch (e) {
@@ -19,20 +22,36 @@ List<Map<String, dynamic>> track2Map(List<Track> tracks) {
   }
 }
 
-List<MediaItem> map2MediaItem(List<Map<String, dynamic>> maps) {
+static List<MediaItem> map2MediaItem(List<Map<String, dynamic>> maps) {
   try {
-    return maps.map((map) => MediaItem(
-      id: map['id'],
-      album: map['album'],
-      title: map['title'],
-      artist: map['artist'],
-      artUri: Uri.parse(map['artUri']),
-      extras: {'stream': Uri.parse(map['extras'])},
-    )).toList();
+    return maps
+        .map((map) => MediaItem(
+              id: map['id'],
+              album: map['album'],
+              title: map['title'],
+              artist: map['artist'],
+              artUri: Uri.parse(map['artUri']),
+              extras: {'stream': Uri.parse(map['extras'])},
+            ))
+        .toList();
   } catch (e) {
     throw Exception(e);
   }
 }
+
+static ConcatenatingAudioSource mediaItem2AudioSource(List<MediaItem> mediaItems) {
+  try {
+    return ConcatenatingAudioSource(
+      // children: mediaItems.map((mediaItem) => AudioSource.uri(mediaItem.extras!['stream'])).toList(),
+      children: mediaItems.map((item) => AudioSource.uri(Uri.parse(item.id))).toList(),
+    );
+  } catch (e) {
+    throw Exception(e);
+  }
+}
+}
+
+
 // class AudioMetadata {
 //   final String album;
 //   final String title;
