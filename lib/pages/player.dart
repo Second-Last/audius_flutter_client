@@ -23,6 +23,9 @@ class _PlayerState extends State<Player> {
           return StreamBuilder(
               stream: AudioService.currentMediaItemStream,
               builder: (context, snapshot) {
+                if (AudioService.currentMediaItem == null) {
+                  return SizedBox();
+                }
                 return OpenContainer(
                   closedBuilder: (context, action) {
                     return SmallPlayer();

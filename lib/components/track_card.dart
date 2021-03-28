@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:audio_service/audio_service.dart';
 
-import 'package:audius_flutter_client/audio/convert2queue.dart';
+import 'package:audius_flutter_client/audio/convert2media.dart';
 import 'package:audius_flutter_client/models/track.dart';
 import '../constants.dart';
 
-late ConcatenatingAudioSource _queue;
+late List<Map<String, dynamic>> _queue;
 
 class TrackCard extends StatelessWidget {
   TrackCard(this.targetTrack, this.selectedTrackIndex);
@@ -36,17 +36,13 @@ class TrackCard extends StatelessWidget {
         ),
         onTap: () async {
           if (AudioService.currentMediaItem == null) {
-            try {
-              print('Starting AudioService...');
-              await AudioService.start(
+            print('Starting AudioService...');
+            await AudioService.start(
                 backgroundTaskEntrypoint: backgroundTaskEntrypoint,
                 params: {
                   'queue': _queue,
                   'initialTrackIndex': selectedTrackIndex,
                 });
-            } catch (e) {
-              throw Exception(e);
-            }
           } else {}
         },
       ),
@@ -64,7 +60,7 @@ Future<List<TrackCard>> trackCardBuilder(String query,
     List jsonResponse = convert.jsonDecode(response.body)['data'];
     List<Track> trackList =
         List.from(jsonResponse.map((track) => Track.fromJson(track)).toList());
-    _queue = queueConverter(trackList);
+    _queue = track2Map(trackList);
     print("${_queue.runtimeType}");
     return jsonResponse
         .map(
@@ -75,7 +71,6 @@ Future<List<TrackCard>> trackCardBuilder(String query,
         )
         .toList();
   } else {
-    print('Request failed with status: ${response.statusCode}.');
     throw Exception('Request failed with status: ${response.statusCode}.');
   }
 }

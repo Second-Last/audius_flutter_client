@@ -27,7 +27,7 @@ dependencies:
     sdk: flutter
   flutter_bloc: ^7.0.0
   http: ^0.13.0
-  just_audio: ^0.7.2
+  just_audio: ^0.7.0
   # json_annotation: ^4.0.1
   rxdart: ^0.26.0
 
