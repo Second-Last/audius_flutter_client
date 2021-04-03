@@ -158,5 +158,10 @@ void main() {
         ]).children.map((e) => (e as UriAudioSource).uri).toList(),
       );
     });
+
+    test('track2ConcatenatingAudioSource test', () => expect(
+      Parsing.track2AudioSource(tracks).children.map((s) => (s as UriAudioSource).uri).toList(),
+      [Uri.parse('https://dp01.audius.endl.net/v1/tracks/${tracks[0].id}/stream?app_name=EXAMPLEAPP')]
+    ));
   });
 }
