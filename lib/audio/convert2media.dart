@@ -65,12 +65,6 @@ class Parsing {
                 "https://i1.sndcdn.com/artworks-000666434224-2kg26y-t500x500.jpg")))
         .toList();
   }
-
-  static ConcatenatingAudioSource track2AudioSource(List<Track> tracks) {
-    return ConcatenatingAudioSource(
-      children: tracks.map((track) => AudioSource.uri(Uri.parse('https://dp01.audius.endl.net/v1/tracks/${track.id}/stream?app_name=EXAMPLEAPP'))).toList()
-    );
-  }
 }
 
 // class AudioMetadata {

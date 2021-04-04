@@ -91,6 +91,6 @@ class AudioPlayerTask extends BackgroundAudioTask {
     queue['media'] = Parsing.track2MediaItem(tracks);
     queue['audio'] = null;
 
-    await AudioServiceBackground.setQueue(queue['media']);
+    AudioServiceBackground.setQueue(queue['media']);
   }
 }
