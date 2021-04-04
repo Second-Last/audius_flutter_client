@@ -1,18 +1,21 @@
 import 'dart:convert' as convert;
-import '../audio/audio_player_task.dart';
+import 'package:audius_flutter_client/audio/audio_player_task.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:audio_service/audio_service.dart';
 
+import 'package:audius_flutter_client/audio/convert2media.dart';
 import 'package:audius_flutter_client/models/track.dart';
 import '../constants.dart';
 
+late List<Map<String, dynamic>> _queue;
+
 class TrackCard extends StatelessWidget {
-  TrackCard(this.targetTrack, this.selectedTrackIndex, this._queue);
+  TrackCard(this.targetTrack, this.selectedTrackIndex);
 
   final Track targetTrack;
   final int selectedTrackIndex;
-  final List<Track> _queue;
 
   @override
   Widget build(BuildContext context) {
@@ -34,9 +37,12 @@ class TrackCard extends StatelessWidget {
         onTap: () async {
           if (AudioService.currentMediaItem == null) {
             print('Starting AudioService...');
-            AudioPlayerTask.updateCurrentQueue(_queue).then((value) async {
-              await AudioService.start(backgroundTaskEntrypoint: backgroundTaskEntrypoint);
-            });
+            await AudioService.start(
+                backgroundTaskEntrypoint: backgroundTaskEntrypoint,
+                params: {
+                  'queue': _queue,
+                  'initialTrackIndex': selectedTrackIndex,
+                });
           } else {}
         },
       ),
@@ -54,12 +60,13 @@ Future<List<TrackCard>> trackCardBuilder(String query,
     List jsonResponse = convert.jsonDecode(response.body)['data'];
     List<Track> trackList =
         List.from(jsonResponse.map((track) => Track.fromJson(track)).toList());
+    _queue = Parsing.track2Map(trackList);
+    print("${_queue.runtimeType}");
     return jsonResponse
         .map(
           (track) => TrackCard(
             Track.fromJson(track),
             jsonResponse.indexOf(track),
-            trackList,
           ),
         )
         .toList();
