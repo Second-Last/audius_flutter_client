@@ -10,11 +10,7 @@ void backgroundTaskEntrypoint() {
 
 class AudioPlayerTask extends BackgroundAudioTask {
   final _audioPlayer = AudioPlayer();
-  late Map<String, dynamic> queue = {
-    'track': null,
-    'media': null,
-    'audio': null,
-  };
+  static late Map<String, dynamic> _queue;
 
   @override
   Future<void> onStart(Map<String, dynamic>? params) async {
@@ -24,22 +20,18 @@ class AudioPlayerTask extends BackgroundAudioTask {
       playing: true,
       processingState: AudioProcessingState.connecting,
     );
-    // TODO: Connect to the URL
-    print('Ready to set audio source!');
 
-    print('Loading and broadcasting the queue...');
+    print('Ready to set audio source!');
     // await _audioPlayer.setAudioSource(
     //   AudioSource.uri(Uri.parse('https://s3.amazonaws.com/scifri-episodes/scifri20181123-episode.mp3')),
     //   preload: false,
     // );
-    await _audioPlayer.setAudioSource(
-      ConcatenatingAudioSource(
-        children: Parsing.map2MediaItem(params!['queue'])
-            .map((mediaItem) => AudioSource.uri(mediaItem.extras!['stream']))
-            .toList(),
-      ),
-      initialIndex: params['initialTrackIndex'],
-    );
+    await _audioPlayer.setAudioSource(_queue['audio']);
+    print('Successfully set audio source!');
+
+    print('Loading and broadcasting the queue...');
+    await AudioServiceBackground.setQueue(_queue['media']);
+    print('Successfully set queue!');
 
     print('Ready to play!');
     onPlay();
@@ -86,11 +78,11 @@ class AudioPlayerTask extends BackgroundAudioTask {
     await _audioPlayer.pause();
   }
 
-  Future<void> updateQueue(List<Track> tracks) async {
-    queue['track'] = tracks;
-    queue['media'] = Parsing.track2MediaItem(tracks);
-    queue['audio'] = null;
+  static Future<void> updateCurrentQueue(List<Track> tracks) async {
+    _queue['track'] = tracks;
+    _queue['media'] = Parsing.track2MediaItem(tracks);
+    _queue['audio'] = Parsing.track2AudioSource(tracks);
 
-    await AudioServiceBackground.setQueue(queue['media']);
+    print('Queue update complete!');
   }
 }
