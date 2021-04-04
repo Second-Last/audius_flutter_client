@@ -34,9 +34,9 @@ class TrackCard extends StatelessWidget {
         onTap: () async {
           if (AudioService.currentMediaItem == null) {
             print('Starting AudioService...');
-            AudioPlayerTask.updateCurrentQueue(_queue).then((value) async {
-              await AudioService.start(backgroundTaskEntrypoint: backgroundTaskEntrypoint);
-            });
+            await AudioPlayerTask.updateCurrentQueue(_queue);
+            print('Bruh~');
+            await AudioService.start(backgroundTaskEntrypoint: backgroundTaskEntrypoint);
           } else {}
         },
       ),

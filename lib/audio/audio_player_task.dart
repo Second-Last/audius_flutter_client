@@ -10,7 +10,9 @@ void backgroundTaskEntrypoint() {
 
 class AudioPlayerTask extends BackgroundAudioTask {
   final _audioPlayer = AudioPlayer();
-  static late Map<String, dynamic> _queue;
+  static late List<Track> _trackQueue;
+  static late List<MediaItem> _mediaItemQueue;
+  static late ConcatenatingAudioSource _audioSourceQueue;
 
   @override
   Future<void> onStart(Map<String, dynamic>? params) async {
@@ -26,12 +28,12 @@ class AudioPlayerTask extends BackgroundAudioTask {
     //   AudioSource.uri(Uri.parse('https://s3.amazonaws.com/scifri-episodes/scifri20181123-episode.mp3')),
     //   preload: false,
     // );
-    await _audioPlayer.setAudioSource(_queue['audio']);
-    print('Successfully set audio source!');
-
     print('Loading and broadcasting the queue...');
-    await AudioServiceBackground.setQueue(_queue['media']);
-    print('Successfully set queue!');
+    await AudioServiceBackground.setQueue(_mediaItemQueue);
+    print('Successfully set queue!');    
+    
+    await _audioPlayer.setAudioSource(_audioSourceQueue);
+    print('Successfully set audio source!');
 
     print('Ready to play!');
     onPlay();
@@ -79,9 +81,11 @@ class AudioPlayerTask extends BackgroundAudioTask {
   }
 
   static Future<void> updateCurrentQueue(List<Track> tracks) async {
-    _queue['track'] = tracks;
-    _queue['media'] = Parsing.track2MediaItem(tracks);
-    _queue['audio'] = Parsing.track2AudioSource(tracks);
+    _trackQueue = tracks;
+    _mediaItemQueue = Parsing.track2MediaItem(tracks);
+    Future.delayed(Duration(seconds: 10));
+    _audioSourceQueue = Parsing.track2AudioSource(tracks);
+    Future.delayed(Duration(seconds: 10));
 
     print('Queue update complete!');
   }
