@@ -40,7 +40,40 @@ void main() {
 
   group('Parsing tests:', () {
     List<Map<String, dynamic>> maps = Parsing.track2Map(tracks);
-    test('track2Map test', () => expect(maps[0]['id'], '12345'));
+    test(
+        'track2Map test',
+        () => expect(
+              maps,
+              [
+                {
+                  'id': '12345',
+                  'title': 'Lorem Ipsum',
+                  'album': 'Lorem Ipsum',
+                  'artist': 'string',
+                  'artUri':
+                      "https://i1.sndcdn.com/artworks-000666434224-2kg26y-t500x500.jpg",
+                  'extras':
+                      'https://dp01.audius.endl.net/v1/tracks/12345/stream?app_name=EXAMPLEAPP',
+                }
+              ],
+            ));
+
+    test(
+      'track2MediaItem test',
+      () => expect(
+        Parsing.track2MediaItem(tracks),
+        [
+          MediaItem(
+            id: '12345',
+            album: 'Lorem Ipsum',
+            title: 'Lorem Ipsum',
+            artist: 'string',
+            artUri: Uri.parse(
+                "https://i1.sndcdn.com/artworks-000666434224-2kg26y-t500x500.jpg"),
+          )
+        ],
+      ),
+    );
 
     List<MediaItem> mediaItems = Parsing.map2MediaItem(maps);
     test('map2MediaItem test', () {
@@ -49,6 +82,19 @@ void main() {
           mediaItems[0].extras!['stream'],
           Uri.parse(
               'https://dp01.audius.endl.net/v1/tracks/${tracks[0].id}/stream?app_name=EXAMPLEAPP'));
+      expect(mediaItems, [
+        MediaItem(
+            id: '12345',
+            album: 'Lorem Ipsum',
+            title: 'Lorem Ipsum',
+            artist: 'string',
+            artUri: Uri.parse(
+                "https://i1.sndcdn.com/artworks-000666434224-2kg26y-t500x500.jpg"),
+            extras: {
+              'stream':
+                  'https://dp01.audius.endl.net/v1/tracks/12345/stream?app_name=EXAMPLEAPP',
+            })
+      ]);
     });
 
     List<MediaItem> audioSource = <MediaItem>[
@@ -99,14 +145,17 @@ void main() {
     test('direct map2ConcatenatingAudioSource test', () {
       expect(
         ConcatenatingAudioSource(
-            children: List.of(Parsing.map2MediaItem(maps)
-                .map(
-                    (mediaItem) => AudioSource.uri(mediaItem.extras!['stream']))
-                .toList())),
+                children: List.of(Parsing.map2MediaItem(maps)
+                    .map((mediaItem) =>
+                        AudioSource.uri(mediaItem.extras!['stream']))
+                    .toList()))
+            .children
+            .map((e) => (e as UriAudioSource).uri)
+            .toList(),
         ConcatenatingAudioSource(children: [
           AudioSource.uri(Uri.parse(
               'https://dp01.audius.endl.net/v1/tracks/${tracks[0].id}/stream?app_name=EXAMPLEAPP'))
-        ]),
+        ]).children.map((e) => (e as UriAudioSource).uri).toList(),
       );
     });
   });
