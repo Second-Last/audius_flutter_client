@@ -10,9 +10,6 @@ void backgroundTaskEntrypoint() {
 
 class AudioPlayerTask extends BackgroundAudioTask {
   final _audioPlayer = AudioPlayer();
-  static late List<Track> _trackQueue;
-  static late List<MediaItem> _mediaItemQueue;
-  static late ConcatenatingAudioSource _audioSourceQueue;
 
   @override
   Future<void> onStart(Map<String, dynamic>? params) async {
@@ -23,26 +20,11 @@ class AudioPlayerTask extends BackgroundAudioTask {
       processingState: AudioProcessingState.connecting,
     );
 
-    print('Ready to set audio source!');
     // await _audioPlayer.setAudioSource(
     //   AudioSource.uri(Uri.parse('https://s3.amazonaws.com/scifri-episodes/scifri20181123-episode.mp3')),
     //   preload: false,
     // );
-    print('Loading and broadcasting the queue...');
-    await AudioServiceBackground.setQueue(_mediaItemQueue);
-    print('Successfully set queue!');    
-    
-    await _audioPlayer.setAudioSource(_audioSourceQueue);
-    print('Successfully set audio source!');
 
-    print('Ready to play!');
-    onPlay();
-    // Broadcast that we're playing, and what controls are available.
-    AudioServiceBackground.setState(
-      controls: [MediaControl.pause, MediaControl.stop],
-      playing: true,
-      processingState: AudioProcessingState.ready,
-    );
   }
 
   @override
@@ -80,13 +62,13 @@ class AudioPlayerTask extends BackgroundAudioTask {
     await _audioPlayer.pause();
   }
 
-  static Future<void> updateCurrentQueue(List<Track> tracks) async {
-    _trackQueue = tracks;
-    _mediaItemQueue = Parsing.track2MediaItem(tracks);
-    Future.delayed(Duration(seconds: 10));
-    _audioSourceQueue = Parsing.track2AudioSource(tracks);
-    Future.delayed(Duration(seconds: 10));
-
-    print('Queue update complete!');
+  @override
+  Future<void> onUpdateQueue(List<MediaItem> queue) async {
+    print('Loading and broadcasting the queue...');
+    AudioServiceBackground.setQueue(queue);
+    print('Successfully set queue!');
+    print('Ready to set audio source!');
+    await _audioPlayer.setAudioSource(Parsing.mediaItem2AudioSource(queue));
+    print('Successfully set audio source!');
   }
 }

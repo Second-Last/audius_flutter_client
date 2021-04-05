@@ -1,4 +1,6 @@
 import 'dart:convert' as convert;
+import 'package:audius_flutter_client/audio/convert2media.dart';
+
 import '../audio/audio_player_task.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -34,9 +36,10 @@ class TrackCard extends StatelessWidget {
         onTap: () async {
           if (AudioService.currentMediaItem == null) {
             print('Starting AudioService...');
-            await AudioPlayerTask.updateCurrentQueue(_queue);
-            print('Bruh~');
             await AudioService.start(backgroundTaskEntrypoint: backgroundTaskEntrypoint);
+            print('Initialization complete!');
+            await AudioService.updateQueue(Parsing.track2MediaItem(_queue));
+            AudioService.play();
           } else {}
         },
       ),

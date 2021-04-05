@@ -97,71 +97,43 @@ void main() {
       ]);
     });
 
-    List<MediaItem> audioSource = <MediaItem>[
-      MediaItem(
-        // This can be any unique id, but we use the audio URL for convenience.
-        id: "https://s3.amazonaws.com/scifri-episodes/scifri20181123-episode.mp3",
-        album: "Science Friday",
-        title: "A Salute To Head-Scratching Science",
-        artist: "Science Friday and WNYC Studios",
-        duration: Duration(milliseconds: 5739820),
-        artUri: Uri.parse(
-            "https://media.wnyc.org/i/1400/1400/l/80/1/ScienceFriday_WNYCStudios_1400.jpg"),
-      ),
-      MediaItem(
-        id: "https://s3.amazonaws.com/scifri-segments/scifri201711241.mp3",
-        album: "Science Friday",
-        title: "From Cat Rheology To Operatic Incompetence",
-        artist: "Science Friday and WNYC Studios",
-        duration: Duration(milliseconds: 2856950),
-        artUri: Uri.parse(
-            "https://media.wnyc.org/i/1400/1400/l/80/1/ScienceFriday_WNYCStudios_1400.jpg"),
-      ),
-    ];
+    test('mediaItem2ConcatenatedAudioSource test', () {
+      List<MediaItem> _mediaItems = [
+        MediaItem(id: '12345', album: 'Lorem Ipsum', title: 'Lorem Ipsum')
+      ];
 
-    ConcatenatingAudioSource concatenatingAudioSource =
-        ConcatenatingAudioSource(
-      children: audioSource
-          .map((item) => AudioSource.uri(Uri.parse(item.id)))
-          .toList(),
-    );
-
-    test('mediaItem2ConcatenatingAudioSource test', () {
       expect(
-        ConcatenatingAudioSource(
-          children: audioSource
-              .map((item) => AudioSource.uri(Uri.parse(item.id)))
-              .toList(),
-        ),
-        ConcatenatingAudioSource(children: [
-          AudioSource.uri(Uri.parse(
-              'https://s3.amazonaws.com/scifri-episodes/scifri20181123-episode.mp3')),
-          AudioSource.uri(Uri.parse(
-              "https://s3.amazonaws.com/scifri-segments/scifri201711241.mp3")),
-        ]),
-      );
-    });
-
-    test('direct map2ConcatenatingAudioSource test', () {
-      expect(
-        ConcatenatingAudioSource(
-                children: List.of(Parsing.map2MediaItem(maps)
-                    .map((mediaItem) =>
-                        AudioSource.uri(mediaItem.extras!['stream']))
-                    .toList()))
+        Parsing.mediaItem2AudioSource(_mediaItems)
             .children
-            .map((e) => (e as UriAudioSource).uri)
+            .map((s) => (s as UriAudioSource).uri)
             .toList(),
         ConcatenatingAudioSource(children: [
-          AudioSource.uri(Uri.parse(
-              'https://dp01.audius.endl.net/v1/tracks/${tracks[0].id}/stream?app_name=EXAMPLEAPP'))
-        ]).children.map((e) => (e as UriAudioSource).uri).toList(),
+          AudioSource.uri(
+              Uri.parse('https://creatornode.audius.co/tracks/stream/12345'))
+        ]).children.map((s) => (s as UriAudioSource).uri).toList(),
       );
     });
 
-    test('track2ConcatenatingAudioSource test', () => expect(
-      Parsing.track2AudioSource(tracks).children.map((s) => (s as UriAudioSource).uri).toList(),
-      [Uri.parse('https://dp01.audius.endl.net/v1/tracks/${tracks[0].id}/stream?app_name=EXAMPLEAPP')]
-    ));
+    // test('direct map2ConcatenatingAudioSource test', () {
+    //   expect(
+    //     ConcatenatingAudioSource(
+    //             children: List.of(Parsing.map2MediaItem(maps)
+    //                 .map((mediaItem) =>
+    //                     AudioSource.uri(mediaItem.extras!['stream']))
+    //                 .toList()))
+    //         .children
+    //         .map((e) => (e as UriAudioSource).uri)
+    //         .toList(),
+    //     ConcatenatingAudioSource(children: [
+    //       AudioSource.uri(Uri.parse(
+    //           'https://dp01.audius.endl.net/v1/tracks/${tracks[0].id}/stream?app_name=EXAMPLEAPP'))
+    //     ]).children.map((e) => (e as UriAudioSource).uri).toList(),
+    //   );
+    // });
+
+    // test('track2ConcatenatingAudioSource test', () => expect(
+    //   Parsing.track2AudioSource(tracks).children.map((s) => (s as UriAudioSource).uri).toList(),
+    //   [Uri.parse('https://dp01.audius.endl.net/v1/tracks/${tracks[0].id}/stream?app_name=EXAMPLEAPP')]
+    // ));
   });
 }

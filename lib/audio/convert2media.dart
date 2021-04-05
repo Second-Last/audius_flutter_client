@@ -46,8 +46,10 @@ class Parsing {
       return ConcatenatingAudioSource(
         // children: mediaItems.map((mediaItem) => AudioSource.uri(mediaItem.extras!['stream'])).toList(),
         children: mediaItems
-            .map((item) => AudioSource.uri(Uri.parse(item.id)))
-            .toList(),
+            .map((track) => AudioSource.uri(Uri.parse(
+                // 'https://creatornode.audius.co/tracks/stream/${track.id}')))
+                'https://s3.amazonaws.com/scifri-episodes/scifri20181123-episode.mp3')))
+            .toList()
       );
     } catch (e) {
       throw Exception(e);
@@ -68,8 +70,10 @@ class Parsing {
 
   static ConcatenatingAudioSource track2AudioSource(List<Track> tracks) {
     return ConcatenatingAudioSource(
-      children: tracks.map((track) => AudioSource.uri(Uri.parse('https://dp01.audius.endl.net/v1/tracks/${track.id}/stream?app_name=EXAMPLEAPP'))).toList()
-    );
+        children: tracks
+            .map((track) => AudioSource.uri(Uri.parse(
+                'https://dp01.audius.endl.net/v1/tracks/${track.id}/stream?app_name=EXAMPLEAPP')))
+            .toList());
   }
 }
 
