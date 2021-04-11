@@ -47,8 +47,8 @@ class Parsing {
         // children: mediaItems.map((mediaItem) => AudioSource.uri(mediaItem.extras!['stream'])).toList(),
         children: mediaItems
             .map((track) => AudioSource.uri(Uri.parse(
-                // 'https://creatornode.audius.co/tracks/stream/${track.id}')))
-                'https://s3.amazonaws.com/scifri-episodes/scifri20181123-episode.mp3')))
+                'https://creatornode.audius.co/tracks/stream/${track.id}')))
+                // 'https://s3.amazonaws.com/scifri-episodes/scifri20181123-episode.mp3')))
             .toList()
       );
     } catch (e) {

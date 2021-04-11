@@ -71,4 +71,9 @@ class AudioPlayerTask extends BackgroundAudioTask {
     await _audioPlayer.setAudioSource(Parsing.mediaItem2AudioSource(queue));
     print('Successfully set audio source!');
   }
+
+    @override
+  Future<void> onSkipToQueueItem(String mediaId) async {
+    
+  }
 }

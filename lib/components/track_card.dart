@@ -10,11 +10,12 @@ import 'package:audius_flutter_client/models/track.dart';
 import '../constants.dart';
 
 class TrackCard extends StatelessWidget {
-  TrackCard(this.targetTrack, this.selectedTrackIndex, this._queue);
+  TrackCard(this._targetTrack, this._selectedTrackIndex, this._queue);
 
-  final Track targetTrack;
-  final int selectedTrackIndex;
+  final Track _targetTrack;
+  final int _selectedTrackIndex;
   final List<Track> _queue;
+  late final List<MediaItem> _playList = Parsing.track2MediaItem(_queue);
 
   @override
   Widget build(BuildContext context) {
@@ -26,19 +27,27 @@ class TrackCard extends StatelessWidget {
         child: Card(
           child: Column(
             children: [
-              Image.network(targetTrack.artwork!['150x150']!),
+              Image.network(_targetTrack.artwork!['150x150']!),
               // TODO: use StreamBuilder
-              Text('Track $selectedTrackIndex'),
-              Text('UID: ${targetTrack.user.id}')
+              Text('Track $_selectedTrackIndex'),
+              Text('UID: ${_targetTrack.user.id}')
             ],
           ),
         ),
         onTap: () async {
           if (AudioService.currentMediaItem == null) {
             print('Starting AudioService...');
-            await AudioService.start(backgroundTaskEntrypoint: backgroundTaskEntrypoint);
+            await AudioService.start(
+              backgroundTaskEntrypoint: backgroundTaskEntrypoint,
+              androidNotificationChannelName: 'Audio Service Demo',
+              androidNotificationColor: 0xFF6A1B9A,
+              androidNotificationIcon: 'mipmap/ic_launcher',
+              androidEnableQueue: true,
+            );
             print('Initialization complete!');
-            await AudioService.updateQueue(Parsing.track2MediaItem(_queue));
+            await AudioService.updateQueue(_playList);
+            print('Queue update complete!');
+            await AudioService.skipToQueueItem(_targetTrack.id);
             AudioService.play();
           } else {}
         },
