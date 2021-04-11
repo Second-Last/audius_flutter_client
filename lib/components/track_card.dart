@@ -35,7 +35,9 @@ class TrackCard extends StatelessWidget {
           ),
         ),
         onTap: () async {
+          // TODO: detect if it's the same playlist, then choose to reset,
           if (AudioService.currentMediaItem == null) {
+            // Audio hasn't been played before
             print('Starting AudioService...');
             await AudioService.start(
               backgroundTaskEntrypoint: backgroundTaskEntrypoint,
@@ -49,7 +51,19 @@ class TrackCard extends StatelessWidget {
             print('Queue update complete!');
             await AudioService.skipToQueueItem(_targetTrack.id);
             AudioService.play();
-          } else {}
+          } else {
+            // Already playing/started
+            if (_playList != AudioService.queue) {
+              print('We\'re at a different playlist!');
+              await AudioService.updateQueue(_playList);
+            }
+            if (AudioService.currentMediaItem !=
+                _playList[_selectedTrackIndex]) {
+              print('We\'re about to play a different song!');
+              await AudioService.skipToQueueItem(_targetTrack.id);
+              AudioService.play();
+            }
+          }
         },
       ),
     );
