@@ -37,13 +37,8 @@ dev_dependencies:
     sdk: flutter
   # json_serializable: ^4.1.0
 
-# For information on the generic Dart part of this file, see the
-# following page: https://dart.dev/tools/pub/pubspec
-
-# The following section is specific to Flutter.
 flutter:
   uses-material-design: true
-
   fonts:
       - family: 'Avenir Next LT Pro'
         fonts:

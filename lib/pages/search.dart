@@ -99,32 +99,36 @@ class Search extends StatelessWidget {
                               );
                             } else if (snapshot.hasError) {
                               print('Error: ${snapshot.error}');
-                              body = Column(
-                                children: [
-                                  Icon(
-                                    Icons.error_outline,
-                                    color: Colors.red,
-                                    size: 60,
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 16),
-                                    child: Text('Error: ${snapshot.error}'),
-                                  ),
-                                ],
+                              body = Center(
+                                child: Column(
+                                  children: [
+                                    Icon(
+                                      Icons.error_outline,
+                                      color: Colors.red,
+                                      size: 60,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 16),
+                                      child: Text('Error: ${snapshot.error}'),
+                                    ),
+                                  ],
+                                ),
                               );
                             } else {
-                              body = Column(
-                                children: [
-                                  SizedBox(
-                                    child: CircularProgressIndicator(),
-                                    width: 60,
-                                    height: 60,
-                                  ),
-                                  const Padding(
-                                    padding: EdgeInsets.only(top: 16),
-                                    child: Text('Awaiting result...'),
-                                  ),
-                                ],
+                              body = Center(
+                                child: Column(
+                                  children: [
+                                    SizedBox(
+                                      child: CircularProgressIndicator(),
+                                      width: 60,
+                                      height: 60,
+                                    ),
+                                    const Padding(
+                                      padding: EdgeInsets.only(top: 16),
+                                      child: Text('Awaiting result...'),
+                                    ),
+                                  ],
+                                ),
                               );
                             }
 

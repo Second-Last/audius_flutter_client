@@ -19,52 +19,56 @@ class TrackCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('queue type: ${_queue.runtimeType}');
-
     return ClipRRect(
       borderRadius: BorderRadius.circular(5),
-      child: GestureDetector(
-        child: Card(
-          child: Column(
-            children: [
-              Image.network(_targetTrack.artwork!['150x150']!),
-              // TODO: use StreamBuilder
-              Text('Track $_selectedTrackIndex'),
-              Text('UID: ${_targetTrack.user.id}')
-            ],
-          ),
-        ),
-        onTap: () async {
-          // TODO: detect if it's the same playlist, then choose to reset,
-          if (AudioService.currentMediaItem == null) {
-            // Audio hasn't been played before
-            print('Starting AudioService...');
-            await AudioService.start(
-              backgroundTaskEntrypoint: backgroundTaskEntrypoint,
-              androidNotificationChannelName: 'Audio Service Demo',
-              androidNotificationColor: 0xFF6A1B9A,
-              androidNotificationIcon: 'mipmap/ic_launcher',
-              androidEnableQueue: true,
-            );
-            print('Initialization complete!');
-            await AudioService.updateQueue(_playList);
-            print('Queue update complete!');
-            await AudioService.skipToQueueItem(_targetTrack.id);
-            AudioService.play();
-          } else {
-            // Already playing/started
-            if (_playList != AudioService.queue) {
-              print('We\'re at a different playlist!');
-              await AudioService.updateQueue(_playList);
-            }
-            if (AudioService.currentMediaItem !=
-                _playList[_selectedTrackIndex]) {
-              print('We\'re about to play a different song!');
-              await AudioService.skipToQueueItem(_targetTrack.id);
-              AudioService.play();
-            }
-          }
-        },
+      child: StreamBuilder(
+        stream: AudioService.currentMediaItemStream,
+        builder: (context, snapshot) {
+          return GestureDetector(
+            child: Card(
+              child: Column(
+                children: [
+                  Image.network(_targetTrack.artwork!['150x150']!),
+                  // TODO: use StreamBuilder
+                  Text('Track $_selectedTrackIndex'),
+                  Text('UID: ${_targetTrack.user.id}')
+                ],
+              ),
+            ),
+            onTap: () async {
+              // TODO: detect if it's the same playlist, then choose to reset,
+              if (!snapshot.hasData) {
+                // Audio hasn't been played before
+                print('Starting AudioService...');
+                await AudioService.start(
+                  backgroundTaskEntrypoint: backgroundTaskEntrypoint,
+                  androidNotificationChannelName: 'Audio Service Demo',
+                  androidNotificationColor: 0xFF6A1B9A,
+                  androidNotificationIcon: 'mipmap/ic_launcher',
+                  androidEnableQueue: true,
+                );
+                await AudioService.updateQueue(_playList);
+                await AudioService.skipToQueueItem(_targetTrack.id);
+                AudioService.play();
+              } else {
+                // // Already playing/started
+                // if (_playList != AudioService.queue) {
+                //   print('We\'re at a different playlist!');
+                //   await AudioService.updateQueue(_playList);
+                // }
+                if (snapshot.data !=
+                    _playList[_selectedTrackIndex]) {
+                  print(
+                      'Currently playing ${AudioService.currentMediaItem!.title} by ${AudioService.currentMediaItem!.artist}');
+                  print('We\'re going to play ${_playList[_selectedTrackIndex].title} with ID ${_playList[_selectedTrackIndex].id}');
+                  print('We\'re about to play a different song!');
+                  await AudioService.skipToQueueItem(_targetTrack.id);
+                  AudioService.play();
+                }
+              }
+            },
+          );
+        }
       ),
     );
   }

@@ -4,7 +4,6 @@ import 'package:audio_service/audio_service.dart';
 import 'package:just_audio/just_audio.dart';
 
 import 'package:audius_flutter_client/audio/convert2media.dart';
-import 'package:audius_flutter_client/models/track.dart';
 
 void backgroundTaskEntrypoint() {
   AudioServiceBackground.run(() => AudioPlayerTask());
@@ -80,12 +79,10 @@ class AudioPlayerTask extends BackgroundAudioTask {
 
   @override
   Future<void> onUpdateQueue(List<MediaItem> _mediaItems) async {
-    print('Loading and broadcasting the queue...');
     AudioServiceBackground.setQueue(_queue = _mediaItems);
-    print('Successfully set queue!');
-    print('Ready to set audio source!');
-    await _audioPlayer.setAudioSource(Parsing.mediaItem2AudioSource(_mediaItems));
-    print('Successfully set audio source!');
+    await _audioPlayer
+        .setAudioSource(Parsing.mediaItem2AudioSource(_mediaItems));
+    print('Successfully updated audio source!');
   }
 
   @override

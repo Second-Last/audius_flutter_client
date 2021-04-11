@@ -54,7 +54,7 @@ class _SmallPlayerState extends State<SmallPlayer>
     with SingleTickerProviderStateMixin {
   late final AnimationController _animationController = AnimationController(
     vsync: this,
-    duration: Duration(seconds: 1),
+    duration: Duration(milliseconds: 250),
   );
 
   @override
