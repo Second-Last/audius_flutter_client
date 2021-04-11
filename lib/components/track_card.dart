@@ -22,55 +22,59 @@ class TrackCard extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(5),
       child: StreamBuilder<QueueState>(
-        stream: queueStateStream,
-        initialData: null,
-        builder: (context, snapshot) {
-          return GestureDetector(
-            child: Card(
-              child: Column(
-                children: [
-                  Image.network(_targetTrack.artwork!['150x150']!),
-                  // TODO: use StreamBuilder
-                  Text('Track $_selectedTrackIndex'),
-                  Text('UID: ${_targetTrack.user.id}')
-                ],
+          stream: queueStateStream,
+          initialData: null,
+          builder: (context, snapshot) {
+            return GestureDetector(
+              child: Card(
+                child: Column(
+                  children: [
+                    Image.network(_targetTrack.artwork!['150x150']!),
+                    // TODO: use StreamBuilder
+                    Text('Track $_selectedTrackIndex'),
+                    Text('UID: ${_targetTrack.user.id}')
+                  ],
+                ),
               ),
-            ),
-            onTap: () async {
-              // TODO: detect if it's the same playlist, then choose to reset,
-              if (snapshot.data == null || !AudioService.running) {
-                // Audio hasn't been played before
-                print('Starting AudioService...');
-                await AudioService.start(
-                  backgroundTaskEntrypoint: backgroundTaskEntrypoint,
-                  androidNotificationChannelName: 'Audio Service Demo',
-                  androidNotificationColor: 0xFF6A1B9A,
-                  androidNotificationIcon: 'mipmap/ic_launcher',
-                  androidEnableQueue: true,
-                );
-                await AudioService.updateQueue(_playList);
-                await AudioService.skipToQueueItem(_targetTrack.id);
-                AudioService.play();
-              } else {
-                // Already playing/started
-                if (_playList != snapshot.data!.queue!) {
-                  print('Actual playlist: ${_playList[0].id}');
-                  print('Playlist in stream: ${snapshot.data!.queue![0].id}');
-                  print('We\'re at a different playlist!');
-                  await AudioService.pause();
+              onTap: () async {
+                // TODO: detect if it's the same playlist, then choose to reset,
+                if (snapshot.data == null || !AudioService.running) {
+                  // Audio hasn't been played before
+                  print('Starting AudioService...');
+                  await AudioService.start(
+                    backgroundTaskEntrypoint: backgroundTaskEntrypoint,
+                    androidNotificationChannelName: 'Audio Service Demo',
+                    androidNotificationColor: 0xFF6A1B9A,
+                    androidNotificationIcon: 'mipmap/ic_launcher',
+                    androidEnableQueue: true,
+                  );
                   await AudioService.updateQueue(_playList);
-                }
-                if (snapshot.data!.mediaItem !=
-                    _playList[_selectedTrackIndex]) {
-                  print('We\'re about to play a different song!');
                   await AudioService.skipToQueueItem(_targetTrack.id);
                   AudioService.play();
+                } else {
+                  // Check if we are repeating playlist
+                  // Simply comparing don't work cuz of audio_service's conversion
+                  bool repeatingPlayList = true;
+                  for (var i = 0; i < snapshot.data!.queue!.length; i++) {
+                    if (_playList[i].id != snapshot.data!.queue![i].id) {
+                      repeatingPlayList = false;
+                      break;
+                    }
+                  }
+                  // Already playing/started
+                  if (!repeatingPlayList) {
+                    await AudioService.pause();
+                    await AudioService.updateQueue(_playList);
+                  }
+                  if (snapshot.data!.mediaItem !=
+                      _playList[_selectedTrackIndex]) {
+                    await AudioService.skipToQueueItem(_targetTrack.id);
+                    AudioService.play();
+                  }
                 }
-              }
-            },
-          );
-        }
-      ),
+              },
+            );
+          }),
     );
   }
 }
