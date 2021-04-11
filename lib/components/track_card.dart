@@ -21,8 +21,9 @@ class TrackCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(5),
-      child: StreamBuilder(
-        stream: AudioService.currentMediaItemStream,
+      child: StreamBuilder<QueueState>(
+        stream: queueStateStream,
+        initialData: null,
         builder: (context, snapshot) {
           return GestureDetector(
             child: Card(
@@ -37,7 +38,7 @@ class TrackCard extends StatelessWidget {
             ),
             onTap: () async {
               // TODO: detect if it's the same playlist, then choose to reset,
-              if (!snapshot.hasData) {
+              if (snapshot.data == null || !AudioService.running) {
                 // Audio hasn't been played before
                 print('Starting AudioService...');
                 await AudioService.start(
@@ -51,16 +52,16 @@ class TrackCard extends StatelessWidget {
                 await AudioService.skipToQueueItem(_targetTrack.id);
                 AudioService.play();
               } else {
-                // // Already playing/started
-                // if (_playList != AudioService.queue) {
-                //   print('We\'re at a different playlist!');
-                //   await AudioService.updateQueue(_playList);
-                // }
-                if (snapshot.data !=
+                // Already playing/started
+                if (_playList != snapshot.data!.queue!) {
+                  print('Actual playlist: ${_playList[0].id}');
+                  print('Playlist in stream: ${snapshot.data!.queue![0].id}');
+                  print('We\'re at a different playlist!');
+                  await AudioService.pause();
+                  await AudioService.updateQueue(_playList);
+                }
+                if (snapshot.data!.mediaItem !=
                     _playList[_selectedTrackIndex]) {
-                  print(
-                      'Currently playing ${AudioService.currentMediaItem!.title} by ${AudioService.currentMediaItem!.artist}');
-                  print('We\'re going to play ${_playList[_selectedTrackIndex].title} with ID ${_playList[_selectedTrackIndex].id}');
                   print('We\'re about to play a different song!');
                   await AudioService.skipToQueueItem(_targetTrack.id);
                   AudioService.play();

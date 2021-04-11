@@ -15,28 +15,21 @@ class _PlayerState extends State<Player> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-        stream: AudioService.runningStream,
+        stream: AudioService.currentMediaItemStream,
         builder: (context, snapshot) {
-          if (snapshot.connectionState != ConnectionState.active) {
+          if (AudioService.currentMediaItem == null) {
             return SizedBox();
           }
-          return StreamBuilder(
-              stream: AudioService.currentMediaItemStream,
-              builder: (context, snapshot) {
-                if (AudioService.currentMediaItem == null) {
-                  return SizedBox();
-                }
-                return OpenContainer(
-                  closedBuilder: (context, action) {
-                    return SmallPlayer();
-                  },
-                  openBuilder: (context, action) {
-                    return FullPlayer();
-                  },
-                  transitionType: ContainerTransitionType.fadeThrough,
-                  transitionDuration: Duration(milliseconds: 200),
-                );
-              });
+          return OpenContainer(
+            closedBuilder: (context, action) {
+              return SmallPlayer();
+            },
+            openBuilder: (context, action) {
+              return FullPlayer();
+            },
+            transitionType: ContainerTransitionType.fadeThrough,
+            transitionDuration: Duration(milliseconds: 200),
+          );
         });
   }
 }
@@ -66,39 +59,47 @@ class _SmallPlayerState extends State<SmallPlayer>
       ),
       child: Row(
         children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: Text('My Song'),
+          Expanded(
+            child: StreamBuilder<QueueState>(
+                stream: queueStateStream,
+                builder: (context, snapshot) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: Text(
+                      '${snapshot.data!.mediaItem!.title}',
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    ),
+                  );
+                }),
           ),
-          Spacer(),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: StreamBuilder<PlaybackState>(
-              stream: AudioService.playbackStateStream,
-              builder: (context, snapshot) {
-                final playing = snapshot.data?.playing ?? false;
-                if (playing) {
-                  _animationController.forward();
-                } else {
-                  _animationController.reverse();
-                }
-
-                return GestureDetector(
-                  child: AnimatedIcon(
-                    icon: AnimatedIcons.play_pause,
-                    progress: _animationController,
-                    size: 40,
-                  ),
-                  onTap: () {
-                    if (playing) {
-                      AudioService.pause();
-                    } else {
-                      AudioService.play();
-                    }
-                  },
-                );
-              }
-            ),
+                stream: AudioService.playbackStateStream,
+                builder: (context, snapshot) {
+                  final playing = snapshot.data?.playing ?? false;
+                  if (playing) {
+                    _animationController.forward();
+                  } else {
+                    _animationController.reverse();
+                  }
+                  
+                  return GestureDetector(
+                    child: AnimatedIcon(
+                      icon: AnimatedIcons.play_pause,
+                      progress: _animationController,
+                      size: 40,
+                    ),
+                    onTap: () {
+                      if (playing) {
+                        AudioService.pause();
+                      } else {
+                        AudioService.play();
+                      }
+                    },
+                  );
+                }),
           )
         ],
       ),

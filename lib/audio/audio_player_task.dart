@@ -4,6 +4,7 @@ import 'package:audio_service/audio_service.dart';
 import 'package:just_audio/just_audio.dart';
 
 import 'package:audius_flutter_client/audio/convert2media.dart';
+import 'package:rxdart/rxdart.dart';
 
 void backgroundTaskEntrypoint() {
   AudioServiceBackground.run(() => AudioPlayerTask());
@@ -14,7 +15,7 @@ class AudioPlayerTask extends BackgroundAudioTask {
   var _queue = <MediaItem>[];
   AudioProcessingState? _skipState;
   // Seeker? _seeker;
-  late StreamSubscription<PlaybackEvent> _eventSubscription;
+  // late StreamSubscription<PlaybackEvent> _eventSubscription;
 
   List<MediaItem> get queue => _queue;
   int? get index => _audioPlayer.currentIndex;
@@ -138,3 +139,18 @@ class AudioPlayerTask extends BackgroundAudioTask {
     }
   }
 }
+
+// A stream reporting the combined state of the current queue and the current
+// media item within that queue.
+class QueueState {
+  final List<MediaItem>? queue;
+  final MediaItem? mediaItem;
+
+  QueueState(this.queue, this.mediaItem);
+}
+
+Stream<QueueState> get queueStateStream =>
+    Rx.combineLatest2<List<MediaItem>?, MediaItem?, QueueState>(
+        AudioService.queueStream,
+        AudioService.currentMediaItemStream,
+        (queue, mediaItem) => QueueState(queue, mediaItem));
