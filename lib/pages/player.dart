@@ -1,3 +1,4 @@
+import 'package:audius_flutter_client/components/seekbar.dart';
 import 'package:flutter/material.dart';
 import 'package:animations/animations.dart';
 import 'package:audio_service/audio_service.dart';
@@ -9,6 +10,7 @@ import '../constants.dart';
 class Player extends StatefulWidget {
   @override
   _PlayerState createState() => _PlayerState();
+  GlobalKey<NavigatorState> get _navigatorKey => GlobalKey<NavigatorState>();
 }
 
 class _PlayerState extends State<Player> {
@@ -25,10 +27,13 @@ class _PlayerState extends State<Player> {
               return SmallPlayer();
             },
             openBuilder: (context, action) {
-              return FullPlayer();
+              return FullPlayer(
+                close: action,
+                navigatorKey: widget._navigatorKey,
+              );
             },
             transitionType: ContainerTransitionType.fadeThrough,
-            transitionDuration: Duration(milliseconds: 200),
+            transitionDuration: Duration(milliseconds: 500),
           );
         });
   }
@@ -84,7 +89,7 @@ class _SmallPlayerState extends State<SmallPlayer>
                   } else {
                     _animationController.reverse();
                   }
-                  
+
                   return GestureDetector(
                     child: AnimatedIcon(
                       icon: AnimatedIcons.play_pause,
@@ -109,8 +114,13 @@ class _SmallPlayerState extends State<SmallPlayer>
 
 class FullPlayer extends StatefulWidget {
   const FullPlayer({
+    required this.close,
+    required this.navigatorKey,
     Key? key,
   }) : super(key: key);
+
+  final Function close;
+  final GlobalKey<NavigatorState> navigatorKey;
 
   @override
   _FullPlayerState createState() => _FullPlayerState();
@@ -120,8 +130,10 @@ class _FullPlayerState extends State<FullPlayer>
     with SingleTickerProviderStateMixin {
   late final AnimationController _animationController = AnimationController(
     vsync: this,
-    duration: Duration(seconds: 1),
+    duration: Duration(milliseconds: 250),
   );
+
+  var myKey = GlobalKey<NavigatorState>();
 
   @override
   Widget build(BuildContext context) {
@@ -133,48 +145,92 @@ class _FullPlayerState extends State<FullPlayer>
               Icons.arrow_downward,
               color: audiusGrey,
             ),
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => myKey.currentState!.pop(),
           ),
+          title: Text(
+            'NOW PLAYING',
+            style: TextStyle(
+              fontWeight: FontWeight.w800,
+              color: audiusGrey,
+            ),
+          ),
+          centerTitle: true,
         ),
-        body: Container(
-          alignment: Alignment.center,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              StreamBuilder(
-                  stream: AudioService.playbackStateStream,
-                  builder: (context, snapshot) {
-                    // final playing = snapshot.data?.playing ?? false;
+        body: StreamBuilder<QueueState>(
+            stream: queueStateStream,
+            builder: (context, queueSnapshot) {
+              return Container(
+                alignment: Alignment.center,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(25),
+                      child: Image.network(
+                          queueSnapshot.data!.mediaItem!.artUri!.toString()),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 30),
+                      child: Text(
+                        '${queueSnapshot.data!.mediaItem!.title}',
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        '${queueSnapshot.data!.mediaItem!.artist}',
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                      ),
+                    ),
+                    StreamBuilder<PlaybackState>(
+                        stream: AudioService.playbackStateStream,
+                        builder: (context, snapshot) {
+                          final playing = snapshot.data?.playing ?? false;
+                          if (playing) {
+                            _animationController.forward();
+                          } else {
+                            _animationController.reverse();
+                          }
 
-                    return IconButton(
-                        icon: AnimatedIcon(
-                          icon: AnimatedIcons.play_pause,
-                          progress: _animationController,
-                        ),
-                        onPressed: () {});
-                  }),
-              Text('Player!')
-            ],
-          ),
-        ),
+                          return GestureDetector(
+                            child: AnimatedIcon(
+                              icon: AnimatedIcons.play_pause,
+                              progress: _animationController,
+                              size: 100,
+                            ),
+                            onTap: () {
+                              if (playing) {
+                                AudioService.pause();
+                              } else {
+                                AudioService.play();
+                              }
+                            },
+                          );
+                        }),
+                    StreamBuilder<MediaState>(
+                    stream: mediaStateStream,
+                    builder: (context, snapshot) {
+                      final mediaState = snapshot.data;
+                      return SeekBar(
+                        duration:
+                            mediaState?.mediaItem?.duration ?? Duration.zero,
+                        position: mediaState?.position ?? Duration.zero,
+                        onChangeEnd: (newPosition) {
+                          AudioService.seekTo(newPosition);
+                        },
+                      );
+                    },
+                  ),
+                    Text('Control Buttons Here!'),
+                  ],
+                ),
+              );
+            }),
       ),
-      onVerticalDragDown: (dragDownDetails) => Navigator.pop(context),
+      // onVerticalDragDown: (dragDownDetails) => Navigator.pop(context),
     );
   }
-}
-
-play() async {
-  if (await AudioService.running) {
-    AudioService.play();
-  } else {
-    AudioService.start(backgroundTaskEntrypoint: _backgroundTaskEntrypoint);
-  }
-}
-
-pause() => AudioService.pause();
-
-stop() => AudioService.stop();
-
-_backgroundTaskEntrypoint() {
-  AudioServiceBackground.run(() => AudioPlayerTask());
 }

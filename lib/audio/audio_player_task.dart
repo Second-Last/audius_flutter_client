@@ -48,10 +48,11 @@ class AudioPlayerTask extends BackgroundAudioTask {
     // Stop playing audio.
     _audioPlayer.stop();
     // Broadcast that we've stopped.
-    await AudioServiceBackground.setState(
-        controls: [],
-        playing: false,
-        processingState: AudioProcessingState.stopped);
+    await _broadcastState();
+    // await AudioServiceBackground.setState(
+    //     controls: [],
+    //     playing: false,
+    //     processingState: AudioProcessingState.stopped);
     // Shut down this background task
     await super.onStop();
   }
@@ -96,6 +97,9 @@ class AudioPlayerTask extends BackgroundAudioTask {
     _audioPlayer.seek(Duration.zero, index: newIndex);
     // await _audioPlayer.seekToNext();
   }
+
+  @override
+  Future<void> onSeekTo(Duration position) => _audioPlayer.seek(position);
 
   /// Broadcasts the current state to all clients.
   Future<void> _broadcastState() async {
@@ -154,3 +158,16 @@ Stream<QueueState> get queueStateStream =>
         AudioService.queueStream,
         AudioService.currentMediaItemStream,
         (queue, mediaItem) => QueueState(queue, mediaItem));
+
+class MediaState {
+  final MediaItem? mediaItem;
+  final Duration position;
+
+  MediaState(this.mediaItem, this.position);
+}
+
+Stream<MediaState> get mediaStateStream =>
+    Rx.combineLatest2<MediaItem?, Duration, MediaState>(
+        AudioService.currentMediaItemStream,
+        AudioService.positionStream,
+        (mediaItem, position) => MediaState(mediaItem, position));
