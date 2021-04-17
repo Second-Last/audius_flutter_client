@@ -1,3 +1,4 @@
+import 'package:audius_flutter_client/pages/full_player.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,6 +10,7 @@ import 'pages/explore.dart';
 import 'pages/feed.dart';
 import 'pages/player.dart';
 import 'pages/account.dart';
+import 'pages/full_player.dart' as player;
 import 'constants.dart';
 import 'blocs/reset_page/reset_page.dart';
 
@@ -89,6 +91,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                     Explore(),
                     Favorites(),
                     Account(),
+                    player.FullPlayer(),
                   ],
                 ),
               ),
@@ -129,6 +132,10 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
               icon: Icon(Icons.account_circle),
               label: 'Account',
             ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.playlist_play),
+              label: 'Player',
+            )
           ],
           onTap: (selectedIndex) {
             context.read<ResetPageCubit>().setPage(selectedIndex);
