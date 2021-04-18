@@ -63,6 +63,7 @@ class Parsing {
             album: track.title,
             title: track.title,
             artist: track.user.name,
+            duration: track.duration,
             artUri: Uri.parse(track.artwork?['1000x1000'] ??
                 "https://i1.sndcdn.com/artworks-000666434224-2kg26y-t500x500.jpg")))
         .toList();

@@ -15,11 +15,11 @@ class AudioPlayerTask extends BackgroundAudioTask {
   AudioPlayer _audioPlayer = new AudioPlayer();
   AudioProcessingState? _skipState;
   var _queue = <MediaItem>[];
-  Seeker? _seeker;
+//   Seeker? _seeker;
   late StreamSubscription<PlaybackEvent> _eventSubscription;
 
   List<MediaItem> get queue => _queue;
-
+  
   int? get index => _audioPlayer.currentIndex;
   MediaItem? get mediaItem => index == null ? null : queue[index!];
 
@@ -101,12 +101,6 @@ class AudioPlayerTask extends BackgroundAudioTask {
   Future<void> onRewind() => _seekRelative(-rewindInterval);
 
   @override
-  Future<void> onSeekForward(bool begin) async => _seekContinuously(begin, 1);
-
-  @override
-  Future<void> onSeekBackward(bool begin) async => _seekContinuously(begin, -1);
-
-  @override
   Future<void> onStop() async {
     await _audioPlayer.dispose();
     _eventSubscription.cancel();
@@ -118,7 +112,7 @@ class AudioPlayerTask extends BackgroundAudioTask {
     await super.onStop();
   }
 
-  // Jumps away from the current position by [offset].
+  /// Jumps away from the current position by [offset].
   Future<void> _seekRelative(Duration offset) async {
     var newPosition = _audioPlayer.position + offset;
     // Make sure we don't jump out of bounds.
@@ -126,15 +120,6 @@ class AudioPlayerTask extends BackgroundAudioTask {
     if (newPosition > mediaItem!.duration!) newPosition = mediaItem!.duration!;
     // Perform the jump via a seek.
     await _audioPlayer.seek(newPosition);
-  }
-
-  void _seekContinuously(bool begin, int direction) {
-    _seeker?.stop();
-    if (begin) {
-      _seeker = Seeker(_audioPlayer, Duration(seconds: 10 * direction),
-          Duration(seconds: 1), mediaItem!)
-        ..start();
-    }
   }
 
   /// Broadcasts the current state to all clients.
