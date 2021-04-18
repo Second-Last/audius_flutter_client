@@ -308,8 +308,6 @@ class _SeekBarState extends State<SeekBar> {
 
   @override
   Widget build(BuildContext context) {
-    print('Slider max: ${widget.duration.inMilliseconds.toDouble()}');
-
     var _value =
         (_dragging ? _dragValue! : widget.position.inMilliseconds.toDouble());
     // var value = min(_dragValue ?? widget.position.inMilliseconds.toDouble(),
@@ -325,16 +323,9 @@ class _SeekBarState extends State<SeekBar> {
           value: _value,
           onChanged: (value) {
             if (!_dragging) _dragging = true;
-            // else
-            //   _dragging = false;
-
-            setState(() {
-              _dragValue = value;
-              print('Current dragValue: $_dragValue');
-            });
-            if (widget.onChanged != null) {
+            setState(() => _dragValue = value);
+            if (widget.onChanged != null)
               widget.onChanged!(Duration(milliseconds: value.round()));
-            }
           },
           onChangeEnd: (value) {
             if (widget.onChangeEnd != null) {

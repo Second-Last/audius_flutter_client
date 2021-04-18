@@ -21,10 +21,18 @@ class ProfileGrid extends StatelessWidget {
                   ? Image.network(targetUser.profilePicture!['150x150'])
                   : Icon(Icons.account_circle, size: 150),
             ),
-            Text('${targetUser.name}'),
+            Text(
+              '${targetUser.name}',
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
             Row(
               children: [
-                Text("${targetUser.followerCount} followers"),
+                Text(
+                  "${targetUser.followerCount} followers",
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis, // TODO: 1K, 2K, and stuffs like that
+                ),
                 targetUser.isVerified
                     ? Icon(
                         Icons.check_circle,
@@ -47,7 +55,7 @@ class ProfileGrid extends StatelessWidget {
 
 // TODO: requests the data everytime page changes!
 Future<List<ProfileGrid>> gridBuilder(String query) async {
-  var url = Uri.https('audius-metadata-2.figment.io', 'v1/users/search',
+  var url = Uri.https('discoveryprovider2.audius.co', 'v1/users/search',
       {'query': '$query', 'app name': 'Audius Flutter Client'});
   // print('Current target url: ${url.toString()}');
 
