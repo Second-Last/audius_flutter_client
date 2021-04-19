@@ -19,7 +19,7 @@ class AudioPlayerTask extends BackgroundAudioTask {
   late StreamSubscription<PlaybackEvent> _eventSubscription;
 
   List<MediaItem> get queue => _queue;
-  
+
   int? get index => _audioPlayer.currentIndex;
   MediaItem? get mediaItem => index == null ? null : queue[index!];
 
@@ -99,6 +99,35 @@ class AudioPlayerTask extends BackgroundAudioTask {
 
   @override
   Future<void> onRewind() => _seekRelative(-rewindInterval);
+
+  // Do I need await here? Seems unnecessary
+  @override
+  Future<void> onSetShuffleMode(shuffleMode) async {
+    switch (shuffleMode) {
+      case AudioServiceShuffleMode.all:
+        await _audioPlayer.setShuffleModeEnabled(true);
+        await _audioPlayer.shuffle();
+        break;
+      default:
+        await _audioPlayer.setShuffleModeEnabled(false);
+        break;
+    }
+  }
+
+  // Same as above
+  @override
+  Future<void> onSetRepeatMode(repeatMode) async {
+    switch (repeatMode) {
+      case AudioServiceRepeatMode.all:
+        await _audioPlayer.setLoopMode(LoopMode.all);
+        break;
+      case AudioServiceRepeatMode.one:
+        await _audioPlayer.setLoopMode(LoopMode.one);
+        break;
+      default:
+        await _audioPlayer.setLoopMode(LoopMode.off);
+    }
+  }
 
   @override
   Future<void> onStop() async {
