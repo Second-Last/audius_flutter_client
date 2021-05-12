@@ -157,6 +157,7 @@ class AudioPlayerTask extends BackgroundAudioTask {
       controls: [
         MediaControl.skipToPrevious,
         if (_audioPlayer.playing) MediaControl.pause else MediaControl.play,
+        MediaControl.stop,
         MediaControl.skipToNext,
       ],
       systemActions: [

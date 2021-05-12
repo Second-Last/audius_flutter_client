@@ -142,6 +142,7 @@ class _SearchBarState extends State<SearchBar> with TickerProviderStateMixin {
                                     controller: ,
                                     focusNode: ,*/
                                   decoration: null,
+                                  autofocus: true,
                                   // onChanged: (value) => null,
                                   onSubmitted: (value) =>
                                       widget._navigatorKey.currentState!.push(
