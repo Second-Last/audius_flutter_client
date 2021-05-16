@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:audius_flutter_client/constants.dart';
 import 'package:audius_flutter_client/models/track.dart';
 import 'package:audius_flutter_client/models/user.dart';
+import 'package:audius_flutter_client/models/playlist.dart';
 import 'package:audius_flutter_client/utility/json_conversion.dart';
 
 class Network {
@@ -15,6 +16,7 @@ class Network {
   static late int currentHostIndex;
   static late String host;
 
+  /// Randomly set the host to connect to
   static Future<void> setHost() async {
     List<dynamic> hostList = await getHostList();
     currentHostIndex = math.Random().nextInt(hostList.length - 1);
@@ -24,6 +26,7 @@ class Network {
     print('Selected host: ${hostList[currentHostIndex]}');
   }
 
+  /// Get a list of available host
   static Future<List<dynamic>> getHostList() async {
     late var jsonResponse;
     try {
@@ -35,6 +38,7 @@ class Network {
     return hostList;
   }
 
+  /// Search for a track
   static Future<List<Track>> searchTrack(String query,
       {bool onlyDownloadable = false}) async {
     late http.Response jsonResponse;
@@ -52,6 +56,7 @@ class Network {
     return compute(parseTracks, jsonResponse.body);
   }
 
+  /// Fetch a single track
   static Future<Track> getTrack(String id) async {
     late var jsonResponse;
 
@@ -68,6 +73,7 @@ class Network {
     return Track.fromJson(jsonResponse.body['data']);
   }
 
+  /// Search for a user
   static Future<List<User>> searchUser(String query,
       {bool onlyDownloadable = false}) async {
     late http.Response jsonResponse;
@@ -84,6 +90,7 @@ class Network {
     return compute(parseUsers, jsonResponse.body);
   }
 
+  /// Fetch a single user
   static Future<User> getUser(String id) async {
     late var jsonResponse;
 
@@ -97,5 +104,56 @@ class Network {
     }
 
     return User.fromJson(jsonResponse.body['data']);
+  }
+
+  /// Search for a playlist
+  static Future<List<Playlist>> searchPlaylist(String query) async {
+    late http.Response jsonResponse;
+
+    try {
+      jsonResponse = await client.get(Uri.https(
+          host, '/v1/playlists/search', {'query': query, 'app_name': appName}));
+    } catch (e) {
+      // TODO: automatically switch to another host when failed 2~3 times
+      dev.log('Network request failed', error: e);
+      throw Error();
+    }
+
+    return compute(parsePlaylists, jsonResponse.body);
+  }
+
+  /// Fetch a single playlist's information/data, not including tracks
+  static Future<Playlist> getPlaylist(String id) async {
+    late var jsonResponse;
+
+    try {
+      jsonResponse = (await client.get(Uri.https(
+        host,
+        'v1/playlists',
+        {'query': id, 'app_name': appName},
+      )))
+          .body;
+    } catch (e) {
+      dev.log('Network request failed', error: e);
+      throw Error();
+    }
+
+    return Playlist.fromJson(jsonResponse.body['data'][0]);
+  }
+
+  static Future<List<Track>> getPlaylistTracks(String id) async {
+    late http.Response jsonResponse;
+
+    try {
+      jsonResponse = await client.get(Uri.https(
+          host, '/v1/playlists/$id/search', {'app_name': appName}));
+    } catch (e) {
+      // TODO: automatically switch to another host when failed 2~3 times
+      dev.log('Network request failed', error: e);
+      throw Error();
+    }
+
+    // TODO: consider if this needs to be put into a trycatch
+    return compute(parseTracks, jsonResponse.body);
   }
 }
