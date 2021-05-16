@@ -2,7 +2,6 @@ import 'dart:developer' as dev;
 
 import 'package:flutter/material.dart';
 import 'package:audio_service/audio_service.dart';
-import 'package:animated_rotation/animated_rotation.dart';
 
 import '../../constants.dart';
 
