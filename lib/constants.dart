@@ -48,7 +48,7 @@ class GradientText extends StatelessWidget {
 /*
   Network related
 */
-const app_name = 'Audius Flutter Client';
+const String appName = 'Audius Flutter Client';
 
 
 
