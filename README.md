@@ -20,3 +20,18 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+## Formatting
+
+### Imports
+
+Our order for importing libraries and files is:
+
+- Test target file(s), if we're testing
+- (Native, factory) Dart library (e.g. `dart:async`, `dart:convert`)
+- (Native, factory) Flutter library (e.g. `flutter/material.dart`, `flutter/foundation.dart`)
+- Empty line
+- Other Dart libraries (e.g. `https`, even though it's a first-party library)
+- Other Flutter libraries (e.g. `just_audio`)
+- Empty line
+- Libraries/Reusable components that are local to this project (e.g. `audius_flutter_client/models/track.dart`)

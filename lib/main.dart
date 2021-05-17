@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import 'package:audio_service/audio_service.dart';
 
 import 'home.dart';
+import 'package:audius_flutter_client/services/network.dart';
 import 'constants.dart';
 
 
 void main() {
+  // It's okay to not use async
+  // Because the time to load is greater than the time to fetch hosts
+  Network.getHostList();
+
   runApp(MyApp());
 }
 

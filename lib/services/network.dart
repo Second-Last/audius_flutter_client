@@ -58,19 +58,19 @@ class Network {
 
   /// Fetch a single track
   static Future<Track> getTrack(String id) async {
-    late var jsonResponse;
+    late http.Response jsonResponse;
 
     try {
       jsonResponse = (await client.get(
-              Uri.https(host, 'v1/tracks', {'query': id, 'app_name': appName})))
-          .body;
+          Uri.https(host, 'v1/tracks', {'query': id, 'app_name': appName})));
+      dev.log('jsonResponse', error: jsonResponse);
     } catch (e) {
       dev.log('Network request failed', error: e);
       throw Error();
     }
 
     // TODO: perhaps we need benchmarking to determine whether it's necessary to put this in background
-    return Track.fromJson(jsonResponse.body['data']);
+    return Track.fromJson(convert.jsonDecode(jsonResponse.body)['data']);
   }
 
   /// Search for a user
@@ -92,18 +92,18 @@ class Network {
 
   /// Fetch a single user
   static Future<User> getUser(String id) async {
-    late var jsonResponse;
+    late http.Response jsonResponse;
 
     try {
       jsonResponse = (await client.get(
-              Uri.https(host, 'v1/users', {'query': id, 'app_name': appName})))
-          .body;
+          Uri.https(host, 'v1/users', {'query': id, 'app_name': appName})));
     } catch (e) {
       dev.log('Network request failed', error: e);
       throw Error();
     }
 
-    return User.fromJson(jsonResponse.body['data']);
+    // TODO: perhaps we need benchmarking to determine whether it's necessary to put this in background
+    return User.fromJson(convert.jsonDecode(jsonResponse.body)['data']);
   }
 
   /// Search for a playlist
@@ -124,29 +124,26 @@ class Network {
 
   /// Fetch a single playlist's information/data, not including tracks
   static Future<Playlist> getPlaylist(String id) async {
-    late var jsonResponse;
+    late http.Response jsonResponse;
 
     try {
-      jsonResponse = (await client.get(Uri.https(
-        host,
-        'v1/playlists',
-        {'query': id, 'app_name': appName},
-      )))
-          .body;
+      jsonResponse = (await client.get(
+              Uri.https(host, 'v1/playlists', {'query': id, 'app_name': appName})));
     } catch (e) {
       dev.log('Network request failed', error: e);
       throw Error();
     }
 
-    return Playlist.fromJson(jsonResponse.body['data'][0]);
+    // TODO: perhaps we need benchmarking to determine whether it's necessary to put this in background
+    return Playlist.fromJson(convert.jsonDecode(jsonResponse.body)['data'][0]);
   }
 
   static Future<List<Track>> getPlaylistTracks(String id) async {
     late http.Response jsonResponse;
 
     try {
-      jsonResponse = await client.get(Uri.https(
-          host, '/v1/playlists/$id/search', {'app_name': appName}));
+      jsonResponse = await client.get(
+          Uri.https(host, '/v1/playlists/$id/search', {'app_name': appName}));
     } catch (e) {
       // TODO: automatically switch to another host when failed 2~3 times
       dev.log('Network request failed', error: e);

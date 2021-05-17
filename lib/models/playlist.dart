@@ -3,7 +3,7 @@ import 'package:audius_flutter_client/models/user.dart';
 /// A playlist, which is sometimes also referred to as
 /// an album
 class Playlist {
-  final Map<String, String>? artwork;
+  final Map<String, dynamic>? artwork;
   final String? description;
   final int favoriteCount;
   final String id;

@@ -7,7 +7,7 @@ class Track {
   final String id;
   final String? mood;
   final String? releaseDate;
-  final Map<String, List<Map<String, String>>>? remixOf;
+  final Map<String, dynamic>? remixOf;
   final int repostCount;
   final int favoriteCount;
   final String? tag;
