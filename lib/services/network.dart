@@ -4,6 +4,7 @@ import 'dart:developer' as dev;
 import 'package:flutter/foundation.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:http/retry.dart';
 
 import 'package:audius_flutter_client/constants.dart';
 import 'package:audius_flutter_client/models/track.dart';
@@ -12,7 +13,7 @@ import 'package:audius_flutter_client/models/playlist.dart';
 import 'package:audius_flutter_client/utility/json_conversion.dart';
 
 class Network {
-  static var client = http.Client();
+  static var client = RetryClient(http.Client()); // TODO: customize retry conditions
   static late int currentHostIndex;
   static late String host;
 

@@ -8,7 +8,6 @@ List<Track> parseTracks(String responseBody) {
   final parsed =
       convert.jsonDecode(responseBody)['data'].cast<Map<String, dynamic>>();
 
-  print('Cast successful!');
   return parsed.map<Track>((json) => Track.fromJson(json)).toList();
 }
 
