@@ -62,7 +62,7 @@ class Network {
 
     try {
       jsonResponse = (await client.get(
-          Uri.https(host, 'v1/tracks', {'query': id, 'app_name': appName})));
+          Uri.https(host, 'v1/tracks/$id', {'app_name': appName})));
       dev.log('jsonResponse', error: jsonResponse);
     } catch (e) {
       dev.log('Network request failed', error: e);
@@ -96,7 +96,7 @@ class Network {
 
     try {
       jsonResponse = (await client.get(
-          Uri.https(host, 'v1/users', {'query': id, 'app_name': appName})));
+          Uri.https(host, 'v1/users/$id', {'app_name': appName})));
     } catch (e) {
       dev.log('Network request failed', error: e);
       throw Error();
@@ -128,7 +128,7 @@ class Network {
 
     try {
       jsonResponse = (await client.get(
-              Uri.https(host, 'v1/playlists', {'query': id, 'app_name': appName})));
+              Uri.https(host, 'v1/playlists/$id', {'app_name': appName})));
     } catch (e) {
       dev.log('Network request failed', error: e);
       throw Error();
@@ -143,7 +143,7 @@ class Network {
 
     try {
       jsonResponse = await client.get(
-          Uri.https(host, '/v1/playlists/$id/search', {'app_name': appName}));
+          Uri.https(host, '/v1/playlists/$id/tracks', {'app_name': appName}));
     } catch (e) {
       // TODO: automatically switch to another host when failed 2~3 times
       dev.log('Network request failed', error: e);

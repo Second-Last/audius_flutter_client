@@ -16,7 +16,6 @@ List<User> parseUsers(String responseBody) {
   final parsed =
       convert.jsonDecode(responseBody)['data'].cast<Map<String, dynamic>>();
 
-  print('Cast successful!');
   return parsed.map<User>((json) => User.fromJson(json)).toList();
 }
 

@@ -3,8 +3,6 @@ import 'package:audius_flutter_client/services/network.dart';
 
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:audius_flutter_client/models/track.dart';
-
 void main() async {
   group('network client test:', () {
     test('initialization test', () async {
