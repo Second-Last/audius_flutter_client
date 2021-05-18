@@ -25,144 +25,84 @@ class Search extends StatelessWidget {
         ),
         child: SafeArea(
           child: Scaffold(
-            body: SingleChildScrollView(
+            body: Column(
               // TODO: convert to ListView to improve performance
-              child: Column(
-                children: [
-                  TabBar(
-                    tabs: [
-                      Tab(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 0),
-                          child: Column(
-                            children: [
-                              Icon(Icons.account_circle),
-                              Text('PROFILES',
-                                  style:
-                                      TextStyle(fontWeight: FontWeight.w700)),
-                            ],
-                          ),
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                TabBar(
+                  tabs: [
+                    Tab(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 0),
+                        child: Column(
+                          children: [
+                            Icon(Icons.account_circle),
+                            Text('PROFILES',
+                                style: TextStyle(fontWeight: FontWeight.w700)),
+                          ],
                         ),
                       ),
-                      Tab(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 0),
-                          child: Column(
-                            children: [
-                              Icon(Icons.music_note),
-                              Text('TRACKS',
-                                  style:
-                                      TextStyle(fontWeight: FontWeight.w700)),
-                            ],
-                          ),
+                    ),
+                    Tab(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 0),
+                        child: Column(
+                          children: [
+                            Icon(Icons.music_note),
+                            Text('TRACKS',
+                                style: TextStyle(fontWeight: FontWeight.w700)),
+                          ],
                         ),
                       ),
-                      Tab(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 0),
-                          child: Column(
-                            children: [
-                              Icon(Icons.album),
-                              Text('ALBUMS',
-                                  style:
-                                      TextStyle(fontWeight: FontWeight.w700)),
-                            ],
-                          ),
+                    ),
+                    Tab(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 0),
+                        child: Column(
+                          children: [
+                            Icon(Icons.album),
+                            Text('ALBUMS',
+                                style: TextStyle(fontWeight: FontWeight.w700)),
+                          ],
                         ),
                       ),
-                      Tab(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 0),
-                          child: Column(
-                            children: [
-                              Icon(Icons.queue_music),
-                              Text('PLAYLISTS',
-                                  style:
-                                      TextStyle(fontWeight: FontWeight.w700)),
-                            ],
-                          ),
+                    ),
+                    Tab(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 0),
+                        child: Column(
+                          children: [
+                            Icon(Icons.queue_music),
+                            Text('PLAYLISTS',
+                                style: TextStyle(fontWeight: FontWeight.w700)),
+                          ],
                         ),
                       ),
-                    ],
-                    unselectedLabelStyle:
-                        TextStyle(fontWeight: FontWeight.normal),
-                  ),
-                  Container(
-                    height: MediaQuery.of(context).size.height,
-                    child: TabBarView(
-                      children: [
-                        FutureBuilder(
-                          future: Network.searchUser(search),
-                          builder: (BuildContext context,
-                              AsyncSnapshot<List<User>> snapshot) {
-                            Widget body;
-                            // print('Initialized userGrids');
-                            if (snapshot.hasData) {
-                              body = GridView.count(
-                                crossAxisCount: 2,
-                                children: snapshot.data!
-                                    .map((user) => ProfileGrid(user))
-                                    .toList(),
-                              );
-                            } else if (snapshot.hasError) {
-                              print('Error: ${snapshot.error}');
-                              body = Center(
-                                child: Column(
-                                  children: [
-                                    Icon(
-                                      Icons.error_outline,
-                                      color: Colors.red,
-                                      size: 60,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 16),
-                                      child: Text('Error: ${snapshot.error}'),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            } else {
-                              body = Center(
-                                child: Column(
-                                  children: [
-                                    SizedBox(
-                                      child: CircularProgressIndicator(),
-                                      width: 60,
-                                      height: 60,
-                                    ),
-                                    const Padding(
-                                      padding: EdgeInsets.only(top: 16),
-                                      child: Text('Awaiting result...'),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            }
-
-                            return body;
-                          },
-                        ),
-                        FutureBuilder(
-                          future: Network.searchTrack(search),
-                          builder:
-                              (context, AsyncSnapshot<List<Track>> snapshot) {
-                            Widget body;
-
-                            if (snapshot.hasData) {
-                              body = ListView(
-                                children: snapshot.data!
-                                    .map(
-                                      (track) => TrackCard(
-                                        track,
-                                        snapshot.data!.indexOf(track),
-                                        snapshot.data!,
-                                      ),
-                                    )
-                                    .toList(),
-                              );
-                            } else if (snapshot.hasError) {
-                              print('Error: ${snapshot.error}');
-                              body = Column(
+                    ),
+                  ],
+                  unselectedLabelStyle:
+                      TextStyle(fontWeight: FontWeight.normal),
+                ),
+                Expanded(
+                  child: TabBarView(
+                    children: [
+                      FutureBuilder(
+                        future: Network.searchUser(search),
+                        builder: (BuildContext context,
+                            AsyncSnapshot<List<User>> snapshot) {
+                          Widget body;
+                          // print('Initialized userGrids');
+                          if (snapshot.hasData) {
+                            body = GridView.count(
+                              crossAxisCount: 2,
+                              children: snapshot.data!
+                                  .map((user) => ProfileGrid(user))
+                                  .toList(),
+                            );
+                          } else if (snapshot.hasError) {
+                            print('Error: ${snapshot.error}');
+                            body = Center(
+                              child: Column(
                                 children: [
                                   Icon(
                                     Icons.error_outline,
@@ -174,9 +114,11 @@ class Search extends StatelessWidget {
                                     child: Text('Error: ${snapshot.error}'),
                                   ),
                                 ],
-                              );
-                            } else {
-                              body = Column(
+                              ),
+                            );
+                          } else {
+                            body = Center(
+                              child: Column(
                                 children: [
                                   SizedBox(
                                     child: CircularProgressIndicator(),
@@ -188,24 +130,87 @@ class Search extends StatelessWidget {
                                     child: Text('Awaiting result...'),
                                   ),
                                 ],
-                              );
-                            }
+                              ),
+                            );
+                          }
 
-                            return body;
-                          },
+                          return body;
+                        },
+                      ),
+                      FutureBuilder(
+                        future: Network.searchTrack(search),
+                        builder:
+                            (context, AsyncSnapshot<List<Track>> snapshot) {
+                          Widget body;
+
+                          if (snapshot.hasData) {
+                            body = ListView(
+                              children: snapshot.data!
+                                  .map(
+                                    (track) => TrackCard(
+                                      track,
+                                      snapshot.data!.indexOf(track),
+                                      snapshot.data!,
+                                    ),
+                                  )
+                                  .toList(),
+                            );
+                          } else if (snapshot.hasError) {
+                            print('Error: ${snapshot.error}');
+                            body = Column(
+                              children: [
+                                Icon(
+                                  Icons.error_outline,
+                                  color: Colors.red,
+                                  size: 60,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 16),
+                                  child: Text('Error: ${snapshot.error}'),
+                                ),
+                              ],
+                            );
+                          } else {
+                            body = Column(
+                              children: [
+                                SizedBox(
+                                  child: CircularProgressIndicator(),
+                                  width: 60,
+                                  height: 60,
+                                ),
+                                const Padding(
+                                  padding: EdgeInsets.only(top: 16),
+                                  child: Text('Awaiting result...'),
+                                ),
+                              ],
+                            );
+                          }
+                          return body;
+                        },
+                      ),
+                      Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.album,
+                              size: 80,
+                            ),
+                            Text(
+                              "ALBUM",
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
                         ),
-                        Text('ALBUM'),
-                        Text('PLAYLISTS'),
-                      ],
-                    ),
+                      ),
+                      Text('PLAYLISTS'),
+                    ],
                   ),
-                  Placeholder(
-                    color: Colors.transparent,
-                    fallbackHeight: 120,
-                    fallbackWidth: MediaQuery.of(context).size.width,
-                  )
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
