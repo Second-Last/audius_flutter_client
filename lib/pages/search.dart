@@ -93,14 +93,16 @@ class Search extends StatelessWidget {
                       children: [
                         FutureBuilder(
                           future: Network.searchUser(search),
-                          builder:
-                              (BuildContext context, AsyncSnapshot<List<User>> snapshot) {
+                          builder: (BuildContext context,
+                              AsyncSnapshot<List<User>> snapshot) {
                             Widget body;
                             // print('Initialized userGrids');
                             if (snapshot.hasData) {
                               body = GridView.count(
                                 crossAxisCount: 2,
-                                children: snapshot.data!.map((user) => ProfileGrid(user)).toList(),
+                                children: snapshot.data!
+                                    .map((user) => ProfileGrid(user))
+                                    .toList(),
                               );
                             } else if (snapshot.hasError) {
                               print('Error: ${snapshot.error}');
@@ -141,14 +143,22 @@ class Search extends StatelessWidget {
                           },
                         ),
                         FutureBuilder(
-                          future: trackCardBuilder(search),
+                          future: Network.searchTrack(search),
                           builder:
-                              (context, AsyncSnapshot<List<Widget>> snapshot) {
+                              (context, AsyncSnapshot<List<Track>> snapshot) {
                             Widget body;
 
                             if (snapshot.hasData) {
                               body = ListView(
-                                children: snapshot.data!,
+                                children: snapshot.data!
+                                    .map(
+                                      (track) => TrackCard(
+                                        track,
+                                        snapshot.data!.indexOf(track),
+                                        snapshot.data!,
+                                      ),
+                                    )
+                                    .toList(),
                               );
                             } else if (snapshot.hasError) {
                               print('Error: ${snapshot.error}');

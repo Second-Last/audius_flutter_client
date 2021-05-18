@@ -1,6 +1,7 @@
 import 'dart:convert' as convert;
 import 'dart:developer' as dev;
 
+import 'package:audius_flutter_client/services/network.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:audio_service/audio_service.dart';
@@ -111,24 +112,14 @@ class TrackCard extends StatelessWidget {
 
 Future<List<TrackCard>> trackCardBuilder(String query,
     {bool onlyDownloadable = false}) async {
-  var url = Uri.https('discoveryprovider2.audius.co', 'v1/tracks/search',
-      {'query': '$query', 'app_name': 'Audius Flutter Client'});
-
-  var response = await http.get(url);
-  if (response.statusCode == 200) {
-    List jsonResponse = convert.jsonDecode(response.body)['data'];
-    List<Track> trackList =
-        List.from(jsonResponse.map((track) => Track.fromJson(track)).toList());
-    return jsonResponse
-        .map(
-          (track) => TrackCard(
-            Track.fromJson(track),
-            jsonResponse.indexOf(track),
-            trackList,
-          ),
-        )
-        .toList();
-  } else {
-    throw Exception('Request failed with status: ${response.statusCode}.');
-  }
+  List<Track> trackList = await Network.searchTrack(query);
+  return trackList
+      .map(
+        (track) => TrackCard(
+          track,
+          trackList.indexOf(track),
+          trackList,
+        ),
+      )
+      .toList();
 }
