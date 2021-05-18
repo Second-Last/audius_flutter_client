@@ -11,7 +11,7 @@ import 'constants.dart';
 void main() {
   // It's okay to not use async
   // Because the time to load is greater than the time to fetch hosts
-  Network.getHostList();
+  Network.setHost();
 
   runApp(MyApp());
 }

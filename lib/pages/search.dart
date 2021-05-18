@@ -1,7 +1,12 @@
-import 'package:audius_flutter_client/components/track_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+import 'package:audius_flutter_client/services/network.dart';
+import 'package:audius_flutter_client/models/playlist.dart';
+import 'package:audius_flutter_client/models/track.dart';
+import 'package:audius_flutter_client/models/user.dart';
 import 'package:audius_flutter_client/components/profile_grid.dart';
+import 'package:audius_flutter_client/components/track_card.dart';
 
 class Search extends StatelessWidget {
   Search({required this.search});
@@ -87,15 +92,15 @@ class Search extends StatelessWidget {
                     child: TabBarView(
                       children: [
                         FutureBuilder(
-                          future: gridBuilder(search),
+                          future: Network.searchUser(search),
                           builder:
-                              (BuildContext context, AsyncSnapshot snapshot) {
+                              (BuildContext context, AsyncSnapshot<List<User>> snapshot) {
                             Widget body;
                             // print('Initialized userGrids');
                             if (snapshot.hasData) {
                               body = GridView.count(
                                 crossAxisCount: 2,
-                                children: snapshot.data,
+                                children: snapshot.data!.map((user) => ProfileGrid(user)).toList(),
                               );
                             } else if (snapshot.hasError) {
                               print('Error: ${snapshot.error}');
