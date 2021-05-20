@@ -80,6 +80,7 @@ class AudioPlayerTask extends BackgroundAudioTask {
   @override
   Future<void> onUpdateQueue(List<MediaItem> _mediaItems) async {
     AudioServiceBackground.setQueue(_queue = _mediaItems);
+    print('bg set queue successful!');
     await _audioPlayer
         .setAudioSource(Parsing.mediaItem2AudioSource(_mediaItems));
     print('Successfully updated audio source!');

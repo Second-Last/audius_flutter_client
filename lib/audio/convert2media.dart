@@ -1,7 +1,10 @@
+import 'package:just_audio/just_audio.dart';
 import 'package:audio_service/audio_service.dart';
 
 import 'package:audius_flutter_client/models/track.dart';
-import 'package:just_audio/just_audio.dart';
+import 'package:audius_flutter_client/services/network.dart';
+
+import '../constants.dart';
 
 class Parsing {
   static List<Map<String, dynamic>> track2Map(List<Track> tracks) {
@@ -43,14 +46,22 @@ class Parsing {
   static ConcatenatingAudioSource mediaItem2AudioSource(
       List<MediaItem> mediaItems) {
     try {
+      print('Trying to parse...');
       return ConcatenatingAudioSource(
-        // children: mediaItems.map((mediaItem) => AudioSource.uri(mediaItem.extras!['stream'])).toList(),
-        children: mediaItems
-            .map((track) => AudioSource.uri(Uri.parse(
-                // 'https://audius-metadata-3.figment.io/tracks/stream/${track.id}')))
-                'https://s3.amazonaws.com/scifri-episodes/scifri20181123-episode.mp3')))
-            .toList()
-      );
+          // children: mediaItems.map((mediaItem) => AudioSource.uri(mediaItem.extras!['stream'])).toList(),
+          children: mediaItems.map((track) 
+          {
+        print(
+            'https://${Network.host}/v1/tracks/${track.id}/stream?app_name=Audius+Flutter+Client');
+
+        return AudioSource.uri(Uri.https(
+          Network.host,
+          'v1/tracks/${track.id}/stream',
+          {'app_name': appName},
+        ));
+      })      // => AudioSource.uri(https.parse('https://s3.amazonaws.com/scifri-episodes/scifri20181123-episode.mp3')))
+.toList());
+
     } catch (e) {
       throw Exception(e);
     }

@@ -18,6 +18,7 @@ class TrackCard extends StatelessWidget {
   final int _selectedTrackIndex;
   final List<Track> _queue;
   late final List<MediaItem> _playList = Parsing.track2MediaItem(_queue);
+  // TODO: optimize above, might be able to run in background
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +51,7 @@ class TrackCard extends StatelessWidget {
                     androidNotificationIcon: 'mipmap/ic_launcher',
                     androidEnableQueue: true,
                   );
+                  print('Trying to update queue');
                   await AudioService.updateQueue(_playList);
                   await AudioService.skipToQueueItem(_targetTrack.id);
                   AudioService.play();
@@ -110,16 +112,16 @@ class TrackCard extends StatelessWidget {
   }
 }
 
-Future<List<TrackCard>> trackCardBuilder(String query,
-    {bool onlyDownloadable = false}) async {
-  List<Track> trackList = await Network.searchTrack(query);
-  return trackList
-      .map(
-        (track) => TrackCard(
-          track,
-          trackList.indexOf(track),
-          trackList,
-        ),
-      )
-      .toList();
-}
+// Future<List<TrackCard>> trackCardBuilder(String query,
+//     {bool onlyDownloadable = false}) async {
+//   List<Track> trackList = await Network.searchTrack(query);
+//   return trackList
+//       .map(
+//         (track) => TrackCard(
+//           track,
+//           trackList.indexOf(track),
+//           trackList,
+//         ),
+//       )
+//       .toList();
+// }
