@@ -49,19 +49,13 @@ class Parsing {
       print('Trying to parse...');
       return ConcatenatingAudioSource(
           // children: mediaItems.map((mediaItem) => AudioSource.uri(mediaItem.extras!['stream'])).toList(),
-          children: mediaItems.map((track) 
-          {
-        print(
-            'https://${Network.host}/v1/tracks/${track.id}/stream?app_name=Audius+Flutter+Client');
-
-        return AudioSource.uri(Uri.https(
-          Network.host,
-          'v1/tracks/${track.id}/stream',
-          {'app_name': appName},
-        ));
-      })      // => AudioSource.uri(https.parse('https://s3.amazonaws.com/scifri-episodes/scifri20181123-episode.mp3')))
-.toList());
-
+          children: mediaItems
+              .map((track) => AudioSource.uri(Uri.https(
+                    "creatornode.audius.co",
+                    'tracks/stream/${track.id}',
+                    {'app_name': appName},
+                  ))) // => AudioSource.uri(https.parse('https://s3.amazonaws.com/scifri-episodes/scifri20181123-episode.mp3')))
+              .toList());
     } catch (e) {
       throw Exception(e);
     }
