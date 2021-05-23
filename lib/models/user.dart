@@ -4,7 +4,10 @@ import 'package:json_annotation/json_annotation.dart';
 import 'profilepicture.dart';
 import 'coverphoto.dart';
 
+part 'user.g.dart';
+
 // Confirm those initialized values
+@JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class User {
   User({
     required this.albumCount,
@@ -23,40 +26,21 @@ class User {
     required this.trackCount,
   });
 
-  // User.fromJson(Map<String, dynamic> json)
-  //   : albumCount = json['album_count'],
-  //     bio = json['bio'],
-  //     coverPhoto = json['coverPhoto'],
-  //     followeeCount = json['followee_count'],
-  //     followerCount = json['follower_count'],
-  //     handle = json['handle'],
-  //     id = json['id'],
-  //     isVerified = json['is_verified'],
-  //     location = json['location'],
-  //     name = json['name'],
-  //     playlistCount = json['playlist_count'],
-  //     profilePicture = json['profile_picture'],
-  //     repostCount = json['repost_count'],
-  //     trackCount = json['track_count'];
-
-  // TODO: do I need final here?
-  @JsonKey(required: true)
   int albumCount = 0;
-  @JsonKey(defaultValue: false)
-  String? bio;
-  @JsonKey(defaultValue: false)
-  CoverPhoto coverPhoto;
+  final String? bio;
+  final CoverPhoto? coverPhoto;
   int followeeCount = 0;
   int followerCount = 0;
-  String handle;
-  String id;
+  final String handle;
+  final String id;
   bool isVerified = false;
-  @JsonKey(defaultValue: false)
-  String? location;
-  String name;
+  final String? location;
+  final String name;
   int playlistCount = 0;
-  @JsonKey(defaultValue: false)
-  ProfilePicture profilePicture;
+  final ProfilePicture? profilePicture;
   int repostCount = 0;
   int trackCount = 0;
+
+  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
+  Map<String, dynamic> toJson() => _$UserToJson(this);
 }
