@@ -21,21 +21,21 @@ class User {
     required this.trackCount,
   });
 
-  User.fromJson(Map<String, dynamic> json)
-    : albumCount = json['album_count'],
-      bio = json['bio'],
-      coverPhoto = json['coverPhoto'],
-      followeeCount = json['followee_count'],
-      followerCount = json['follower_count'],
-      handle = json['handle'],
-      id = json['id'],
-      isVerified = json['is_verified'],
-      location = json['location'],
-      name = json['name'],
-      playlistCount = json['playlist_count'],
-      profilePicture = json['profile_picture'],
-      repostCount = json['repost_count'],
-      trackCount = json['track_count'];
+  // User.fromJson(Map<String, dynamic> json)
+  //   : albumCount = json['album_count'],
+  //     bio = json['bio'],
+  //     coverPhoto = json['coverPhoto'],
+  //     followeeCount = json['followee_count'],
+  //     followerCount = json['follower_count'],
+  //     handle = json['handle'],
+  //     id = json['id'],
+  //     isVerified = json['is_verified'],
+  //     location = json['location'],
+  //     name = json['name'],
+  //     playlistCount = json['playlist_count'],
+  //     profilePicture = json['profile_picture'],
+  //     repostCount = json['repost_count'],
+  //     trackCount = json['track_count'];
 
   // TODO: do I need final here?
   // @JsonKey(required: true)
@@ -60,27 +60,27 @@ class User {
 
 }
 
-// class CoverPhoto {
-//   CoverPhoto({
-//     this.p640x,
-//     this.p2000x,
-//   });
+class CoverPhoto {
+  CoverPhoto.fromJson({
+    this.p640x,
+    this.p2000x,
+  });
 
-//   final String? p640x;
-//   final String? p2000x;
-// }
+  final String? p640x;
+  final String? p2000x;
+}
 
-// class ProfilePicture {
-//   ProfilePicture({
-//     this.p150x150,
-//     this.p480x480,
-//     this.p1000x1000,
-//   });
+class ProfilePicture {
+  ProfilePicture({
+    this.p150x150,
+    this.p480x480,
+    this.p1000x1000,
+  });
 
-//   final String? p150x150;
-//   final String? p480x480;
-//   final String? p1000x1000;
-// }
+  final String? p150x150;
+  final String? p480x480;
+  final String? p1000x1000;
+}
 
 // Do I actually need this????
 class UserResponse {
