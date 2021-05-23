@@ -56,4 +56,7 @@ class Track {
   //       duration = Duration(seconds: json['duration']),
   //       downloadable = json['downloadable'],
   //       playCount = json['play_count'];
+
+  factory Track.fromJson(Map<String, dynamic> json) => _$TrackFromJson(json);
+  Map<String, dynamic> toJson() => _$TrackToJson(this);
 }
