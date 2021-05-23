@@ -1,6 +1,8 @@
 // import 'package:flutter/foundation.dart';
-// import 'package:json_annotation/json_annotation.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+import 'profilepicture.dart';
+import 'coverphoto.dart';
 
 // Confirm those initialized values
 class User {
@@ -38,53 +40,23 @@ class User {
   //     trackCount = json['track_count'];
 
   // TODO: do I need final here?
-  // @JsonKey(required: true)
+  @JsonKey(required: true)
   int albumCount = 0;
-  // @JsonKey(defaultValue: false)
+  @JsonKey(defaultValue: false)
   String? bio;
-  // @JsonKey(defaultValue: false)
-  Map? coverPhoto;
+  @JsonKey(defaultValue: false)
+  CoverPhoto coverPhoto;
   int followeeCount = 0;
   int followerCount = 0;
   String handle;
   String id;
   bool isVerified = false;
-  // @JsonKey(defaultValue: false)
+  @JsonKey(defaultValue: false)
   String? location;
   String name;
   int playlistCount = 0;
-  // @JsonKey(defaultValue: false)
-  Map? profilePicture;
+  @JsonKey(defaultValue: false)
+  ProfilePicture profilePicture;
   int repostCount = 0;
   int trackCount = 0;
-
-}
-
-class CoverPhoto {
-  CoverPhoto.fromJson({
-    this.p640x,
-    this.p2000x,
-  });
-
-  final String? p640x;
-  final String? p2000x;
-}
-
-class ProfilePicture {
-  ProfilePicture({
-    this.p150x150,
-    this.p480x480,
-    this.p1000x1000,
-  });
-
-  final String? p150x150;
-  final String? p480x480;
-  final String? p1000x1000;
-}
-
-// Do I actually need this????
-class UserResponse {
-  UserResponse(this.user);
-
-  User user;
 }
