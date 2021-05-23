@@ -10,8 +10,11 @@ class ProfilePicture {
     this.p1000x1000,
   );
 
+  @JsonKey(name: '150x150')
   final String? p150x150;
+  @JsonKey(name: '480x480')
   final String? p480x480;
+  @JsonKey(name: '1000x1000')
   final String? p1000x1000;
 
   factory ProfilePicture.fromJson(Map<String, dynamic> json) => _$ProfilePictureFromJson(json);

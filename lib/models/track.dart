@@ -1,7 +1,13 @@
-import 'package:audius_flutter_client/models/user.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+import 'package:audius_flutter_client/models/user.dart';
+import 'artwork.dart';
+
+part 'track.g.dart';
+
+@JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class Track {
-  final Map<String, dynamic>? artwork;
+  final Artwork? artwork;
   final String? description;
   final String? genre;
   final String id;
@@ -12,8 +18,7 @@ class Track {
   final int favoriteCount;
   final String? tag;
   final String title;
-  final Map<String, dynamic> rawUser;
-  late final User user = User.fromJson(rawUser);
+  final User user;
   final Duration duration;
   final bool? downloadable;
   final int playCount;
@@ -30,25 +35,25 @@ class Track {
       required this.favoriteCount,
       this.tag,
       required this.title,
-      required this.rawUser,
+      required this.user,
       required this.duration,
       this.downloadable,
       required this.playCount});
 
-  Track.fromJson(Map<String, dynamic> json)
-      : artwork = json['artwork'],
-        description = json['description'],
-        genre = json['genre'],
-        id = json['id'],
-        mood = json['mood'],
-        releaseDate = json['release_date'],
-        remixOf = json['release_of'],
-        repostCount = json['repost_count'],
-        favoriteCount = json['favorite_count'],
-        tag = json['tag'],
-        title = json['title'],
-        rawUser = json['user'],
-        duration = Duration(seconds: json['duration']),
-        downloadable = json['downloadable'],
-        playCount = json['play_count'];
+  // Track.fromJson(Map<String, dynamic> json)
+  //     : artwork = json['artwork'],
+  //       description = json['description'],
+  //       genre = json['genre'],
+  //       id = json['id'],
+  //       mood = json['mood'],
+  //       releaseDate = json['release_date'],
+  //       remixOf = json['release_of'],
+  //       repostCount = json['repost_count'],
+  //       favoriteCount = json['favorite_count'],
+  //       tag = json['tag'],
+  //       title = json['title'],
+  //       rawUser = json['user'],
+  //       duration = Duration(seconds: json['duration']),
+  //       downloadable = json['downloadable'],
+  //       playCount = json['play_count'];
 }

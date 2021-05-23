@@ -8,13 +8,13 @@ part of 'coverphoto.dart';
 
 CoverPhoto _$CoverPhotoFromJson(Map<String, dynamic> json) {
   return CoverPhoto(
-    p640x: json['p640x'] as String?,
-    p2000x: json['p2000x'] as String?,
+    x640: json['640x'] as String?,
+    x2000: json['2000x'] as String?,
   );
 }
 
 Map<String, dynamic> _$CoverPhotoToJson(CoverPhoto instance) =>
     <String, dynamic>{
-      'p640x': instance.p640x,
-      'p2000x': instance.p2000x,
+      '640x': instance.x640,
+      '2000x': instance.x2000,
     };

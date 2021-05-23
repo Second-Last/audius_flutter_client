@@ -4,14 +4,14 @@ part 'coverphoto.g.dart';
 
 @JsonSerializable()
 class CoverPhoto {
-  CoverPhoto({
-    this.p640x,
-    this.p2000x,
-  });
+  CoverPhoto({this.x640, this.x2000});
 
-  final String? p640x;
-  final String? p2000x;
+  @JsonKey(name: '640x')
+  final String? x640;
+  @JsonKey(name: '2000x')
+  final String? x2000;
 
-  factory CoverPhoto.fromJson(Map<String, dynamic> json) => _$CoverPhotoFromJson(json);
+  factory CoverPhoto.fromJson(Map<String, dynamic> json) =>
+      _$CoverPhotoFromJson(json);
   Map<String, dynamic> toJson() => _$CoverPhotoToJson(this);
 }
