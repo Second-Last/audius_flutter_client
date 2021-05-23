@@ -32,7 +32,9 @@ class TrackCard extends StatelessWidget {
               child: Card(
                 child: Column(
                   children: [
-                    Image.network(_targetTrack.artwork!['150x150']!),
+                    _targetTrack.artwork != null
+                        ? Image.network(_targetTrack.artwork!.x150!)
+                        : Icon(Icons.art_track, size: 150),
                     // TODO: use StreamBuilder
                     Text('Track $_selectedTrackIndex'),
                     Text('UID: ${_targetTrack.user.id}')
@@ -111,17 +113,3 @@ class TrackCard extends StatelessWidget {
     );
   }
 }
-
-// Future<List<TrackCard>> trackCardBuilder(String query,
-//     {bool onlyDownloadable = false}) async {
-//   List<Track> trackList = await Network.searchTrack(query);
-//   return trackList
-//       .map(
-//         (track) => TrackCard(
-//           track,
-//           trackList.indexOf(track),
-//           trackList,
-//         ),
-//       )
-//       .toList();
-// }

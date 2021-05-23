@@ -1,8 +1,13 @@
 // import 'package:flutter/foundation.dart';
-// import 'package:json_annotation/json_annotation.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+import 'profilepicture.dart';
+import 'coverphoto.dart';
+
+part 'user.g.dart';
 
 // Confirm those initialized values
+@JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class User {
   User({
     required this.albumCount,
@@ -21,70 +26,21 @@ class User {
     required this.trackCount,
   });
 
-  User.fromJson(Map<String, dynamic> json)
-    : albumCount = json['album_count'],
-      bio = json['bio'],
-      coverPhoto = json['coverPhoto'],
-      followeeCount = json['followee_count'],
-      followerCount = json['follower_count'],
-      handle = json['handle'],
-      id = json['id'],
-      isVerified = json['is_verified'],
-      location = json['location'],
-      name = json['name'],
-      playlistCount = json['playlist_count'],
-      profilePicture = json['profile_picture'],
-      repostCount = json['repost_count'],
-      trackCount = json['track_count'];
-
-  // TODO: do I need final here?
-  // @JsonKey(required: true)
   int albumCount = 0;
-  // @JsonKey(defaultValue: false)
-  String? bio;
-  // @JsonKey(defaultValue: false)
-  Map? coverPhoto;
+  final String? bio;
+  final CoverPhoto? coverPhoto;
   int followeeCount = 0;
   int followerCount = 0;
-  String handle;
-  String id;
+  final String handle;
+  final String id;
   bool isVerified = false;
-  // @JsonKey(defaultValue: false)
-  String? location;
-  String name;
+  final String? location;
+  final String name;
   int playlistCount = 0;
-  // @JsonKey(defaultValue: false)
-  Map? profilePicture;
+  final ProfilePicture? profilePicture;
   int repostCount = 0;
   int trackCount = 0;
 
-}
-
-// class CoverPhoto {
-//   CoverPhoto({
-//     this.p640x,
-//     this.p2000x,
-//   });
-
-//   final String? p640x;
-//   final String? p2000x;
-// }
-
-// class ProfilePicture {
-//   ProfilePicture({
-//     this.p150x150,
-//     this.p480x480,
-//     this.p1000x1000,
-//   });
-
-//   final String? p150x150;
-//   final String? p480x480;
-//   final String? p1000x1000;
-// }
-
-// Do I actually need this????
-class UserResponse {
-  UserResponse(this.user);
-
-  User user;
+  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
+  Map<String, dynamic> toJson() => _$UserToJson(this);
 }
