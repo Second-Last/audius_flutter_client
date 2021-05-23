@@ -15,7 +15,7 @@ class Parsing {
                 'album': track.title,
                 'title': track.title,
                 'artist': track.user.name,
-                'artUri': track.artwork?['1000x1000'] ??
+                'artUri': track.artwork?.x1000 ??
                     "https://i1.sndcdn.com/artworks-000666434224-2kg26y-t500x500.jpg",
                 'extras':
                     'https://dp01.audius.endl.net/v1/tracks/${track.id}/stream?app_name=EXAMPLEAPP'
@@ -69,7 +69,7 @@ class Parsing {
             title: track.title,
             artist: track.user.name,
             duration: track.duration,
-            artUri: Uri.parse(track.artwork?['1000x1000'] ??
+            artUri: Uri.parse(track.artwork?.x1000 ??
                 "https://i1.sndcdn.com/artworks-000666434224-2kg26y-t500x500.jpg")))
         .toList();
   }

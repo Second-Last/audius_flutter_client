@@ -1,9 +1,15 @@
-import 'package:audius_flutter_client/models/user.dart';
+import 'package:json_annotation/json_annotation.dart';
+
+import 'user.dart';
+import 'artwork.dart';
+
+part 'playlist.g.dart';
 
 /// A playlist, which is sometimes also referred to as
 /// an album
+@JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class Playlist {
-  final Map<String, dynamic>? artwork;
+  final Artwork? artwork;
   final String? description;
   final int favoriteCount;
   final String id;
@@ -11,8 +17,7 @@ class Playlist {
   final String playlistName;
   final int repostCount;
   final int totalPlayCount;
-  final Map<String, dynamic> rawUser;
-  late final User user = User.fromJson(rawUser);
+  final User user;
 
   Playlist(
       {this.artwork,
@@ -23,16 +28,8 @@ class Playlist {
       required this.playlistName,
       required this.repostCount,
       required this.totalPlayCount,
-      required this.rawUser});
-
-  Playlist.fromJson(Map<String, dynamic> json)
-      : artwork = json['artwork'],
-        description = json['description'],
-        id = json['id'],
-        isAlbum = json['is_album'],
-        playlistName = json['playlist_name'],
-        repostCount = json['repost_count'],
-        favoriteCount = json['favorite_count'],
-        totalPlayCount = json['total_play_count'],
-        rawUser = json['user'];
+      required this.user});
+  
+  factory Playlist.fromJson(Map<String, dynamic> json) => _$PlaylistFromJson(json);
+  Map<String, dynamic> toJson() => _$PlaylistToJson(this);
 }
