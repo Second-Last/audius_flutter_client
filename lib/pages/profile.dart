@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:audius_flutter_client/constants.dart';
 import 'package:audius_flutter_client/models/user.dart';
+import 'package:audius_flutter_client/utility/number_conversion.dart';
 import 'package:audius_flutter_client/services/network.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -106,26 +107,54 @@ class _ProfilePageState extends State<ProfilePage> {
                           ],
                         ),
                         Spacer(),
-                        Container(
-                            padding: EdgeInsets.all(5),
-                            child: Icon(
-                              Icons.notifications,
-                              size: 20,
-                              color: audiusGrey,
+                        Row(
+                          children: [
+                            Container(
+                              padding: EdgeInsets.all(5),
+                              child: Icon(
+                                Icons.notifications,
+                                size: 20,
+                                color: audiusGrey,
+                              ),
+                              decoration: BoxDecoration(
+                                border: Border.all(color: audiusLightGrey!),
+                                borderRadius: BorderRadius.circular(6),
+                              ),
                             ),
-                            decoration: BoxDecoration(
-                              border: Border.all(color: audiusLightGrey!),
-                              borderRadius: BorderRadius.circular(6),
-                            )),
+                            Padding(
+                              padding: EdgeInsets.only(left: 10),
+                              child: Container(
+                                padding: EdgeInsets.all(5),
+                                child: Text(
+                                  "FOLLOWED",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w800,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                decoration: BoxDecoration(
+                                  color: audiusColor,
+                                  borderRadius: BorderRadius.circular(6),
+                                ),
+                              ),
+                            )
+                          ],
+                        )
                       ],
                     ),
                   )
                 ],
               ),
               Positioned(
+                left: 20,
+                top: 60,
                 child: ClipOval(
                   child: widget.user.profilePicture != null
-                      ? Image.network(widget.user.profilePicture!.p150x150!)
+                      ? Image.network(
+                          widget.user.profilePicture!.p150x150!,
+                          scale: 1.5,
+                        )
                       : Icon(
                           Icons.account_circle,
                           color: audiusGrey,
@@ -134,6 +163,66 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
             ],
+          ),
+          SizedBox(height: 15),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 15),
+            child: Wrap(
+              spacing: 15,
+              children: [
+                RichText(
+                  text: TextSpan(
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: convertNumber(widget.user.trackCount),
+                        style: TextStyle(
+                          color: audiusGrey,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                      TextSpan(
+                        text: ' Tracks',
+                        style: TextStyle(color: audiusLightGrey),
+                      )
+                    ],
+                  ),
+                ),
+                RichText(
+                  text: TextSpan(
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: convertNumber(widget.user.followerCount),
+                        style: TextStyle(
+                          color: audiusGrey,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                      TextSpan(
+                        text: ' Followers',
+                        style: TextStyle(color: audiusLightGrey),
+                      )
+                    ],
+                  ),
+                ),
+                RichText(
+                  text: TextSpan(
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: convertNumber(widget.user.followeeCount),
+                        style: TextStyle(
+                          color: audiusGrey,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                      TextSpan(
+                        text: ' Following',
+                        style: TextStyle(color: audiusLightGrey),
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
           )
         ],
       ),
